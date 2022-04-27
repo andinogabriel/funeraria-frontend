@@ -6,41 +6,41 @@ import { AuthGuard } from './core/guards/auth.guard';
 const appRoutes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./features/components/auth/auth.module').then(m => m.AuthModule),
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
+    loadChildren: () => import('./features/components/dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'customers',
-    loadChildren: () => import('./features/customers/customers.module').then(m => m.CustomersModule),
+    path: 'categorias',
+    loadChildren: () => import('./features/components/categories/categories.module').then(m => m.CategoriesModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'articulos',
+    loadChildren: () => import('./features/components/items/items.module').then(m => m.ItemsModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'users',
-    loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
+    loadChildren: () => import('./features/components/users/users.module').then(m => m.UsersModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'account',
-    loadChildren: () => import('./features/account/account.module').then(m => m.AccountModule),
+    loadChildren: () => import('./features/components/account/account.module').then(m => m.AccountModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'icons',
-    loadChildren: () => import('./features/icons/icons.module').then(m => m.IconsModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'typography',
-    loadChildren: () => import('./features/typography/typography.module').then(m => m.TypographyModule),
+    loadChildren: () => import('./features/components/icons/icons.module').then(m => m.IconsModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'about',
-    loadChildren: () => import('./features/about/about.module').then(m => m.AboutModule),
+    loadChildren: () => import('./features/components/about/about.module').then(m => m.AboutModule),
     canActivate: [AuthGuard]
   },
   {

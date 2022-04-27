@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-material-template": {
+    "funeraria-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-material-template",
+            "outputPath": "dist/funeraria-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-material-template:build:production"
+              "browserTarget": "funeraria-frontend:build:production"
             },
             "development": {
-              "browserTarget": "angular-material-template:build:development"
+              "browserTarget": "funeraria-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-material-template:build"
+            "browserTarget": "funeraria-frontend:build"
           }
         },
         "test": {
@@ -111,7 +111,7 @@
       }
     }
   },
-  "defaultProject": "angular-material-template",
+  "defaultProject": "funeraria-frontend",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
   }

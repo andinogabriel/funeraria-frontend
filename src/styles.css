@@ -146,3 +146,45 @@ p .mat-icon {
     opacity: 1;
   }
 }
+
+
+/* snackbar */
+.mat-simple-snackbar {
+  color: #fff;
+}
+
+.mat-simple-snackbar button {
+  border: none;
+  color: white;
+}
+
+.snackbar-error {
+  background-color: rgba(233, 78, 78, 0.8);
+}
+
+.snackbar-success {
+  background-color: rgba(32, 93, 149, 0.8);
+}
+
+.snackbar-info {
+  background-color: rgba(211, 200, 200, 0.8);
+}
+
+.full-with-dialog {
+  position: relative;
+  overflow: auto;
+  width: 500px;
+
+  @media (max-width: 568px) {
+    width: 440px;
+  }
+
+  @media (max-width: 468px) {
+    width: 340px;
+  }
+
+  @media (max-width: 368px) {
+    width: 300px;
+  }
+}
+

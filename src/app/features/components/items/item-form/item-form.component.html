@@ -1,0 +1,107 @@
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+  >
+    {{ data ? "Editar" : "Registrar" }} artículo
+  </h3>
+  <form
+    [formGroup]="entityForm"
+    (ngSubmit)="entityForm.valid && onSubmit()"
+    novalidate
+  >
+    <div mat-dialog-content>
+      <mat-grid-list [cols]="columns" rowHeight="80px">
+        <mat-grid-tile>
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+            <mat-error *ngIf="hasError('name', 'required')"
+              >El nombre es requerido.</mat-error
+            >
+          </mat-form-field>
+          <br />
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <mat-label>Descripción</mat-label>
+            <textarea matInput rows="2" cols="50" type="text" name="description" formControlName="description"></textarea>
+          </mat-form-field>
+          <br />
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Marca</mat-label>
+            <mat-select
+              ngDefaultControl
+              formControlName="brand"
+              [compareWith]="compareFn"
+            >
+              <mat-option *ngFor="let brand of brands" [value]="brand">
+                {{ brand.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br />
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Categoría</mat-label>
+            <mat-select
+              ngDefaultControl
+              formControlName="category"
+              [compareWith]="compareFn"
+              [(value)]="categorySelected"
+            >
+              <mat-option
+                *ngFor="let category of categories"
+                [value]="category"
+              >
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br />
+        </mat-grid-tile>
+        <div *ngIf="categorySelected?.name.toLowerCase() === ('ataúd' || 'ataud')">
+          <mat-grid-tile>
+            <mat-form-field>
+              <mat-label>Alto</mat-label>
+              <input matInput type="number" name="itemHeight" formControlName="itemHeight" />
+              <mat-error *ngIf="hasError('name', 'required')"
+              >La altura del ataud es requerida.</mat-error
+            >
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field>
+              <mat-label>Largo</mat-label>
+              <input matInput type="number" name="itemLength" formControlName="itemLength"  />
+              <mat-error *ngIf="hasError('name', 'required')"
+              >La longitud del ataud es requerida.</mat-error
+            >
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field>
+              <mat-label>Ancho</mat-label>
+              <input matInput type="number" name="itemWidth" formControlName="itemWidth" />
+              <mat-error *ngIf="hasError('name', 'required')"
+              >El ancho del ataud es requerida.</mat-error
+            >
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{ data ? "Editar" : "Registrar" }}
+      </button>
+    </div>
+  </form>
+</div>

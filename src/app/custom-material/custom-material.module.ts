@@ -31,10 +31,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { SelectCheckAllComponent } from './select-check-all/select-check-all.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { CustomPaginatorIntlService } from '../shared/services/custom-paginator-intl.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -58,7 +59,7 @@ export const MY_FORMATS = {
     MatAutocompleteModule, MatTableModule, MatDialogModule, MatTabsModule,
     MatTooltipModule, MatSelectModule, MatPaginatorModule, MatChipsModule,
     MatButtonToggleModule, MatSlideToggleModule, MatBadgeModule, MatCheckboxModule,
-    MatExpansionModule, DragDropModule, MatSortModule
+    MatExpansionModule, DragDropModule, MatSortModule, MatGridListModule
   ],
   exports: [
     CommonModule,
@@ -68,16 +69,17 @@ export const MY_FORMATS = {
     MatAutocompleteModule, MatTableModule, MatDialogModule, MatTabsModule,
     MatTooltipModule, MatSelectModule, MatPaginatorModule, MatChipsModule,
     MatButtonToggleModule, MatSlideToggleModule, MatBadgeModule, MatCheckboxModule,
-    MatExpansionModule, SelectCheckAllComponent, DragDropModule, MatSortModule
+    MatExpansionModule, SelectCheckAllComponent, DragDropModule, MatSortModule, MatGridListModule
   ],
   providers: [
     {
       provide: MAT_DATE_FORMATS,
       useValue: MY_FORMATS
     },
-    { provide: LOCALE_ID, useValue: 'en-gb' }
+    { provide: LOCALE_ID, useValue: 'en-gb' },
+    {provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService}
   ],
-  declarations: [SelectCheckAllComponent]
+  declarations: [SelectCheckAllComponent],
 })
 export class CustomMaterialModule {
   static forRoot() {

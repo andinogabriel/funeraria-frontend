@@ -1,0 +1,36 @@
+<div class='md-dialog-container'>
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement='.cdk-overlay-pane'
+    cdkDragHandle
+    style='cursor:move'
+  >
+    {{data ? 'Editar' : 'Registrar'}} categoria
+  </h3>
+  <form [formGroup]="entityForm" (ngSubmit)="entityForm.valid && onSubmit()" novalidate>
+    <div mat-dialog-content>
+      <mat-grid-list cols='2' rowHeight='100px'>
+        <mat-grid-title>
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+            <mat-error *ngIf="hasError('name', 'required')">El nombre es requerido.</mat-error>
+          </mat-form-field>
+          <br>
+        </mat-grid-title>
+        <mat-grid-title>
+          <mat-form-field>
+            <mat-label>Descripción</mat-label>
+            <textarea matInput rows="2" cols="50"  name="description" formControlName="description"></textarea>
+          </mat-form-field>
+        </mat-grid-title>
+      </mat-grid-list>
+      <br>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">{{data ? 'Editar' : 'Registrar'}}</button>
+    </div>
+  </form>
+</div>

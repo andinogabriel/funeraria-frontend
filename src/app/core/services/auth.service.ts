@@ -1,71 +1,66 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { delay, map } from 'rxjs/operators';
-import * as jwt_decode from 'jwt-decode';
-import * as moment from 'moment';
+import { Injectable, Inject } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { delay, map } from "rxjs/operators";
+import * as moment from "moment";
 
-import { environment } from '../../../environments/environment';
-import { of, EMPTY } from 'rxjs';
+import { environment } from "../../../environments/environment";
+import { of, EMPTY, Observable } from "rxjs";
+import { BASE_ENDPOINT } from "src/app/config/app";
+import { LoginUser } from "src/app/shared/models/loginUser";
+import { Jwt } from "src/app/shared/models/jwt";
+import { CurrentUser } from "src/app/shared/models/currentUser";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthenticationService {
+  private baseUrl = `${BASE_ENDPOINT}/users`;
+  private headers = new HttpHeaders().set("Content-Type", "application/json");
 
-    constructor(private http: HttpClient,
-        @Inject('LOCALSTORAGE') private localStorage: Storage) {
-    }
+  constructor(
+    private http: HttpClient,
+    @Inject("LOCALSTORAGE") private localStorage: Storage
+  ) {}
 
-    login(email: string, password: string) {
-        return of(true)
-            .pipe(delay(1000),
-                map((/*response*/) => {
-                    // set token property
-                    // const decodedToken = jwt_decode(response['token']);
+  login(loginUser: LoginUser): Observable<Jwt> {
+    return this.http.post<Jwt>(`${this.baseUrl}/login`, loginUser);
+  }
 
-                    // store email and jwt token in local storage to keep user logged in between page refreshes
-                    this.localStorage.setItem('currentUser', JSON.stringify({
-                        token: 'aisdnaksjdn,axmnczm',
-                        isAdmin: true,
-                        email: 'john.doe@gmail.com',
-                        id: '12312323232',
-                        alias: 'john.doe@gmail.com'.split('@')[0],
-                        expiration: moment().add(1, 'days').toDate(),
-                        fullName: 'John Doe'
-                    }));
+  getCurrentUser(): Observable<CurrentUser> {
+    return this.http.get<CurrentUser>(`${this.baseUrl}/me`);
+  }
 
-                    return true;
-                }));
-    }
+  /*login(email: string, password: string) {
+    return this.http
+      .post<any>(`${this.baseUrl}/login`, { email, password })
+      .subscribe((response) => {
+        localStorage.setItem("access_token", response.authorization);
+        const decodedToken = jwt_decode(response["authorization"]);
+        console.log(decodedToken);
+      });
+  }*/
 
-    logout(): void {
-        // clear token remove user from local storage to log user out
-        this.localStorage.removeItem('currentUser');
-    }
+  logout(): void {
+    // clear token remove user from local storage to log user out
+    this.localStorage.removeItem("authorization");
+  }
 
-    getCurrentUser(): any {
-        // TODO: Enable after implementation
-        // return JSON.parse(this.localStorage.getItem('currentUser'));
-        return {
-            token: 'aisdnaksjdn,axmnczm',
-            isAdmin: true,
-            email: 'john.doe@gmail.com',
-            id: '12312323232',
-            alias: 'john.doe@gmail.com'.split('@')[0],
-            expiration: moment().add(1, 'days').toDate(),
-            fullName: 'John Doe'
-        };
-    }
+  
+  passwordResetRequest(email: string) {
+    return of(true).pipe(delay(1000));
+  }
 
-    passwordResetRequest(email: string) {
-        return of(true).pipe(delay(1000));
-    }
+  changePassword(email: string, currentPwd: string, newPwd: string) {
+    return of(true).pipe(delay(1000));
+  }
 
-    changePassword(email: string, currentPwd: string, newPwd: string) {
-        return of(true).pipe(delay(1000));
-    }
-
-    passwordReset(email: string, token: string, password: string, confirmPassword: string): any {
-        return of(true).pipe(delay(1000));
-    }
+  passwordReset(
+    email: string,
+    token: string,
+    password: string,
+    confirmPassword: string
+  ): any {
+    return of(true).pipe(delay(1000));
+  }
 }
+

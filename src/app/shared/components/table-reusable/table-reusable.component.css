@@ -1,0 +1,43 @@
+table {
+  width: 100%;
+}
+
+th,
+td {
+  padding: 10px !important;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+mat-form-field {
+  width: 40%;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.highlight {
+  background: lightblue;
+}
+
+.mat-row:hover {
+  cursor: pointer;
+}
+
+.mat-elevation-z2 {    
+  overflow-x: auto;
+}
+
+mat-header-cell {
+  flex-direction: column;
+  justify-content: center;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}

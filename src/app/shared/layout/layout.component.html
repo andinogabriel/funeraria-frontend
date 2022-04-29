@@ -77,6 +77,18 @@
           <p mat-line>Categorias</p>
         </a>
 
+        <a
+          mat-list-item
+          [routerLink]="['/proveedores']"
+          routerLinkActive="active"
+          *appShowForRoles="['ROLE_ADMIN']"
+        >
+          <mat-icon mat-list-icon> person_pin </mat-icon>
+          <p mat-line>Proveedores</p>
+        </a>
+
+
+
         <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
           <mat-icon mat-list-icon> people </mat-icon>
           <p mat-line>Usuarios</p>
@@ -87,11 +99,7 @@
           <p mat-line>Mi cuenta</p>
         </a>
 
-        <a mat-list-item [routerLink]="['/auth/login']">
-          <mat-icon mat-list-icon>exit_to_app</mat-icon>
-          <p mat-line>Log out</p>
-        </a>
-
+        
         <mat-divider></mat-divider>
 
         <h3 mat-subheader>Resources</h3>

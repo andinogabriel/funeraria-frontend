@@ -26,7 +26,7 @@ export class ShowForRolesDirective {
       this.viewContainerRef.clear();
     } else {
       const idx = userRoles.findIndex((role) => hideFor.indexOf(role) !== -1);
-      return idx > 0
+      return idx >= 0
         ? this.viewContainerRef.createEmbeddedView(this.templateRef)
         : this.viewContainerRef.clear();
     }

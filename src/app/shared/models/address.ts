@@ -1,5 +1,6 @@
 import { City } from './city';
-export interface Addres {
+
+export interface Address {
   id?: number;
   streetName: string;
   blockStreet: number;

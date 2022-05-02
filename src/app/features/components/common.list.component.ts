@@ -80,5 +80,7 @@ export abstract class CommonListComponent<
   protected updateElement(elem: E): void {
   }
 
+  protected showMoreInfo(elem: E): void {
+  }
 
 }

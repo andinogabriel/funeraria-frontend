@@ -2,27 +2,54 @@
   <!-- Filter -->
   <ng-container>
     <div fxLayout="row">
-      <div fxFlex="20"></div>
-      <div fxFlex="60">
-        <ng-container *ngIf="isFilterable" [matColumnDef]="this.rowActionIcon">
-          <mat-form-field>
-            <mat-label>Filtro</mat-label>
-            <input
-              matInput
-              (keyup)="applyFilter($event)"
-              placeholder="Filtro"
-            />
-          </mat-form-field>
-        </ng-container>
-      </div>
-      <div fxFlex fxLayoutAlign="space-around center">
-        <button mat-icon-button color="primary" matTooltip="Agregar" (click)="emitCreateAction()">
+      <div fxFlex="35" fxFlex.lt-sm="0%"></div>
+      <ng-container *ngIf="isFilterable" [matColumnDef]="this.rowActionIcon">
+        <mat-form-field fxFlex.lt-sm="50%" fxFlex="25%">
+          <mat-label>Filtro</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Filtro" />
+        </mat-form-field>
+      </ng-container>
+      <div fxFlex="25" fxFlex.lt-sm="0%"></div>
+      <div
+        fxFlex
+        fxLayoutAlign="space-around center"
+        fxFlex="20"
+        fxFlex.lt-sm="50%"
+      >
+        <button
+          *ngIf="hasMoreInfo"
+          [disabled]="!selectedRow"
+          mat-icon-button
+          matTooltip="Ver mas info"
+          (click)="emitShowMoreAction()"
+        >
+          <mat-icon>info_outline</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="Agregar"
+          (click)="emitCreateAction()"
+        >
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-icon-button [disabled]="!selectedRow" color="primary" matTooltip="Editar" (click)="emitUpdateAction()">
+
+        <button
+          mat-icon-button
+          [disabled]="!selectedRow"
+          color="primary"
+          matTooltip="Editar"
+          (click)="emitUpdateAction()"
+        >
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button [disabled]="!selectedRow" color="warn" matTooltip="Eliminar" (click)="emitDeleteAction()">
+        <button
+          mat-icon-button
+          [disabled]="!selectedRow"
+          color="warn"
+          matTooltip="Eliminar"
+          (click)="emitDeleteAction()"
+        >
           <mat-icon>delete</mat-icon>
         </button>
       </div>
@@ -30,7 +57,7 @@
   </ng-container>
 
   <!-- Table -->
-  <div class="mat-elevation-z2">
+  <div class="mat-elevation-z2" *ngIf="tableDataSource?.data?.length > 0; else noData">
     <table
       mat-table
       [dataSource]="tableDataSource"
@@ -53,19 +80,13 @@
         </ng-container>
         <!-- else not sortable -->
         <ng-template #notSortable>
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-          >
+          <th mat-header-cell *matHeaderCellDef>
             {{ tableColumn.name }}
           </th>
         </ng-template>
-  
+
         <!-- column data -->
-        <td
-          mat-cell
-          *matCellDef="let element"
-        >
+        <td mat-cell *matCellDef="let element">
           {{ element | dataPropertyGetter: tableColumn.dataKey }}
         </td>
       </ng-container>
@@ -73,7 +94,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        [ngClass]="{ 'highlight': selectedRow === row }"
+        [ngClass]="{ highlight: selectedRow === row }"
         (click)="this.selectedRow = row"
       ></tr>
     </table>
@@ -81,10 +102,19 @@
 
   <!-- Pagination -->
   <mat-paginator
-    *ngIf="isPageable"
+    *ngIf="isPageable && tableDataSource?.data?.length > 0"
     [pageSizeOptions]="paginationSizes"
     [pageSize]="defaultPageSize"
     showFirstLastButtons
   >
   </mat-paginator>
+  <ng-template #noData>
+    <div class="container" fxLayout="row" fxLayoutAlign="center none">
+      <div fxFlex="50%" class="text-center no-records animate">
+        <mat-icon>{{emptyIcon}}</mat-icon>
+        <p>{{emptyMessage}}</p>
+      </div>
+      <mat-icon> </mat-icon>
+    </div>
+  </ng-template>
 </ng-container>

@@ -27,6 +27,9 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
   @Input() isPageable = true;
   @Input() isSortable = true;
   @Input() isFilterable = true;
+  @Input() hasMoreInfo = false;
+  @Input() emptyIcon!: string;
+  @Input() emptyMessage!: string;
   @Input() tableColumns!: ReusableTableColumn[];
   @Input() rowActionIcon!: string;
   @Input() paginationSizes: number[] = [5, 10, 15];
@@ -37,6 +40,7 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
   @Output() deleteAction: EventEmitter<any> = new EventEmitter<any>();
   @Output() createAction: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateAction: EventEmitter<any> = new EventEmitter<any>();
+  @Output() showMoreAction: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() set tableData(data: any[]) {
     this.setTableDataSource(data);
@@ -96,6 +100,11 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
 
   emitUpdateAction() {
     this.updateAction.emit(this.selectedRow);
+    this.selectedRow = null;
+  }
+
+  emitShowMoreAction() {
+    this.showMoreAction.emit(this.selectedRow);
     this.selectedRow = null;
   }
   

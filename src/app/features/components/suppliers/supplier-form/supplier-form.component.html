@@ -20,52 +20,35 @@
         fxLayoutGap="15px"
         fxLayoutAlign="flex-start"
       >
-        <mat-form-field
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
-        >
-          <mat-label>Nombre</mat-label>
-          <input matInput type="text" name="name" formControlName="name" />
-          <mat-error *ngIf="hasError('name', 'required')"
-            >El nombre es requerido.</mat-error
+        <ng-container *ngFor="let input of supplierFormInputs">
+          <mat-form-field
+            fxFlex="0 1 calc(50% - 15px)"
+            fxFlex.lt-md="0 1 calc(50% - 15px)"
+            fxFlex.lt-sm="100%"
           >
-        </mat-form-field>
-
-        <mat-form-field
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
+            <mat-label>{{ input.matLabel }}</mat-label>
+            <input
+              matInput
+              [type]="input.type"
+              [name]="input.name"
+              [formControlName]="input.name"
+            />
+            <mat-error
+              *ngIf="input.hasInputError && hasError('name', 'required')"
+              >{{ input.matError }}</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+        <button
+          mat-raised-button
+          color="primary"
+          matBadge="8"
+          matBadgePosition="before"
+          matBadgeColor="accent"
+          type="button"
         >
-          <mat-label>NIF</mat-label>
-          <input matInput type="text" name="nif" formControlName="nif" />
-          <mat-error *ngIf="hasError('nif', 'required')"
-            >El NIF es requerido.</mat-error
-          >
-        </mat-form-field>
-
-        <mat-form-field
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
-        >
-          <mat-label>email</mat-label>
-          <input matInput type="email" name="email" formControlName="email" />
-        </mat-form-field>
-
-        <mat-form-field
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
-        >
-          <mat-label>Pagina web</mat-label>
-          <input
-            matInput
-            type="text"
-            name="webPage"
-            formControlName="webPage"
-          />
-        </mat-form-field>
+          Agregar
+        </button>
       </div>
     </div>
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">

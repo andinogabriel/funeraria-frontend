@@ -18,6 +18,13 @@ Supplier,
 SupplierService
 > {
 
+  supplierFormInputs = [
+    {matLabel: 'Nombre', type: 'text', name: 'name', hasInputError: true, matError: 'El nombre es requerido.'},
+    {matLabel: 'NIF', type: 'text', name: 'nif', hasInputError: true, matError: 'El NIF es requerido.'},
+    {matLabel: 'Email', type: 'text', name: 'email', hasInputError: false, matError: ''},
+    {matLabel: 'Pagina web', type: 'text', name: 'webPage', hasInputError: false, matError: ''},
+  ]
+
   constructor(
     service: SupplierService,
     @Inject(MAT_DIALOG_DATA) public override data: Supplier,

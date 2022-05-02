@@ -8,6 +8,7 @@ import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.ser
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CommonListComponent } from '../../common.list.component';
 import { SupplierFormComponent } from '../supplier-form/supplier-form.component';
+import { SupplierMoreInfoComponent } from '../supplier-more-info/supplier-more-info.component';
 
 @Component({
   selector: 'app-list-suppliers',
@@ -83,6 +84,10 @@ SupplierService
         this.dataSource = this.dataSource.map(cat => (cat.id === elem.id) ? result.data : cat);
       }
     });
+  }
+
+  override showMoreInfo(elem: Supplier): void {
+    this.dialog.open(SupplierMoreInfoComponent, { data: elem });
   }
 
 }

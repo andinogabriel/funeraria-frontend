@@ -29,6 +29,12 @@ ItemService
   categorySelected: Category;
   columns: number;
 
+  ataudObjects = [
+    {matLabel: 'Alto', name: 'itemHeight', errorMessageRequired: 'La altura del ataud es requerida.', errorMessageMin: 'Ingrese una altura minima valida.', errorMessageMax: 'Ingrese una altura maxima valida.'},
+    {matLabel: 'Largo', name: 'itemLength', errorMessageRequired: 'La longitud del ataud es requerida.', errorMessageMin: 'Ingrese un largo minimo valido.', errorMessageMax: 'Ingrese un largo maximo valido.'},
+    {matLabel: 'Ancho', name: 'itemWidth', errorMessageRequired: 'El ancho del ataud es requerida.', errorMessageMin: 'Ingrese un ancho minimo valido.', errorMessageMax: 'Ingrese un ancho maximo valido.'}
+  ]
+
   constructor(
     itemService: ItemService,
     @Inject(MAT_DIALOG_DATA) public override data: Item,
@@ -79,7 +85,7 @@ ItemService
         'brand': new FormControl('', [Validators.required]),
         'category': new FormControl('', [Validators.required]),
         'description': new FormControl(''),
-        'itemLength': new FormControl('',),
+        'itemLength': new FormControl(''),
         'itemWidth': new FormControl(''),
         'itemHeight': new FormControl(''),
       };
@@ -94,7 +100,6 @@ ItemService
   override ngOnInit(): void {
     this.data ? this.initUpdateFormControl() : this.initFormControl();
     this.setAtaudDynamicValidators();
-    this.breakPoints();
   }
 
   ngAfterViewInit() {
@@ -124,32 +129,16 @@ ItemService
   }
 
    private setAtaudDynamicValidators(): void {
-    const ataudProps = ['itemLength', 'itemWidth', 'itemHeight'];
+    const ataudProps = [
+      {name: 'itemLength', min: 40, max: 250}, 
+      {name: 'itemWidth', min: 20, max: 100}, 
+      {name: 'itemHeight', min: 30, max: 80}, 
+    ];
     this.entityForm.get('category')?.valueChanges.subscribe((value) => {
       ataudProps.forEach(i => {
-        dynamicValidator(this.entityForm, i, value['name'], 'ataúd');
+        dynamicValidator(this.entityForm, i.name, value['name'], 'ataúd', true, i.min, i.max);
       });
     });
   }
-
-   // Cards
-   breakPoints() {
-    switch(true) {
-        case (window.innerWidth <= 480):
-          this.columns = 1;
-          break;
-        case (window.innerWidth > 480 ):
-          this.columns = 2;
-          break;
-        default:
-          this.columns = 2;
-      }
-  }
-
-  onResize(event) {
-    this.breakPoints();
-  }
-
-
 
 }

@@ -1,0 +1,22 @@
+<mat-form-field
+  fxFlex="0 1 calc(33% - 80px)"
+  fxFlex.lt-md="0 1 calc(33% - 15px)"
+  fxFlex.lt-sm="0 1 calc(25% - 15px)"
+>
+  <mat-label>Numero de tel.</mat-label>
+  <input
+    matInput
+    type="number"
+    [formControl]="$any(inputFormGroup.controls['mobileNumber'])"
+  />
+  <mat-error *ngIf="hasError('mobileNumber', 'required')"
+    >El telefono es requerido.</mat-error
+  >
+  <mat-error
+    *ngIf="
+      !hasError('mobileNumber', 'required') &&
+      hasError('mobileNumber', 'pattern')
+    "
+    >El telefono debe contener entre 6 y 14 digitos.</mat-error
+  >
+</mat-form-field>

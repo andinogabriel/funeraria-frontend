@@ -1,0 +1,94 @@
+<div
+  fxLayout="row wrap"
+  fxLayout.lt-sm="column"
+  fxLayoutGap="15px"
+  fxLayoutAlign="flex-start"
+>
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(33% - 15px)"
+    fxFlex.lt-md="0 1 calc(33% - 15px)"
+    fxFlex.lt-sm="100%"
+  >
+    <mat-label>Provincia</mat-label>
+    <mat-select [(value)]="selectedProvince" (selectionChange)="getCities()" [formControl]="$any(inputFormGroup.controls['province'])" [compareWith]="compareProvionceFn">
+      <mat-option *ngFor="let province of provinces" [value]="province">{{
+        province?.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(33% - 15px)"
+    fxFlex.lt-md="0 1 calc(33% - 15px)"
+    fxFlex.lt-sm="100%"
+  >
+    <mat-label>Ciudad</mat-label>
+    <mat-select [formControl]="$any(inputFormGroup.controls['city'])" [compareWith]="compareCityFn">
+      <mat-option *ngIf="cities?.length < 1"
+        >Seleccione una provincia</mat-option
+      >
+      <mat-option *ngFor="let city of cities" [value]="city">{{
+        city?.name
+      }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="hasError('city', 'required')"
+      >La ciudad es requerida.</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(33% - 15px)"
+    fxFlex.lt-md="0 1 calc(33% - 15px)"
+    fxFlex.lt-sm="100%"
+  >
+    <mat-label>Calle</mat-label>
+    <input
+      matInput
+      [formControl]="$any(inputFormGroup.controls['streetName'])"
+    />
+    <mat-error *ngIf="hasError('streetName', 'required')"
+      >La calle es requerida.</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(20% - 15px)"
+    fxFlex.lt-md="0 1 calc(20% - 15px)"
+    fxFlex.lt-sm="50%"
+  >
+    <mat-label>Altura</mat-label>
+    <input
+      matInput
+      type="number"
+      [formControl]="$any(inputFormGroup.controls['blockStreet'])"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(40% - 15px)"
+    fxFlex.lt-md="0 1 calc(35% - 15px)"
+    fxFlex.lt-sm="50%"
+  >
+    <mat-label>Departamento</mat-label>
+    <input
+      matInput
+      [formControl]="$any(inputFormGroup.controls['apartment'])"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(39% - 15px)"
+    fxFlex.lt-md="0 1 calc(35% - 15px)"
+    fxFlex.lt-sm="50%"
+  >
+    <mat-label>Piso</mat-label>
+    <input matInput [formControl]="$any(inputFormGroup.controls['flat'])" />
+  </mat-form-field>
+</div>
+<hr>

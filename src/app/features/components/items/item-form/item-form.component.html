@@ -14,88 +14,125 @@
     novalidate
   >
     <div mat-dialog-content>
-      <mat-grid-list [cols]="columns" rowHeight="80px">
-        <mat-grid-tile>
-          <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input matInput type="text" name="name" formControlName="name" />
-            <mat-error *ngIf="hasError('name', 'required')"
-              >El nombre es requerido.</mat-error
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+      >
+        <mat-form-field
+          fxFlex="0 1 calc(50% - 15px)"
+          fxFlex.lt-md="0 1 calc(50% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Nombre</mat-label>
+          <input matInput type="text" name="name" formControlName="name" />
+          <mat-error *ngIf="hasError('name', 'required')"
+            >El nombre es requerido.</mat-error
+          >
+        </mat-form-field>
+        
+        <mat-form-field
+          fxFlex="0 1 calc(50% - 15px)"
+          fxFlex.lt-md="0 1 calc(50% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Descripción</mat-label>
+          <textarea
+            matInput
+            type="text"
+            name="description"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          fxFlex="0 1 calc(50% - 15px)"
+          fxFlex.lt-md="0 1 calc(50% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Marca</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="brand"
+            [compareWith]="compareFn"
+          >
+            <mat-option *ngFor="let brand of brands" [value]="brand">
+              {{ brand.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          fxFlex="0 1 calc(50% - 15px)"
+          fxFlex.lt-md="0 1 calc(50% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Categoría</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="category"
+            [compareWith]="compareFn"
+            [(value)]="categorySelected"
+          >
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        *ngIf="categorySelected?.name?.toLowerCase() === ('ataúd' || 'ataud')"
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+      >
+        <ng-container *ngFor="let ataudObject of ataudObjects">
+          <mat-form-field
+            appearance="outline"
+            fxFlex="0 1 calc(33% - 15px)"
+            fxFlex.lt-md="0 1 calc(50% - 15px)"
+            fxFlex.lt-sm="100%"
+          >
+            <mat-label>{{ ataudObject.matLabel }}</mat-label>
+            <input
+              matInput
+              type="number"
+              [name]="ataudObject.name"
+              [formControlName]="ataudObject.name"
+            />
+            <mat-error
+              *ngIf="
+                !hasError(ataudObject.name, 'required') &&
+                !hasError(ataudObject.name, 'max') &&
+                !hasError(ataudObject.name, 'min') &&
+                hasError(ataudObject.name, 'pattern')
+              "
+              >Solo se permiten dos decimales.</mat-error
             >
+            <mat-error *ngIf="hasError(ataudObject.name, 'required')">{{
+              ataudObject.errorMessageRequired
+            }}</mat-error>
+            <mat-error
+              *ngIf="
+                !hasError(ataudObject.name, 'required') &&
+                hasError(ataudObject.name, 'min')
+              "
+              >{{ ataudObject.errorMessageMin }}</mat-error
+            >
+            <mat-error
+              *ngIf="
+                !hasError(ataudObject.name, 'required') &&
+                hasError(ataudObject.name, 'max')
+              "
+              >{{ ataudObject.errorMessageMax }}<br
+            /></mat-error>
           </mat-form-field>
-          <br />
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <mat-form-field>
-            <mat-label>Descripción</mat-label>
-            <textarea matInput rows="2" cols="50" type="text" name="description" formControlName="description"></textarea>
-          </mat-form-field>
-          <br />
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Marca</mat-label>
-            <mat-select
-              ngDefaultControl
-              formControlName="brand"
-              [compareWith]="compareFn"
-            >
-              <mat-option *ngFor="let brand of brands" [value]="brand">
-                {{ brand.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br />
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Categoría</mat-label>
-            <mat-select
-              ngDefaultControl
-              formControlName="category"
-              [compareWith]="compareFn"
-              [(value)]="categorySelected"
-            >
-              <mat-option
-                *ngFor="let category of categories"
-                [value]="category"
-              >
-                {{ category.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br />
-        </mat-grid-tile>
-        <div *ngIf="categorySelected?.name.toLowerCase() === ('ataúd' || 'ataud')">
-          <mat-grid-tile>
-            <mat-form-field>
-              <mat-label>Alto</mat-label>
-              <input matInput type="number" name="itemHeight" formControlName="itemHeight" />
-              <mat-error *ngIf="hasError('name', 'required')"
-              >La altura del ataud es requerida.</mat-error
-            >
-            </mat-form-field>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-form-field>
-              <mat-label>Largo</mat-label>
-              <input matInput type="number" name="itemLength" formControlName="itemLength"  />
-              <mat-error *ngIf="hasError('name', 'required')"
-              >La longitud del ataud es requerida.</mat-error
-            >
-            </mat-form-field>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-form-field>
-              <mat-label>Ancho</mat-label>
-              <input matInput type="number" name="itemWidth" formControlName="itemWidth" />
-              <mat-error *ngIf="hasError('name', 'required')"
-              >El ancho del ataud es requerida.</mat-error
-            >
-            </mat-form-field>
-          </mat-grid-tile>
-        </div>
-      </mat-grid-list>
+        </ng-container>
+      </div>
     </div>
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
       <button mat-raised-button mat-dialog-close>Cerrar</button>

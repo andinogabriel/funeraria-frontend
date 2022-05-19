@@ -39,17 +39,90 @@
             >
           </mat-form-field>
         </ng-container>
-        <button
-          mat-raised-button
-          color="primary"
-          matBadge="8"
-          matBadgePosition="before"
-          matBadgeColor="accent"
-          type="button"
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="10px"
+        fxLayoutAlign="flex-start"
+      >
+        <ng-container
+          *ngFor="let newMobNumber of mobileNumbers?.controls; let i = index"
         >
-          Agregar
+          <app-telephone-form
+            [inputFormGroup]="$any(newMobNumber)"
+          ></app-telephone-form>
+          <button
+            [disabled]="mobileNumbers?.length <= 1"
+            mat-icon-button
+            type="button"
+            color="warn"
+            matTooltip="Eliminar telefono"
+            (click)="deleteMobileNumber(i)"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+        </ng-container>
+        <button
+          mat-icon-button
+          type="button"
+          color="primary"
+          matTooltip="Agregar telefono"
+          (click)="addMobileNumber()"
+        >
+          <mat-icon>add</mat-icon>
         </button>
       </div>
+
+      <br />
+      <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          expanded="true"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>Direcciones</mat-panel-title>
+            <mat-panel-description>
+              {{ data ? "Editar" : "Registrar" }} direcciones
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div
+            fxLayout="row wrap"
+            fxLayout.lt-sm="column"
+            fxLayoutGap="15px"
+            fxLayoutAlign="flex-start"
+          >
+            <ng-container
+              *ngFor="let newAddress of addresses?.controls; let i = index"
+            >
+              <app-address-form
+                [inputFormGroup]="$any(newAddress)"
+              ></app-address-form>
+              <button
+                [disabled]="addresses?.length <= 1"
+                mat-icon-button
+                type="button"
+                color="warn"
+                matTooltip="Eliminar direccion"
+                (click)="deleteAddress(i)"
+              >
+                <mat-icon>remove</mat-icon>
+              </button>
+            </ng-container>
+            <button
+              mat-icon-button
+              type="button"
+              color="primary"
+              matTooltip="Agregar direccion"
+              (click)="addAddress()"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <br />
     </div>
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
       <button mat-raised-button mat-dialog-close>Cerrar</button>

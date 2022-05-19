@@ -15,6 +15,8 @@ import { AlertComponent } from "./components/alert/alert.component";
 import { HideForRolesDirective } from "./directives/hide-for-roles.directive";
 import { CommonModule } from "@angular/common";
 import { ShowForRolesDirective } from './directives/show-for-roles.directive';
+import { AddressFormComponent } from "./components/address-form/address-form.component";
+import { TelephoneFormComponent } from './components/telephone-form/telephone-form.component';
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import { ShowForRolesDirective } from './directives/show-for-roles.directive';
     AlertComponent,
     HideForRolesDirective,
     ShowForRolesDirective,
+    AddressFormComponent,
+    TelephoneFormComponent
   ],
   exports: [
     FormsModule,
@@ -51,7 +55,9 @@ import { ShowForRolesDirective } from './directives/show-for-roles.directive';
     YesNoPipe,
     TableReusableComponent,
     HideForRolesDirective,
-    ShowForRolesDirective
+    ShowForRolesDirective,
+    AddressFormComponent,
+    TelephoneFormComponent
   ],
   entryComponents: [ConfirmDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

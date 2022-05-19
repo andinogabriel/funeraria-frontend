@@ -1,4 +1,4 @@
-export interface MobileNumber {
+export class MobileNumber {
   id: number;
   mobileNumber: string;
 }

@@ -11,14 +11,14 @@
   <div mat-dialog-content>
     <mat-list>
       <mat-divider></mat-divider>
-      <mat-list-item>NIF: {{ supplier.nif }}</mat-list-item>
+      <mat-list-item><u>NIF</u>:&nbsp; {{ supplier.nif }}</mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item
-        >Email: {{ supplier?.email ? supplier.email : "-" }}</mat-list-item
+        ><u>Email</u>:&nbsp;{{ supplier?.email ? supplier.email : "-" }}</mat-list-item
       >
       <mat-divider></mat-divider>
       <mat-list-item
-        >Página web:
+        ><u>Página web</u>:&nbsp;
         {{ supplier?.webPage ? supplier.webPage : "-" }}</mat-list-item
       >
       <mat-divider></mat-divider>
@@ -27,7 +27,7 @@
     <mat-accordion *ngIf="supplier?.mobileNumbers?.length > 0">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title> Numeros de teléfono </mat-panel-title>
+          <mat-panel-title>Numeros de teléfono </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list>
           <mat-divider></mat-divider>
@@ -52,13 +52,13 @@
               {{ address.city.name }} - {{ address.city.province.name }} |
               Calle: {{ address.streetName }} -
               {{
-                address?.blockStreet ? "Altura: " + address?.blockStreet : ""
+                address?.blockStreet ? "Altura: " + address?.blockStreet : "Altura: S/N"
               }}
               |
               {{
-                address?.apartment ? "Departamento: " + address?.apartment : ""
+                address?.apartment ? "Departamento: " + address?.apartment : "Departamento: S/N "
               }}
-              - {{ address?.flat ? "Piso: " + address?.flat : "" }}
+              - {{ address?.flat ? "Piso: " + address?.flat : "Piso: S/N" }}
             </mat-list-item>
             <br />
             <mat-divider></mat-divider>

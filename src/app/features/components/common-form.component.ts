@@ -80,7 +80,10 @@ export abstract class CommonFormComponent<
   }
 
   initUpdateFormControl(): void {
-    this.entityForm.setValue(this.entityInitUpdateFormControl);
+    console.log(this.entityInitUpdateFormControl);
+    setTimeout(() => {
+      this.entityForm.patchValue(this.entityInitUpdateFormControl);
+    },);
   }
 
   compareFn(elem1: M, elem2: M): boolean {

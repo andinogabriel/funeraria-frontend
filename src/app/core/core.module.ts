@@ -10,12 +10,14 @@ import { AuthGuard } from './guards/auth.guard';
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { GlobalErrorHandler } from './services/globar-error.handler';
 import { AdminGuard } from './guards/admin.guard';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpCacheInterceptorModule.forRoot()
   ],
   declarations: [
   ],

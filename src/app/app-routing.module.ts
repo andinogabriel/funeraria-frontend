@@ -19,6 +19,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'ingresos',
+    loadChildren: () => import('./features/components/incomes/incomes.module').then(m => m.IncomesModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'articulos',
     loadChildren: () => import('./features/components/items/items.module').then(m => m.ItemsModule),
     canActivate: [AuthGuard]
@@ -26,6 +31,11 @@ const appRoutes: Routes = [
   {
     path: 'proveedores',
     loadChildren: () => import('./features/components/suppliers/suppliers.module').then(m => m.SuppliersModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'planes',
+    loadChildren: () => import('./features/components/plans/plans.module').then(m => m.PlansModule),
     canActivate: [AuthGuard]
   },
   {

@@ -93,7 +93,6 @@ ItemService
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log(result.data);
         this.dataSource = [{...result?.data, 'categoryName': result?.data?.category?.name, 'brandName': result?.data?.brand?.name}, ...this.dataSource];
       }
     });

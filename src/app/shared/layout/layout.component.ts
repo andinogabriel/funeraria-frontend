@@ -41,7 +41,6 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit(): void {
         this.setCurrentUser();
-        console.log(this.tokenService.getAuthorities());
         // Auto log-out subscription
         const timer$ = timer(2000, 5000);
         this.autoLogoutSubscription = timer$.subscribe(() => {

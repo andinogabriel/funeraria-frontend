@@ -9,6 +9,7 @@ import { BASE_ENDPOINT } from "src/app/config/app";
 import { LoginUser } from "src/app/shared/models/loginUser";
 import { Jwt } from "src/app/shared/models/jwt";
 import { CurrentUser } from "src/app/shared/models/currentUser";
+import { withCache } from "@ngneat/cashew";
 
 @Injectable({
   providedIn: "root",
@@ -23,11 +24,13 @@ export class AuthenticationService {
   ) {}
 
   login(loginUser: LoginUser): Observable<Jwt> {
-    return this.http.post<Jwt>(`${this.baseUrl}/login`, loginUser);
+    return this.http.post<Jwt>(`${this.baseUrl}/login`, loginUser, {headers: this.headers});
   }
 
   getCurrentUser(): Observable<CurrentUser> {
-    return this.http.get<CurrentUser>(`${this.baseUrl}/me`);
+    return this.http.get<CurrentUser>(`${this.baseUrl}/me`, {
+      context: withCache()
+    });
   }
 
   /*login(email: string, password: string) {

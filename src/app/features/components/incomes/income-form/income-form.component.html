@@ -1,1 +1,156 @@
-<p>income-form works!</p>
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+  >
+    {{ data ? "Editar" : "Registrar" }} Ingreso
+  </h3>
+  <form
+    [formGroup]="entityForm"
+    (ngSubmit)="entityForm.valid && onSubmit()"
+    novalidate
+  >
+    <div mat-dialog-content>
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+      >
+        <ng-container *ngFor="let input of incomeFormInputs">
+          <mat-form-field
+            [fxFlex]="input.tamFlex"
+            [fxFlex.lt-md]="input.tamFlex"
+            fxFlex.lt-sm="100%"
+          >
+            <mat-label>{{ input.matLabel }}</mat-label>
+            <input
+              matInput
+              [type]="input.type"
+              [name]="input.name"
+              [formControlName]="input.name"
+            />
+            <mat-error
+              *ngIf="input.hasInputError && hasError(input.name, 'required')"
+              >{{ input.matError }}</mat-error
+            >
+            <mat-error
+              *ngIf="
+                input.hasAnotherInputError &&
+                !hasError(input.name, 'pattern') &&
+                hasError(input.name, 'min')
+              "
+            >
+              {{ input.minErrorMsg }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                input.hasAnotherInputError &&
+                !hasError(input.name, 'pattern') &&
+                hasError(input.name, 'max')
+              "
+            >
+              {{ input.maxErrorMsg }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                input.hasAnotherInputError && hasError(input.name, 'pattern')
+              "
+            >
+              {{ input.patternErrorMsg }}
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <mat-form-field
+          fxFlex="0 1 calc(40% - 15px)"
+          fxFlex.lt-md="0 1 calc(40% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Tipo de recibo</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="receiptType"
+            [compareWith]="compareFn"
+          >
+            <mat-option
+              *ngFor="let receiptType of receiptTypes"
+              [value]="receiptType"
+            >
+              {{ receiptType.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('receiptType', 'required')"
+            >El tipo de recibo es requerido.</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field
+          fxFlex="0 1 calc(40% - 15px)"
+          fxFlex.lt-md="0 1 calc(40% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Proveedor</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="supplier"
+            [compareWith]="compareFn"
+          >
+            <mat-option *ngFor="let supplier of suppliers" [value]="supplier">
+              {{ supplier.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('supplier', 'required')"
+            >El proveedor es requerido.</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <br />
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Detalles de ingreso</mat-panel-title>
+            <mat-panel-description>
+              {{ data ? "Editar" : "Registrar" }} detalle de ingreso
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-container
+            *ngFor="let newEntryDetail of entryDetails?.controls; let i = index"
+          >
+            <app-income-detail-form [inputFormGroup]="$any(newEntryDetail)">
+            </app-income-detail-form>
+            <button
+              [disabled]="entryDetails?.length <= 1"
+              mat-icon-button
+              type="button"
+              color="warn"
+              matTooltip="Eliminar detalle"
+              (click)="deleteEntryDetail(i)"
+            >
+              <mat-icon>remove</mat-icon>
+            </button>
+          </ng-container>
+          <button
+            mat-icon-button
+            type="button"
+            color="primary"
+            matTooltip="Agregar detalle"
+            (click)="addEntryDetail()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <br />
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{ data ? "Editar" : "Registrar" }}
+      </button>
+    </div>
+  </form>
+</div>

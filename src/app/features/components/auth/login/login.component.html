@@ -5,7 +5,7 @@
             <mat-card-subtitle>Iniciar Sesión</mat-card-subtitle>
             <mat-card-content>
 
-                <mat-form-field class="full-width">
+                <mat-form-field class="full-width" appearance="outline">
                     <input id="emailInput" matInput placeholder="Email" formControlName="email" autocomplete="email"
                         type="email">
 
@@ -19,8 +19,8 @@
 
                 </mat-form-field>
 
-                <mat-form-field class="full-width">
-                    <input id="passwordInput" matInput placeholder="Password" formControlName="password" type="password"
+                <mat-form-field class="full-width" appearance="outline">
+                    <input id="passwordInput" matInput placeholder="Contraseña" formControlName="password" type="password"
                         autocomplete="current-password">
                     <mat-error id="requiredPasswordError" *ngIf="loginForm.controls['email'].hasError('required')">
                         La contraseña es
@@ -34,9 +34,9 @@
 
             </mat-card-content>
 
-            <mat-card-actions class="login-actions">
-                <button mat-raised-button id="login" color="primary" [disabled]="loginForm.invalid || loading"
-                    (click)="login()">Login</button>
+            <mat-card-actions class="login-actions" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+                <button mat-raised-button id="login" color="primary" (click)="loginForm.valid && login()">Iniciar Sesión</button>
+                <button mat-button type="button" (click)="signup()">Registrate</button>
                 <button mat-button id="resetPassword" (click)="resetPassword()" type="button">Reestablecer contraseña</button>
             </mat-card-actions>
 

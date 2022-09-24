@@ -10,6 +10,8 @@
           [isPageable]="true"
           [paginationSizes]="[2, 4, 6]"
           [defaultPageSize]="4"
+          [emptyIcon]="'category'"
+          [emptyMessage]="'Todavia no hay categorías registradas.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"
           (updateAction)="updateElement($any($event))"

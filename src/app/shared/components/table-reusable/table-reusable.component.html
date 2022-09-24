@@ -6,7 +6,7 @@
       <ng-container *ngIf="isFilterable" [matColumnDef]="this.rowActionIcon">
         <mat-form-field fxFlex.lt-sm="50%" fxFlex="25%">
           <mat-label>Filtro</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Filtro" />
+          <input matInput (keyup)="applyFilter($event)" placeholder="Filtro" [disabled]="tableDataSource?.data?.length < 1"/>
         </mat-form-field>
       </ng-container>
       <div fxFlex="25" fxFlex.lt-sm="0%"></div>

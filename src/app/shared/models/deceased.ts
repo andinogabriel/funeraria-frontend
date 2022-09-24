@@ -1,8 +1,8 @@
-import { Address } from "cluster";
 import { Gender } from "./gender";
 import { Relationship } from "./relationship";
 import { User } from "./user";
 import { DeathCause } from './deathCause';
+import { Address } from "./address";
 
 export interface Deceased {
   id?: number;

@@ -1,0 +1,34 @@
+<div class="container login-container" fxLayout="row" fxLayoutAlign="center center">
+  <form [formGroup]="signupForm" fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="90%" (ngSubmit)="signupForm.valid && signup(signupForm?.value)" novalidate>
+    <mat-card>
+      <mat-card-title>Funeraria Nuñez y Hnos.</mat-card-title>
+      <mat-card-subtitle>Registrarse</mat-card-subtitle>
+      <mat-card-content>
+        <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+        >
+          <mat-form-field
+            *ngFor="let item of formControls"
+            [fxFlex]="item.smWidth"
+            [fxFlex.lt-md]="item.smWidth"
+            [fxFlex.lt-sm]="item.lgWidth"
+            appearance="outline"
+          >
+            <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
+            <mat-error *ngFor="let error of item.errors">
+              <span *ngIf="signupForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button routerLink="/auth/iniciar-sesion">Iniciar Sesión</button>
+        <button mat-raised-button id="Registrate" color="primary" (click)="signupForm.valid && signup(signupForm?.value)">Registrate</button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  </form>
+</div>

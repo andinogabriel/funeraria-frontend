@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",
     "test": "ng test",
     "build-production": "ng build --configuration=production --base-href=/funeraria-frontend/"
+    
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,8 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@ngneat/cashew": "^3.0.0",
+    "@ngneat/until-destroy": "^9.2.0",
     "jwt-decode": "^3.1.2",
     "mat-table-filter": "^10.2.0",
     "ngx-logger": "^5.0.7",

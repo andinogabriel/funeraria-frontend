@@ -11,6 +11,8 @@
           [hasMoreInfo]="true"
           [paginationSizes]="[2, 4, 6]"
           [defaultPageSize]="4"
+          [emptyIcon]="'local_shipping'"
+          [emptyMessage]="'Todavia no hay proveedores registrados.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"
           (updateAction)="updateElement($any($event))"

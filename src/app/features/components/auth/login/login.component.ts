@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.titleService.setTitle("funeraria-frontend - Login");
+    this.titleService.setTitle("Iniciar Sesión");
     this.authenticationService.logout();
     this.createForm();
   }
@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/"]);
         },
         error: (error: any) => {
+          console.log(error);
           this.isLogged = false;
           this.loginErrMessage = error?.error?.message;
           this.snackbarService.error(this.loginErrMessage);
@@ -97,6 +98,10 @@ export class LoginComponent implements OnInit {
 
   resetPassword() {
     this.router.navigate(["/auth/password-reset-request"]);
+  }
+
+  signup() {
+    this.router.navigate(["/auth/registrarse"]);
   }
 
 

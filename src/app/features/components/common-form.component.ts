@@ -1,15 +1,16 @@
 import { Inject } from '@angular/core';
 import { Directive, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { CommonServiceService } from '../../shared/services/common-service.service';
-import { GenericEntity } from '../../shared/models/genericEntity';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
 import { ConfirmDialog } from 'src/app/shared/models/confirmDialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { interval } from 'rxjs';
 
+@UntilDestroy()
 @Directive({ selector: '[CommonFormComponent]' })
 export abstract class CommonFormComponent<
   E,
@@ -18,7 +19,7 @@ export abstract class CommonFormComponent<
 > implements OnInit{
   entity!: E;
   entityForm!: FormGroup;
-  protected entityId: number;
+  protected entityId: any;
   protected createdSuccessMessage: string;
   protected createdOrUpdateErrorMessage: ConfirmDialog;
   protected modelName!: string;
@@ -37,6 +38,7 @@ export abstract class CommonFormComponent<
 
   ngOnInit(): void {
     this.data ? this.initUpdateFormControl() : this.initFormControl();
+    interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
 
   public hasError = (controlName: string, errorName: string): boolean => {
@@ -58,11 +60,14 @@ export abstract class CommonFormComponent<
         this.dialogRef.close({ data: elemCreated });
         this.snackbarService.success(this.createdSuccessMessage);
       },
-      error: () => this.dialogService.open(this.createdOrUpdateErrorMessage),
+      error: (err) => {
+        this.dialogService.open(err ? {...this.createdOrUpdateErrorMessage, 'message': err?.error?.message} : this.createdOrUpdateErrorMessage)
+      },
     });
   }
 
   update(elemToUpdate: E): void {
+    console.log(elemToUpdate);
     this.service.edit(this.entityId, elemToUpdate).subscribe({
       next: (elemUpdated) => {
         this.dialogRef.close({ data: elemUpdated });

@@ -1,8 +1,8 @@
-import { Address } from "cluster";
 import { MobileNumber } from "./mobileNumber";
 import { Roles } from "./roles";
 import { Affiliate } from './../../features/models/affiliate';
 import { Deceased } from "./deceased";
+import { Address } from "./address";
 
 export interface User {
   id?: number;

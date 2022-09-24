@@ -10,6 +10,8 @@
           [isPageable]="true"
           [paginationSizes]="[2, 4, 6]"
           [defaultPageSize]="4"
+          [emptyIcon]="'list_alt'"
+          [emptyMessage]="'Todavia no hay artículos registrados.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"
           (updateAction)="updateElement($any($event))"

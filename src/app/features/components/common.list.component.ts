@@ -1,16 +1,17 @@
 import { Directive, Inject, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Title } from "@angular/platform-browser";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { NGXLogger } from "ngx-logger";
+import { interval } from "rxjs";
 import { first } from "rxjs/operators";
 import { ConfirmDialog } from "src/app/shared/models/confirmDialog";
-import { GenericEntity } from "src/app/shared/models/genericEntity";
 import { ReusableTableColumn } from "src/app/shared/models/reusableTableColumn";
 import { CommonServiceService } from "src/app/shared/services/common-service.service";
 import { ConfirmDialogService } from "src/app/shared/services/confirm-dialog.service";
 import { SnackbarService } from "src/app/shared/services/snackbar.service";
-import { CommonFormComponent } from "./common-form.component";
 
+@UntilDestroy()
 @Directive({ selector: "[CommonListComponent]" })
 export abstract class CommonListComponent<
   E,
@@ -38,6 +39,7 @@ export abstract class CommonListComponent<
   ngOnInit(): void {
     this.getModelList();
     this.titleService.setTitle(`Funeraria Nuñez y Hnos - ${this.modelName}`);
+    interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
 
   getModelList(): void {
@@ -77,7 +79,7 @@ export abstract class CommonListComponent<
     
   }
 
-  protected updateElement(elem: E): void {
+  protected updateElement(elem: M): void {
   }
 
   protected showMoreInfo(elem: E): void {

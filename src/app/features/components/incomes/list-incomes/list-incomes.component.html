@@ -1,1 +1,26 @@
-<p>list-incomes works!</p>
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+  <div fxFlex="95%">
+    <mat-card>
+      <mat-card-content>
+        <h2>{{modelName}}</h2>
+        <app-table-reusable
+          [tableData]="dataSource"
+          [tableColumns]="displayedColumns"
+          [isFilterable]="true"
+          [isPageable]="true"
+          [paginationSizes]="[2, 4, 6]"
+          [defaultPageSize]="4"
+          [hasMoreInfo]="true"
+          [emptyIcon]="'category'"
+          [emptyMessage]="'Todavia no hay ingresos registrados.'"
+          (deleteAction)="removeRow($any($event))"
+          (createAction)="createElement()"
+          (updateAction)="updateElement($any($event))"
+          (showMoreAction)="showMoreInfo($any($event))"
+        >
+        </app-table-reusable>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

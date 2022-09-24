@@ -34,7 +34,7 @@
               [formControlName]="input.name"
             />
             <mat-error
-              *ngIf="input.hasInputError && hasError('name', 'required')"
+              *ngIf="input.hasInputError && hasError(input.name, 'required')"
               >{{ input.matError }}</mat-error
             >
           </mat-form-field>

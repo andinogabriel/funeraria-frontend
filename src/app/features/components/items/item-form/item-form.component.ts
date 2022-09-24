@@ -9,7 +9,7 @@ import { Category } from 'src/app/shared/models/category';
 import { Item } from 'src/app/shared/models/item';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { dynamicValidator } from 'src/app/shared/utils/dynamicValidator';
+import { dynamicValidator } from 'src/app/shared/utils/validators';
 import { CommonFormComponent } from '../../common-form.component';
 import { BrandService } from './../../../services/brand.service';
 
@@ -66,7 +66,7 @@ ItemService
       'category': new FormControl('')
     });
     if (this.data) {
-      this.entityId = this.data?.id;
+      this.entityId = this.data?.code;
       this.categorySelected = this.data?.category ?? null;
       this.entityInitUpdateFormControl = {
         'name': this.data?.name ?? null,

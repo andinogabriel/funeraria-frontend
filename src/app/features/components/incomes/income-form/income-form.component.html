@@ -20,55 +20,24 @@
         fxLayoutGap="15px"
         fxLayoutAlign="flex-start"
       >
-        <ng-container *ngFor="let input of incomeFormInputs">
-          <mat-form-field
-            [fxFlex]="input.tamFlex"
-            [fxFlex.lt-md]="input.tamFlex"
-            fxFlex.lt-sm="100%"
-          >
-            <mat-label>{{ input.matLabel }}</mat-label>
-            <input
-              matInput
-              [type]="input.type"
-              [name]="input.name"
-              [formControlName]="input.name"
-            />
-            <mat-error
-              *ngIf="input.hasInputError && hasError(input.name, 'required')"
-              >{{ input.matError }}</mat-error
-            >
-            <mat-error
-              *ngIf="
-                input.hasAnotherInputError &&
-                !hasError(input.name, 'pattern') &&
-                hasError(input.name, 'min')
-              "
-            >
-              {{ input.minErrorMsg }}
-            </mat-error>
-            <mat-error
-              *ngIf="
-                input.hasAnotherInputError &&
-                !hasError(input.name, 'pattern') &&
-                hasError(input.name, 'max')
-              "
-            >
-              {{ input.maxErrorMsg }}
-            </mat-error>
-            <mat-error
-              *ngIf="
-                input.hasAnotherInputError && hasError(input.name, 'pattern')
-              "
-            >
-              {{ input.patternErrorMsg }}
-            </mat-error>
-          </mat-form-field>
-        </ng-container>
+        <mat-form-field
+          *ngFor="let item of incomeFormInputs"
+          [fxFlex]="item.smWidth"
+          [fxFlex.lt-md]="item.smWidth"
+          [fxFlex.lt-sm]="item.lgWidth"
+          appearance="outline"
+        >
+          <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
+          <mat-error *ngFor="let error of item.errors">
+            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
+          </mat-error>
+        </mat-form-field>
 
         <mat-form-field
           fxFlex="0 1 calc(40% - 15px)"
           fxFlex.lt-md="0 1 calc(40% - 15px)"
           fxFlex.lt-sm="100%"
+          appearance="outline"
         >
           <mat-label>Tipo de recibo</mat-label>
           <mat-select
@@ -92,6 +61,7 @@
           fxFlex="0 1 calc(40% - 15px)"
           fxFlex.lt-md="0 1 calc(40% - 15px)"
           fxFlex.lt-sm="100%"
+          appearance="outline"
         >
           <mat-label>Proveedor</mat-label>
           <mat-select
@@ -118,12 +88,15 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <ng-container
-            *ngFor="let newEntryDetail of entryDetails?.controls; let i = index"
+            *ngFor="let newEntryDetail of incomeDetails?.controls; let i = index"
           >
-            <app-income-detail-form [inputFormGroup]="$any(newEntryDetail)">
+            <app-income-detail-form 
+              [inputFormGroup]="$any(newEntryDetail)"
+              [itemsFormGroup]="itemsForm"
+            >
             </app-income-detail-form>
             <button
-              [disabled]="entryDetails?.length <= 1"
+              [disabled]="incomeDetails?.length <= 1"
               mat-icon-button
               type="button"
               color="warn"

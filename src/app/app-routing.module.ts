@@ -5,6 +5,10 @@ import { AuthGuard } from './core/guards/auth.guard';
 
 const appRoutes: Routes = [
   {
+    path: '',
+    loadChildren: () => import('./features/components/home/home.module').then(m => m.HomeModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./features/components/auth/auth.module').then(m => m.AuthModule),
   },
@@ -39,12 +43,12 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'users',
+    path: 'usuarios',
     loadChildren: () => import('./features/components/users/users.module').then(m => m.UsersModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'account',
+    path: 'mi-cuenta',
     loadChildren: () => import('./features/components/account/account.module').then(m => m.AccountModule),
     canActivate: [AuthGuard]
   },

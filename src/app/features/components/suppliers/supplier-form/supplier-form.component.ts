@@ -25,11 +25,36 @@ SupplierService
 > {
 
   supplierFormInputs = [
-    {matLabel: 'Nombre', type: 'text', name: 'name', hasInputError: true, matError: 'El nombre es requerido.'},
-    {matLabel: 'NIF', type: 'text', name: 'nif', hasInputError: true, matError: 'El NIF es requerido.'},
-    {matLabel: 'Email', type: 'text', name: 'email', hasInputError: false, matError: ''},
-    {matLabel: 'Pagina web', type: 'text', name: 'webPage', hasInputError: false, matError: ''},
-  ];
+    {
+      name: 'name', label: 'Nombre', type: 'text',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El nombre es requerido.'},
+      ]
+    },
+    {
+      name: 'nif', label: 'NIF', type: 'text',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El NIF es requerido.'},
+      ]
+    },
+    {
+      name: 'email', label: 'Email', type: 'email',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El email es requerido.'},
+        {name: 'email', message: 'Ingrese un formato valido de email.'},
+      ]
+    },
+    {
+      name: 'webPage', label: 'Pagina web', type: 'text',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: []
+    },
+  ]
+
+ 
   panelOpenState = false;
   selectedProvince: Province = null;
   provinces: Province[] = [];
@@ -77,7 +102,7 @@ SupplierService
         'name': new FormControl('', [Validators.required]),
         'nif': new FormControl('', [Validators.required]),
         'webPage': new FormControl(''),
-        'email': new FormControl(''),
+        'email': new FormControl('', [Validators.required, Validators.email]),
         'mobileNumbers':  new FormArray([this.telephoneFormService.getTelephoneForm()]),
         'addresses': new FormArray([this.addressFormService.getAddressForm()])
       };

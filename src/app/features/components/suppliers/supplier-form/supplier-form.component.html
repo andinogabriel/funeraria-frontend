@@ -19,27 +19,20 @@
         fxLayout.lt-sm="column"
         fxLayoutGap="15px"
         fxLayoutAlign="flex-start"
-      >
-        <ng-container *ngFor="let input of supplierFormInputs">
+        >
           <mat-form-field
-            fxFlex="0 1 calc(50% - 15px)"
-            fxFlex.lt-md="0 1 calc(50% - 15px)"
-            fxFlex.lt-sm="100%"
+            *ngFor="let item of supplierFormInputs"
+            [fxFlex]="item.smWidth"
+            [fxFlex.lt-md]="item.smWidth"
+            [fxFlex.lt-sm]="item.lgWidth"
+            appearance="outline"
           >
-            <mat-label>{{ input.matLabel }}</mat-label>
-            <input
-              matInput
-              [type]="input.type"
-              [name]="input.name"
-              [formControlName]="input.name"
-            />
-            <mat-error
-              *ngIf="input.hasInputError && hasError(input.name, 'required')"
-              >{{ input.matError }}</mat-error
-            >
+            <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
+            <mat-error *ngFor="let error of item.errors">
+              <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
+            </mat-error>
           </mat-form-field>
-        </ng-container>
-      </div>
+        </div>
       <div
         fxLayout="row wrap"
         fxLayout.lt-sm="column"

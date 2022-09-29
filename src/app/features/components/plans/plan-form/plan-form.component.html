@@ -1,1 +1,83 @@
-<p>plan-form works!</p>
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+  >
+    {{ data ? "Editar" : "Registrar" }} Plan
+  </h3>
+  <form
+    [formGroup]="entityForm"
+    (ngSubmit)="entityForm.valid && onSubmit()"
+    novalidate
+  >
+    <div mat-dialog-content>
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+        >
+          <mat-form-field
+            *ngFor="let item of planFormInputs"
+            [fxFlex]="item.smWidth"
+            [fxFlex.lt-md]="item.smWidth"
+            [fxFlex.lt-sm]="item.lgWidth"
+            appearance="outline"
+          >
+            <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
+            <mat-error *ngFor="let error of item.errors">
+              <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      <br />
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Detalle de artículos</mat-panel-title>
+            <mat-panel-description>
+              {{ data ? "Editar" : "Registrar" }} artículos
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-container
+            *ngFor="let newItemPlan of itemsPlan?.controls; let i = index"
+          >
+            <app-items-plan 
+              [inputFormGroup]="$any(newItemPlan)"
+              [itemsFormGroup]="itemsForm"
+            ></app-items-plan>
+            <button
+              [disabled]="itemsPlan?.length <= 1"
+              mat-icon-button
+              type="button"
+              color="warn"
+              matTooltip="Eliminar artículo"
+              (click)="deleteItemsPlan(i)"
+            >
+              <mat-icon>remove</mat-icon>
+            </button>
+          </ng-container>
+          <button
+            mat-icon-button
+            type="button"
+            color="primary"
+            matTooltip="Agregar artículo"
+            (click)="addItemsPlan()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <br />
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{ data ? "Editar" : "Registrar" }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -22,7 +22,7 @@ export class ProfileDetailsComponent implements OnInit {
     this.authService.getCurrentUser().subscribe({
       next: (user: CurrentUser) => {
         this.email = user.email;
-        this.fullName = `${user.lastName} ${user.firstName};`;
+        this.fullName = `${user.lastName} ${user.firstName}`;
       },
       error: (error) => console.log(error?.error),
     });

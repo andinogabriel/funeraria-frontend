@@ -1,0 +1,62 @@
+<div
+  fxLayout="row wrap"
+  fxLayout.lt-sm="column"
+  fxLayoutGap="15px"
+  fxLayoutAlign="flex-start"
+>
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(50% - 15px)"
+    fxFlex.lt-md="0 1 calc(50% - 15px)"
+    fxFlex.lt-sm="100%"
+  >
+    <mat-label>Categoría</mat-label>
+    <mat-select
+      (selectionChange)="onCategoryChange($event)"
+      [formControl]="$any(inputFormGroup.controls['category'])"
+      [compareWith]="compareCategoryFn"
+    >
+      <mat-option *ngFor="let category of categories" [value]="category">{{
+        category.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="0 1 calc(50% - 15px)"
+    fxFlex.lt-md="0 1 calc(50% - 15px)"
+    fxFlex.lt-sm="100%"
+  >
+    <mat-label>Artículo</mat-label>
+    <mat-select
+      [formControl]="$any(inputFormGroup.controls['item'])"
+      [compareWith]="compareItemFn"
+    >
+      <mat-option *ngFor="let item of items" [value]="item">{{
+        item.name
+      }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="hasError('item', 'required')">El artículo es requerido.</mat-error>
+  </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      fxFlex="0 1 calc(100% - 15px)"
+      fxFlex.lt-md="0 1 calc(100% - 15px)"
+      fxFlex.lt-sm="100%"
+    >
+      <mat-label>Cantidad</mat-label>
+      <input
+        matInput
+        type="number"
+        [formControl]="$any(inputFormGroup.controls['quantity'])"
+      />
+      <mat-error *ngFor="let error of quantityErrors">
+        <span *ngIf="$any(inputFormGroup.controls['quantity']).hasError(error.type)">{{error.message}}</span>
+      </mat-error>
+    </mat-form-field>
+
+</div>
+<br>
+<mat-divider></mat-divider>

@@ -28,7 +28,11 @@
         <span>Mi cuenta</span>
       </a>
 
-      <a mat-menu-item [routerLink]="['/auth/iniciar-sesion']" (click)="logout()">
+      <a
+        mat-menu-item
+        [routerLink]="['/auth/iniciar-sesion']"
+        (click)="logout()"
+      >
         <mat-icon>exit_to_app</mat-icon>
         <span>Cerrar Sesion</span>
       </a>
@@ -48,77 +52,18 @@
       <mat-nav-list>
         <h3 mat-subheader>Inicio</h3>
 
-        <a
-          mat-list-item
-          [routerLink]="['/dashboard']"
-          routerLinkActive="active"
-        >
-          <mat-icon mat-list-icon> dashboard </mat-icon>
-          <p mat-line>Dashboard</p>
-        </a>
+        <ng-container *ngFor="let element of routerLinks">
+          <a
+            mat-list-item
+            [routerLink]="['/', element.routerLink]"
+            routerLinkActive="active"
+            *appShowForRoles="element.roles"
+          >
+            <mat-icon mat-list-icon> {{element.icon}} </mat-icon>
+            <p mat-line>{{element.line}}</p>
+          </a>
+        </ng-container>
 
-        <a
-          mat-list-item
-          [routerLink]="['/articulos']"
-          routerLinkActive="active"
-          *appShowForRoles="['ROLE_ADMIN']"
-        >
-          <mat-icon mat-list-icon> list_alt </mat-icon>
-          <p mat-line>Articulos</p>
-        </a>
-        
-        <a
-          mat-list-item
-          [routerLink]="['/categorias']"
-          routerLinkActive="active"
-          *appShowForRoles="['ROLE_ADMIN']"
-        >
-          <mat-icon mat-list-icon> category </mat-icon>
-          <p mat-line>Categorias</p>
-        </a>
-
-        <a
-          mat-list-item
-          [routerLink]="['/ingresos']"
-          routerLinkActive="active"
-          *appShowForRoles="['ROLE_ADMIN']"
-        >
-          <mat-icon mat-list-icon> next_week </mat-icon>
-          <p mat-line>Ingresos</p>
-        </a>
-
-        <a
-          mat-list-item
-          [routerLink]="['/proveedores']"
-          routerLinkActive="active"
-          *appShowForRoles="['ROLE_ADMIN']"
-        >
-          <mat-icon mat-list-icon> local_shipping </mat-icon>
-          <p mat-line>Proveedores</p>
-        </a>
-
-        <a
-          mat-list-item
-          [routerLink]="['/planes']"
-          routerLinkActive="active"
-          *appShowForRoles="['ROLE_ADMIN']"
-        >
-          <mat-icon mat-list-icon> local_shipping </mat-icon>
-          <p mat-line>Planes</p>
-        </a>
-
-
-        <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
-          <mat-icon mat-list-icon> people </mat-icon>
-          <p mat-line>Usuarios</p>
-        </a>
-
-        <a mat-list-item [routerLink]="['/account/profile']">
-          <mat-icon mat-list-icon>person</mat-icon>
-          <p mat-line>Mi cuenta</p>
-        </a>
-
-        
         <mat-divider></mat-divider>
 
         <h3 mat-subheader>Resources</h3>

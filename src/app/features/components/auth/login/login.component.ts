@@ -14,12 +14,29 @@ import { SnackbarService } from "src/app/shared/services/snackbar.service";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
+  title = "Funeraria Nuñez y Hnos.";
+  subTitle = "Iniciar Sesión";
   loginForm!: FormGroup;
   loading!: boolean;
   isLogged = false;
   loginUser: LoginUser;
   loginErrMessage: string;
 
+  loginInputs = [
+    {
+      name: 'email', label: 'Email', type: 'email',
+      errors: [
+        {name: 'required', message: 'El email es requerido.'},
+        {name: 'email', message: 'Ingrese un formato valido de email.'},
+      ]
+    },
+    {
+      name: 'password', label: 'Contraseña', type: 'password',
+      errors: [
+        {name: 'required', message: 'La contraseña es requerida.'},
+      ]
+    },
+  ]
 
   constructor(
     private router: Router,
@@ -57,12 +74,9 @@ export class LoginComponent implements OnInit {
         next: (data) => {
           this.isLogged = true;
           this.tokenService.setToken(data?.authorization);
-          if (rememberMe) {
-            localStorage.setItem("savedUserEmail", email);
-          } else {
-            localStorage.removeItem("savedUserEmail");
-          }
-          this.router.navigate(["/"]);
+          rememberMe ? localStorage.setItem("savedUserEmail", email)
+            : localStorage.removeItem("savedUserEmail");
+          this.router.navigate(["/dashboard"]);
         },
         error: (error: any) => {
           console.log(error);

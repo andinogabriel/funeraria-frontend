@@ -1,31 +1,16 @@
 <div class="container login-container" fxLayout="row" fxLayoutAlign="center center">
     <form [formGroup]="loginForm" fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="90%" (ngSubmit)="loginForm.valid && login()" novalidate>
         <mat-card>
-            <mat-card-title>Funeraria Nuñez y Hnos.</mat-card-title>
-            <mat-card-subtitle>Iniciar Sesión</mat-card-subtitle>
+            <mat-card-title>{{title}}</mat-card-title>
+            <mat-card-subtitle>{{subTitle}}</mat-card-subtitle>
             <mat-card-content>
-
-                <mat-form-field class="full-width" appearance="outline">
-                    <input id="emailInput" matInput placeholder="Email" formControlName="email" autocomplete="email"
-                        type="email">
-
-                    <mat-error id="invalidEmailError" *ngIf="loginForm.controls['email'].hasError('email')">
-                        Ingrese un email valido.
-                    </mat-error>
-                    <mat-error id="requiredEmailError" *ngIf="loginForm.controls['email'].hasError('required')">
-                        El email es
-                        <strong>requerido</strong>
-                    </mat-error>
-
-                </mat-form-field>
-
-                <mat-form-field class="full-width" appearance="outline">
-                    <input id="passwordInput" matInput placeholder="Contraseña" formControlName="password" type="password"
-                        autocomplete="current-password">
-                    <mat-error id="requiredPasswordError" *ngIf="loginForm.controls['email'].hasError('required')">
-                        La contraseña es
-                        <strong>requerida</strong>
-                    </mat-error>
+                <mat-form-field class="full-width" appearance="outline"
+                *ngFor="let loginInput of loginInputs">
+                    <input matInput [placeholder]="loginInput.label" [formControlName]="loginInput.name"
+                    [type]="loginInput.type">
+                    <mat-error *ngFor="let error of loginInput.errors">
+                        <span *ngIf="loginForm.controls[loginInput.name].hasError(error.name)">{{error.message}}</span>
+                      </mat-error>
                 </mat-form-field>
 
                 <div class="full-width">

@@ -20,32 +20,26 @@
         fxLayoutGap="15px"
         fxLayoutAlign="flex-start"
       >
-        <mat-form-field
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
-        >
-          <mat-label>Nombre</mat-label>
-          <input matInput type="text" name="name" formControlName="name" />
-          <mat-error *ngIf="hasError('name', 'required')"
-            >El nombre es requerido.</mat-error
-          >
-        </mat-form-field>
-        
-        <mat-form-field
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
-        >
-          <mat-label>Descripción</mat-label>
-          <textarea
-            matInput
-            type="text"
-            name="description"
-            formControlName="description"
-          ></textarea>
-        </mat-form-field>
 
+      <mat-form-field
+          appearance="outline"
+          fxFlex="0 1 calc(50% - 15px)"
+          fxFlex.lt-md="0 1 calc(50% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <mat-label>Categoría</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="category"
+            [compareWith]="compareFn"
+            [(value)]="categorySelected"
+          >
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
         <mat-form-field
           appearance="outline"
           fxFlex="0 1 calc(50% - 15px)"
@@ -65,23 +59,18 @@
         </mat-form-field>
 
         <mat-form-field
-          appearance="outline"
-          fxFlex="0 1 calc(50% - 15px)"
-          fxFlex.lt-md="0 1 calc(50% - 15px)"
-          fxFlex.lt-sm="100%"
-        >
-          <mat-label>Categoría</mat-label>
-          <mat-select
-            ngDefaultControl
-            formControlName="category"
-            [compareWith]="compareFn"
-            [(value)]="categorySelected"
+            *ngFor="let item of formInputText"
+            [fxFlex]="item.smWidth"
+            [fxFlex.lt-md]="item.smWidth"
+            [fxFlex.lt-sm]="item.lgWidth"
+            appearance="outline"
           >
-            <mat-option *ngFor="let category of categories" [value]="category">
-              {{ category.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+            <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
+            <mat-error *ngFor="let error of item.errors">
+              <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
+            </mat-error>
+          </mat-form-field>
+        
       </div>
       <div
         *ngIf="categorySelected?.name?.toLowerCase() === ('ataúd' || 'ataud')"

@@ -1,49 +1,30 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { MatSelectChange } from "@angular/material/select";
-import { first } from "rxjs";
-import { CategoryService } from "src/app/features/services/category.service";
-import { ItemService } from "src/app/features/services/item.service";
-import { Category } from "src/app/shared/models/category";
-import { Item } from "src/app/shared/models/item";
-import { filterAlreadySelectedItems } from "src/app/shared/utils/commonFunctions";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
+import { first } from 'rxjs/operators';
+import { CategoryService } from 'src/app/features/services/category.service';
+import { ItemService } from 'src/app/features/services/item.service';
+import { Category } from 'src/app/shared/models/category';
+import { Item } from 'src/app/shared/models/item';
+import { filterAlreadySelectedItems } from 'src/app/shared/utils/commonFunctions';
 
 @Component({
-  selector: "app-income-detail-form",
-  templateUrl: "./income-detail-form.component.html",
-  styleUrls: ["./income-detail-form.component.css"],
+  selector: 'app-items-plan',
+  templateUrl: './items-plan.component.html',
+  styleUrls: ['./items-plan.component.css']
 })
-export class IncomeDetailFormComponent implements OnInit {
+export class ItemsPlanComponent implements OnInit {
   @Input() inputFormGroup = this.fb.group({});
   @Input() itemsFormGroup: Item[] = [];
   categories: Category[] = [];
   items: Item[] = [];
-  incomeDetailInputs = [
-    {
-      matLabel: "Cantidad",
-      name: "quantity",
-      requiredErrorMsg: "La cantidad del articulo es requerida.",
-      patternErrorMsg:
-        "La cantidad debe ser mayor a 0 y debe ser un numero entero.",
-      fxFlexTam: "0 1 calc(20% - 15px)",
-    },
-    {
-      matLabel: "Precio de compra",
-      name: "purchasePrice",
-      requiredErrorMsg: "El precio de compra es requerido.",
-      patternErrorMsg:
-        "El precio de compra debe ser mayor a 0 y solo contener 2 decimales.",
-      fxFlexTam: "0 1 calc(40% - 15px)",
-    },
-    {
-      matLabel: "Precio de venta",
-      name: "salePrice",
-      requiredErrorMsg: "El precio de venta es requerido.",
-      patternErrorMsg:
-        "El precio de venta debe ser mayor a 0 y solo contener 2 decimales.",
-      fxFlexTam: "0 1 calc(40% - 15px)",
-    },
-  ];
+
+  quantityErrors = [
+    {type: 'required', message: 'La cantidad es requerida.'},
+    {type: 'min', message: 'La cantidad debe ser positiva.'},
+    {type: 'pattern', message: 'La cantidad debe ser un numero entero.'},
+  ]
+  
 
   constructor(
     private fb: FormBuilder,
@@ -108,5 +89,5 @@ export class IncomeDetailFormComponent implements OnInit {
       });
   }
 
- 
+  
 }

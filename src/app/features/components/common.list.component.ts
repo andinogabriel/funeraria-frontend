@@ -51,7 +51,10 @@ export abstract class CommonListComponent<
           this.dataSource = modeltList;
           this.logger.log(`${this.modelName} cargados.`)
         },
-        error: () => this.dialogService.open(this.errorGetModelList),
+        error: (error) => {
+          console.log(error);
+          this.dialogService.open(this.errorGetModelList)
+        },
       });
   }
 

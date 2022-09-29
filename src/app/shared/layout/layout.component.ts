@@ -24,6 +24,17 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     isAdmin: boolean = false;
     adminRol = ROLE_ADMIN;
 
+    routerLinks = [
+        {line: 'Dashboard', routerLink: "dashboard", icon: 'dashboard', roles: ['ROLE_ADMIN', 'ROLE_USER']},
+        {line: 'Articulos', routerLink: "articulos", icon: 'list_alt', roles: ['ROLE_ADMIN']},
+        {line: 'Categorias', routerLink: "categorias", icon: 'category', roles: ['ROLE_ADMIN']},
+        {line: 'Ingresos', routerLink: "ingresos", icon: 'next_week', roles: ['ROLE_ADMIN']},
+        {line: 'Proveedores', routerLink: "proveedores", icon: 'local_shipping', roles: ['ROLE_ADMIN']},
+        {line: 'Planes', routerLink: "planes", icon: 'assignment', roles: ['ROLE_ADMIN']},
+        {line: 'Usuarios', routerLink: "usuarios", icon: 'people', roles: ['ROLE_ADMIN']},
+        {line: 'Mi cuenta', routerLink: "mi-cuenta", icon: 'person', roles: ['ROLE_ADMIN', 'ROLE_USER']},
+    ]
+
     private autoLogoutSubscription: Subscription = new Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,

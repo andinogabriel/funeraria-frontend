@@ -64,7 +64,7 @@ IncomeService
       },
       {
         name: 'Fecha',
-        dataKey: 'entryDate',
+        dataKey: 'incomeDate',
         isSortable: true,
       },
       {
@@ -96,7 +96,7 @@ IncomeService
     .pipe(first())
     .subscribe({
       next: (modeltList) => {
-        this.dataSource = modeltList.map(item => ({...item, 'entryDate': moment(item.entryDate).format('DD/MM/YYYY - HH:mm'), 'tax': item?.tax + '%', 'totalAmount': item?.totalAmount ? '$' + item.totalAmount : '', 'receiptType': item?.receiptType['name'], 'supplier': item?.supplier['name']}))
+        this.dataSource = modeltList.map(item => ({...item, 'tax': item?.tax + '%', 'totalAmount': item?.totalAmount ? '$' + item.totalAmount : '0', 'receiptType': item?.receiptType['name'], 'supplier': item?.supplier['name']}))
         this.logger.log(`${this.modelName} cargados.`)
       },
       error: () => this.dialogService.open(this.errorGetModelList),

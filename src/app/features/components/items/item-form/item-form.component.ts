@@ -29,6 +29,21 @@ ItemService
   categorySelected: Category;
   columns: number;
 
+  formInputText = [
+    {
+      name: 'name', label: 'Nombre', type: 'text',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El Nombre es requerido'},
+      ]
+    },
+    {
+      name: 'description', label: 'Descripción', type: 'text',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: []
+    },
+  ]
+
   ataudObjects = [
     {matLabel: 'Alto', name: 'itemHeight', errorMessageRequired: 'La altura del ataud es requerida.', errorMessageMin: 'Ingrese una altura minima valida.', errorMessageMax: 'Ingrese una altura maxima valida.'},
     {matLabel: 'Largo', name: 'itemLength', errorMessageRequired: 'La longitud del ataud es requerida.', errorMessageMin: 'Ingrese un largo minimo valido.', errorMessageMax: 'Ingrese un largo maximo valido.'},

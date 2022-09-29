@@ -1,15 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { first, interval } from 'rxjs';
-import { CategoryService } from 'src/app/features/services/category.service';
 import { IncomeService } from 'src/app/features/services/income.service';
-import { ItemService } from 'src/app/features/services/item.service';
 import { SupplierService } from 'src/app/features/services/supplier.service';
 import { Category } from 'src/app/shared/models/category';
 import { Income, IncomeToShow } from 'src/app/shared/models/income';
+import { IncomeDetail } from 'src/app/shared/models/incomeDetail';
 import { Item } from 'src/app/shared/models/item';
 import { ReceiptType } from 'src/app/shared/models/receiptType';
 import { Supplier } from 'src/app/shared/models/supplier';
@@ -34,11 +32,38 @@ IncomeService
   suppliers: Supplier[] = [];
   categories: Category[] = [];
   items: Item[] = [];
+  itemsForm: Item[] = [];
+
   incomeFormInputs = [
-    {matLabel: 'Número de recibo', type: 'number', name: 'receiptNumber', hasInputError: true, matError: 'El número de recibo es requerido.', tamFlex: '0 1 calc(50% - 15px)', hasAnotherInputError: false},
-    {matLabel: 'Número de serie', type: 'number', name: 'receiptSeries', hasInputError: true, matError: 'El número de serie es requerido.', tamFlex: '0 1 calc(50% - 15px)', hasAnotherInputError: false},
-    {matLabel: 'Impuesto', type: 'number', name: 'tax', hasInputError: true, matError: 'El impuesto es requerido.', tamFlex: '0 1 calc(20% - 15px)', hasAnotherInputError: true, minErrorMsg: 'El impuesto debe ser mayor a 0.', maxErrorMsg: 'El impuesto no puede superar 100.', patternErrorMsg: 'Solo se permiten dos decimales.'}
-  ];
+    {
+      name: 'receiptNumber', label: 'Número de recibo', type: 'number',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El número de recibo es requerido'},
+        {name: 'maxLength', message: 'El número de recibo no debe superar los 20 digitos.'},
+        {name: 'pattern', message: 'El número de recibo no puede contener decimales.'},
+      ]
+    },
+    {
+      name: 'receiptSeries', label: 'Número de serie', type: 'number',
+      smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El número de serie es requerido'},
+      ]
+    },
+    {
+      name: 'tax', label: 'Impuesto', type: 'number',
+      smWidth: '0 1 calc(20% - 15px)', lgWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El impuesto es requerido'},
+        {name: 'min', message: 'El impuesto debe ser positivo'},
+        {name: 'max', message: 'El impuesto debe ser menor a cien'},
+        {name: 'pattern', message: 'El impuesto debe contener solo dos decimales'},
+      ]
+    },
+    
+  ]
+
 
   constructor(
     incomService: IncomeService,
@@ -65,7 +90,7 @@ IncomeService
       tax: new FormControl(''),
       receiptType: new FormControl(''),
       supplier: new FormControl(''),
-      entryDetails:  new FormArray([])
+      incomeDetails:  new FormArray([])
     });
     this.createdOrUpdateErrorMessage = {
       confirmText: 'Aceptar',
@@ -88,7 +113,7 @@ IncomeService
         'tax': new FormControl('', [Validators.required, Validators.min(0), Validators.max(100), Validators.required, Validators.pattern(onlyTwoDecimalRgx)]),
         'receiptType': new FormControl('', [Validators.required]),
         'supplier': new FormControl('', [Validators.required]),
-        'entryDetails':  new FormArray([this.newEntryDetail]),
+        'incomeDetails':  new FormArray([this.getNewIncomeDetail()]),
       };
     }
   }
@@ -102,16 +127,30 @@ IncomeService
     interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
 
-  get entryDetails() {
-    return (<FormArray>this.entityForm.get('entryDetails'));
+  override create(elemToCreate: Income): void {
+    this.service.create(elemToCreate).subscribe({
+      next: (elemCreated) => {
+        this.dialogRef.close({ data: {...elemCreated, 'tax': elemCreated?.tax + '%', 'totalAmount': elemCreated?.totalAmount ? '$' + elemCreated.totalAmount : '0', 'receiptType': elemCreated?.receiptType['name'], 'supplier': elemCreated?.supplier['name']} });
+        this.snackbarService.success(this.createdSuccessMessage);
+      },
+      error: (err) => {
+        console.log(err);
+        this.dialogService.open(err ? {...this.createdOrUpdateErrorMessage, 'message': err?.error?.message} : this.createdOrUpdateErrorMessage)
+      },
+    });
+  }
+
+  get incomeDetails() {
+    return (<FormArray>this.entityForm.get('incomeDetails'));
   }
 
   addEntryDetail() {
-    this.entryDetails.push(this.newEntryDetail);
+    this.itemsForm = this.incomeDetails?.value.map((value: IncomeDetail) => value['item']);
+    this.incomeDetails.push(this.getNewIncomeDetail());
   }
 
   deleteEntryDetail(entryDetailIndex: number) {
-    this.entryDetails.removeAt(entryDetailIndex);
+    this.incomeDetails.removeAt(entryDetailIndex);
   }
 
   private getReceiptTypes(): void {
@@ -132,13 +171,15 @@ IncomeService
     });
   }
 
-  private readonly newEntryDetail = this.fb.group({
-    quantity: [null, [Validators.required, Validators.pattern(onlyNumberWithoutDecimal)]],
-    purchasePrice: [null, [Validators.required, Validators.pattern(onlyTwoDecimalRgx)]],
-    salePrice: [null, [Validators.required, Validators.pattern(onlyTwoDecimalRgx)]],
-    item: [null, Validators.required],
-    category: [null, Validators.required],
-  });
+  private getNewIncomeDetail() { 
+    return this.fb.group({
+        quantity: [null, [Validators.required, Validators.pattern(onlyNumberWithoutDecimal)]],
+        purchasePrice: [null, [Validators.required, Validators.pattern(onlyTwoDecimalRgx)]],
+        salePrice: [null, [Validators.required, Validators.pattern(onlyTwoDecimalRgx)]],
+        item: [null, Validators.required],
+        category: [null, Validators.required],
+      });
+}
 
 
 }

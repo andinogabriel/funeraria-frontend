@@ -19,6 +19,7 @@ export abstract class CommonListComponent<
   S extends CommonServiceService<E, M>
 > implements OnInit {
 
+  protected entityId: any;
   dataSource: M[] = [];
   modelName!: string;
   deleteSuccessMessage!: string;
@@ -61,9 +62,10 @@ export abstract class CommonListComponent<
   removeRow(rowElement: M) {
     this.dialogService.open(this.deleteMessageOptions);
     this.dialogService.confirmed().subscribe((confirmed) => {
+      console.log(rowElement[this.entityId]);
       if (confirmed) {
         this.service
-          .deleteById(rowElement['id'])
+          .deleteById(rowElement[this.entityId])
           .pipe(first())
           .subscribe({
             next: () => {
@@ -72,7 +74,10 @@ export abstract class CommonListComponent<
               );
               this.snackBarService.success(this.deleteSuccessMessage);
             },
-            error: () => this.dialogService.open(this.deleteErrorMessage),
+            error: (err) => {
+              console.log(err);
+              this.dialogService.open(this.deleteErrorMessage)
+            },
           });
       }
     });

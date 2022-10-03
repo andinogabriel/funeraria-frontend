@@ -24,6 +24,7 @@ ItemService
 
   constructor(service: ItemService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
+    this.entityId = 'code';
     this.modelName = 'Artículos';
     this.deleteSuccessMessage = 'Artículo eliminado satisfactoriamente.';
     this.deleteErrorMessage = {
@@ -81,7 +82,7 @@ ItemService
     .pipe(first())
     .subscribe({
       next: (modeltList) => {
-        this.dataSource = modeltList.map(item => ({...item, 'price': '$'+item?.price ? item?.price : '-', 'categoryName': item?.category?.name, 'brandName': item?.brand.name, }))
+        this.dataSource = modeltList.map(item => ({...item, 'price': +item?.price ? '$' + item.price : '-', 'categoryName': item?.category?.name, 'brandName': item?.brand.name, }))
         this.logger.log(`${this.modelName} cargados.`)
       },
       error: () => this.dialogService.open(this.errorGetModelList),

@@ -27,7 +27,7 @@
           [fxFlex.lt-sm]="item.lgWidth"
           appearance="outline"
         >
-          <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
+          <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type" >
           <mat-error *ngFor="let error of item.errors">
             <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
           </mat-error>

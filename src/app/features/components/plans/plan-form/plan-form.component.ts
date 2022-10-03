@@ -119,7 +119,6 @@ PlanService
     this.itemsPlan.removeAt(itemsPlanlIndex);
   }
 
-
   private getItems(): void {
     this.itemService.findAll()
       .pipe(first())

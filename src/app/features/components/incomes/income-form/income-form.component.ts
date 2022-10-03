@@ -106,6 +106,8 @@ IncomeService
         'receiptType': this.data?.receiptType ?? null,
         'supplier': this.data?.supplier ?? null,
       };
+      this.entityForm.get('receiptNumber').disable();
+      this.entityForm.get('receiptSeries').disable();
     } else {
       this.entityInitFormControl = {
         'receiptNumber': new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20), Validators.pattern(onlyNumberWithoutDecimal)]),

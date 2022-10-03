@@ -46,6 +46,7 @@ export abstract class CommonFormComponent<
   };
 
   onSubmit(): void {
+    console.log(this.entityForm.value);
     this.entity = this.entityForm.value;
     if(this.data) {
       this.update(this.entity);

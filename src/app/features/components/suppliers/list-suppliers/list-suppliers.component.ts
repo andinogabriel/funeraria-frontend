@@ -23,6 +23,7 @@ SupplierService
 
   constructor(service: SupplierService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
+    this.entityId = 'nif';
     this.modelName = 'Proveedores';
     this.deleteSuccessMessage = 'Proveedor eliminado satisfactoriamente.';
     this.deleteErrorMessage = {

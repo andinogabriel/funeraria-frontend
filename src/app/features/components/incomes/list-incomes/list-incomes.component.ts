@@ -34,6 +34,7 @@ IncomeService
 
   constructor(service: IncomeService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger, private receiptTypeService: ReceiptTypeService, private supplierService: SupplierService) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
+    this.entityId = 'receiptNumber'
     this.modelName = 'Ingresos';
     this.deleteSuccessMessage = 'Ingreso eliminado satisfactoriamente.';
     this.deleteErrorMessage = {

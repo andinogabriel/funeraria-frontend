@@ -22,6 +22,7 @@ export class CategoriesListComponent extends CommonListComponent<
  
   constructor(service: CategoryService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
+    this.entityId = 'id';
     this.modelName = 'Categorias';
     this.deleteSuccessMessage = 'Categoría eliminada satisfactoriamente.';
     this.deleteErrorMessage = {

@@ -41,3 +41,8 @@ mat-header-cell {
   display: flex;
   justify-content: center;
 }
+
+.mat-header-cell {
+  text-align: center !important;
+}
+

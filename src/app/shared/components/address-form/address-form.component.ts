@@ -32,29 +32,6 @@ export class AddressFormComponent implements OnInit {
     });
   }
 
-  private getProvinces(): void {
-    this.provinceService.findAll().subscribe({
-      next: (provinces) => (this.provinces = provinces),
-      error: () => console.log("Error al obtener las provincias."),
-    });
-  }
-
-  private getCitiesByProvince(provinceId: number): void {
-    this.cityService.findAllByProvince(provinceId).subscribe({
-      next: (cities) => (this.cities = cities),
-      error: () => console.log("Error al obtener las ciudades"),
-    });
-  }
-
-  hasError = (controlName: string, errorName: string): boolean => {
-    return this.inputFormGroup?.controls[controlName].hasError(errorName);
-  };
-
-  getCities(): void {
-    const provinceId = this.selectedProvince.id;
-    this.getCitiesByProvince(provinceId);
-  }
-
   compareProvionceFn(elem1: Province, elem2: Province): boolean {
     if (elem1 === undefined && elem2 === undefined) return true;
     return elem1 === null ||
@@ -74,4 +51,29 @@ export class AddressFormComponent implements OnInit {
       ? false
       : elem1["id"] === elem2["id"];
   }
+
+  hasError = (controlName: string, errorName: string): boolean => {
+    return this.inputFormGroup?.controls[controlName].hasError(errorName);
+  };
+
+  getCities(): void {
+    const provinceId = this.selectedProvince.id;
+    this.getCitiesByProvince(provinceId);
+  }
+
+  private getProvinces(): void {
+    this.provinceService.findAll().subscribe({
+      next: (provinces) => (this.provinces = provinces),
+      error: () => console.log("Error al obtener las provincias."),
+    });
+  }
+
+  private getCitiesByProvince(provinceId: number): void {
+    this.cityService.findAllByProvince(provinceId).subscribe({
+      next: (cities) => (this.cities = cities),
+      error: () => console.log("Error al obtener las ciudades"),
+    });
+  }
+
+  
 }

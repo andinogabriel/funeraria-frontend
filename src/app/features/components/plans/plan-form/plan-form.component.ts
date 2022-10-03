@@ -147,10 +147,10 @@ PlanService
 
   private initUpdatePlanForm(): void {
     this.entityId = this.data?.id;
+    this.getItemsPlanFromUpdate();
       this.entityInitUpdateFormControl = {
         name: this.data?.name ?? null,
         description: this.data?.description ?? null,
-        itemsPlan: this.data?.itemsPlan ?? null,
         price: this.data?.price ?? null,
       };
   }
@@ -159,10 +159,24 @@ PlanService
     this.entityInitFormControl = {
       name: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
-      category: new FormControl('', [Validators.required]),
+      category: new FormControl(''),
       description: new FormControl(''),
       itemsPlan:  new FormArray([this.getNewItemPlan()]),
     };
+  }
+
+  private getItemsPlanFromUpdate(): void {
+    if(this.data.hasOwnProperty('itemsPlan')) {
+      Object.values(this.data?.itemsPlan as ItemsPlan[]).forEach(a => {
+        const itemPlan = this.fb.group({
+          item: a?.item,
+          quantity: a?.quantity,
+          category: a?.item?.category
+        });
+        console.log(itemPlan);
+        this.itemsPlan.push(itemPlan);
+      });
+    }
   }
 
 }

@@ -23,6 +23,7 @@ PlanService
 
   constructor(service: PlanService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
+    this.entityId = 'id';
     this.modelName = 'Planes';
     this.deleteSuccessMessage = 'Plan eliminado satisfactoriamente.';
     this.deleteErrorMessage = {
@@ -52,6 +53,11 @@ PlanService
         isSortable: false,
       },
       {
+        name: 'Cant. de artículos',
+        dataKey: 'numberOfItems',
+        isSortable: true,
+      },
+      {
         name: 'Precio',
         dataKey: 'price',
         isSortable: true,
@@ -65,7 +71,7 @@ PlanService
     .pipe(first())
     .subscribe({
       next: (modeltList) => {
-        this.dataSource = modeltList;
+        this.dataSource = modeltList.map(plan => ({...plan, 'numberOfItems': plan.itemsPlan.length, 'price': '$'+plan?.price}));
         this.logger.log(`${this.modelName} cargados.`)
       },
       error: () => this.dialogService.open(this.errorGetModelList),
@@ -77,15 +83,16 @@ PlanService
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        //this.dataSource = [{...result?.data, 'categoryName': result?.data?.category?.name, 'brandName': result?.data?.brand?.name}, ...this.dataSource];
+        this.dataSource = [{...result?.data, 'numberOfItems': result?.data?.itemsPlan?.length}, ...this.dataSource];
       }
     });
   }
 
   override updateElement(elem: Plan): void {
+    console.log(elem);
     const dialogRef = this.dialog.open(PlanFormComponent,
       {
-        data: elem
+        data: {...elem, 'price': elem.price.toString().substring(1)}
       }
     );
     dialogRef.afterClosed().subscribe(result => {

@@ -18,6 +18,7 @@ export class ItemsPlanComponent implements OnInit {
   @Input() itemsFormGroup: Item[] = [];
   categories: Category[] = [];
   items: Item[] = [];
+  selectedCategory: Category = null;
 
   quantityErrors = [
     {type: 'required', message: 'La cantidad es requerida.'},
@@ -25,7 +26,6 @@ export class ItemsPlanComponent implements OnInit {
     {type: 'pattern', message: 'La cantidad debe ser un numero entero.'},
   ]
   
-
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
@@ -35,6 +35,10 @@ export class ItemsPlanComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.getCategories();
+      if(this.inputFormGroup.get('category')?.value) {
+        this.selectedCategory = this.inputFormGroup.get('category').value;
+        this.getItems();
+      }
     });
   }
 
@@ -63,7 +67,7 @@ export class ItemsPlanComponent implements OnInit {
       elem1 === undefined ||
       elem2 === undefined
       ? false
-      : elem1.id === elem2.id;
+      : elem1.code == elem2.code;
   }
 
   private getCategories(): void {
@@ -74,6 +78,11 @@ export class ItemsPlanComponent implements OnInit {
         next: (categories) => (this.categories = categories),
         error: () => console.log("Error al obtener las categorias."),
       });
+  }
+
+  private getItems(): void {
+    const categoryId = this.selectedCategory?.id;
+    this.getItemsByCategoryId(categoryId);
   }
 
   private getItemsByCategoryId(categoryId: number): void {
@@ -89,5 +98,4 @@ export class ItemsPlanComponent implements OnInit {
       });
   }
 
-  
 }

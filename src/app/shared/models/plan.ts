@@ -5,6 +5,6 @@ export interface Plan {
   name: string;
   description: string;
   imageUrl: string;
-  price: number;
+  price: number | string;
   itemsPlan: ItemsPlan[];
 }

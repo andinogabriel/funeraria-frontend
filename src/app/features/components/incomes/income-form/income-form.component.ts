@@ -33,6 +33,8 @@ IncomeService
   categories: Category[] = [];
   items: Item[] = [];
   itemsForm: Item[] = [];
+  price: number = 0;
+  percentage: number = null;
 
   incomeFormInputs = [
     {
@@ -98,16 +100,18 @@ IncomeService
       title: `Error al ${data ? 'editar' : 'crear'} el ingreso.`
     }
     if(this.data) {
-      this.entityId = this.data?.id;
+      this.entityId = this.data?.receiptNumber;
+      this.getIncomeDetailsFromUpdate();
+      console.log(this.data);
+      this.entityForm.get('receiptNumber').disable();
+      this.entityForm.get('receiptSeries').disable();
       this.entityInitUpdateFormControl = {
         'receiptNumber': this.data?.receiptNumber ?? null,
         'receiptSeries': this.data?.receiptSeries ?? null,
-        'tax': this.data?.tax ?? null,
+        'tax': +this.data?.tax ?? null,
         'receiptType': this.data?.receiptType ?? null,
         'supplier': this.data?.supplier ?? null,
       };
-      this.entityForm.get('receiptNumber').disable();
-      this.entityForm.get('receiptSeries').disable();
     } else {
       this.entityInitFormControl = {
         'receiptNumber': new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20), Validators.pattern(onlyNumberWithoutDecimal)]),
@@ -126,6 +130,7 @@ IncomeService
       this.getReceiptTypes();
       this.getSuppliers();
     });
+    this.priceCalculator();
     interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
 
@@ -164,6 +169,14 @@ IncomeService
     });
   }
 
+  private priceCalculator(): void {
+    this.entityForm.valueChanges.subscribe((value: Income) => {
+      const pricePorcentage = +value.tax / 100;
+      const subTotal = value.incomeDetails.reduce((a, b) => a + ((+b?.quantity ? b.quantity : 0) * (+b.purchasePrice ? +b.purchasePrice : 0)), 0);
+      this.price = subTotal + subTotal * pricePorcentage;
+    });
+  }
+
   private getSuppliers(): void {
     this.supplierService.findAll()
     .pipe(first())
@@ -181,6 +194,21 @@ IncomeService
         item: [null, Validators.required],
         category: [null, Validators.required],
       });
+}
+
+private getIncomeDetailsFromUpdate(): void {
+  if(this.data.hasOwnProperty('incomeDetails')) {
+    Object.values(this.data?.incomeDetails as IncomeDetail[]).forEach(a => {
+      const incomeDetail = this.fb.group({
+        category: a?.item.category,
+        item: a?.item,
+        quantity: a?.quantity,
+        purchasePrice: a?.purchasePrice,
+        salePrice: a?.salePrice
+      });
+      this.incomeDetails.push(incomeDetail);
+    });
+  }
 }
 
 

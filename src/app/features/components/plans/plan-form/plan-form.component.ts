@@ -10,7 +10,7 @@ import { PlanService } from 'src/app/features/services/plan.service';
 import { Category } from 'src/app/shared/models/category';
 import { Item } from 'src/app/shared/models/item';
 import { ItemsPlan } from 'src/app/shared/models/itemsPlan';
-import { Plan } from 'src/app/shared/models/plan';
+import { Plan, PlanRequest } from 'src/app/shared/models/plan';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { onlyNumberWithoutDecimal, onlyTwoDecimalRgx } from 'src/app/shared/utils/regex';
@@ -22,7 +22,7 @@ import { CommonFormComponent } from '../../common-form.component';
   styleUrls: ['./plan-form.component.css']
 })
 export class PlanFormComponent extends CommonFormComponent<
-Plan,
+PlanRequest,
 Plan,
 PlanService
 > {
@@ -30,6 +30,8 @@ PlanService
   categories: Category[] = [];
   items: Item[] = [];
   itemsForm: Item[] = [];
+  percentage: number = null;
+  price: number = 0;
 
   planFormInputs = [
     {
@@ -40,12 +42,12 @@ PlanService
       ]
     },
     {
-      name: 'price', label: 'Precio', type: 'number',
+      name: 'profitPercentage', label: 'Porcentaje', type: 'number',
       smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
       errors: [
-        {name: 'required', message: 'El precio es requerido.'},
-        {name: 'min', message: 'El precio debe ser positivo.'},
-        {name: 'pattern', message: 'El precio debe contener solo dos decimales.'},
+        {name: 'required', message: 'El porcentaje es requerido.'},
+        {name: 'min', message: 'El porcentaje debe ser positivo.'},
+        {name: 'pattern', message: 'El porcentaje debe contener solo dos decimales.'},
       ]
     },
     {
@@ -77,7 +79,7 @@ PlanService
     this.entityForm = new FormGroup({
       name: new FormControl(''),
       description: new FormControl(''),
-      price: new FormControl(''),
+      profitPercentage: new FormControl(''),
       itemsPlan:  new FormArray([])
     });
     
@@ -96,7 +98,23 @@ PlanService
       this.getItems();
       this.getCategories();
     });
+    this.priceCalculator();
     interval(1000).pipe(untilDestroyed(this)).subscribe();
+  }
+
+ 
+
+  override create(elemToCreate: PlanRequest): void {
+    this.service.create(elemToCreate).subscribe({
+      next: (elemCreated) => {
+        this.dialogRef.close({ data: {...elemCreated, 'price': elemCreated?.price ? '$' + elemCreated.price : '0'} });
+        this.snackbarService.success(this.createdSuccessMessage);
+      },
+      error: (err) => {
+        console.log(err);
+        this.dialogService.open(err ? {...this.createdOrUpdateErrorMessage, 'message': err?.error?.message} : this.createdOrUpdateErrorMessage)
+      },
+    });
   }
 
   ngAfterViewInit() {
@@ -110,6 +128,10 @@ PlanService
     return (<FormArray>this.entityForm.get('itemsPlan'));
   }
 
+  get profitPercentage() {
+    return this.entityForm.get('profitPercentage');
+  }
+
   addItemsPlan() {
     this.itemsForm = this.itemsPlan?.value.map((value: ItemsPlan) => value['item']);
     this.itemsPlan.push(this.getNewItemPlan());
@@ -118,6 +140,7 @@ PlanService
   deleteItemsPlan(itemsPlanlIndex: number) {
     this.itemsPlan.removeAt(itemsPlanlIndex);
   }
+
 
   private getItems(): void {
     this.itemService.findAll()
@@ -145,20 +168,28 @@ PlanService
     });
   }
 
+  private priceCalculator(): void {
+    this.entityForm.valueChanges.subscribe((value: PlanRequest) => {
+      const pricePorcentage = +value.profitPercentage / 100;
+      const subTotal = value.itemsPlan.reduce((a,b) => a + ((+b?.quantity ? b.quantity : 0) * (+b.item?.price ? +b.item.price : 0)), 0);
+      this.price = subTotal + subTotal * pricePorcentage;
+    });
+  }
+
   private initUpdatePlanForm(): void {
     this.entityId = this.data?.id;
     this.getItemsPlanFromUpdate();
       this.entityInitUpdateFormControl = {
         name: this.data?.name ?? null,
         description: this.data?.description ?? null,
-        price: this.data?.price ?? null,
+        profitPercentage: this.data?.profitPercentage ?? null,
       };
   }
 
   private initCreatePlanForm(): void {
     this.entityInitFormControl = {
       name: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
+      profitPercentage: new FormControl('', [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
       category: new FormControl(''),
       description: new FormControl(''),
       itemsPlan:  new FormArray([this.getNewItemPlan()]),
@@ -173,7 +204,6 @@ PlanService
           quantity: a?.quantity,
           category: a?.item?.category
         });
-        console.log(itemPlan);
         this.itemsPlan.push(itemPlan);
       });
     }

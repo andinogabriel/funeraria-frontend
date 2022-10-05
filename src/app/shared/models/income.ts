@@ -23,14 +23,14 @@ export interface IncomeToShow {
   id?: number;
   receiptNumber: number;
   receiptSeries: number;
-  entryDate: string;
+  incomeDate: string;
   tax: string;
   totalAmount: string;
   receiptType: string;
   supplier: string;
-  entryUser: User;
+  incomeUser: User;
   deleted?: boolean;
   lastModifiedBy?: User;
   lastModifiedDate?: number;
-  entryDetails: IncomeDetail[];
+  incomeDetails: IncomeDetail[];
 }

@@ -27,12 +27,18 @@
             [fxFlex.lt-sm]="item.lgWidth"
             appearance="outline"
           >
+            <mat-label>{{item.label}}</mat-label>
             <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
             <mat-error *ngFor="let error of item.errors">
               <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
             </mat-error>
           </mat-form-field>
         </div>
+        <mat-list >
+          <mat-divider></mat-divider>
+          <mat-list-item>Precio: ${{ price }}</mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
       <br />
       <mat-accordion>
         <mat-expansion-panel expanded="true">

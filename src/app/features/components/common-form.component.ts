@@ -46,7 +46,8 @@ export abstract class CommonFormComponent<
   };
 
   onSubmit(): void {
-    this.entity = this.entityForm.value;
+    this.entity = this.entityForm.getRawValue();
+    console.log(this.entity);
     if(this.data) {
       this.update(this.entity);
     } else {
@@ -67,12 +68,14 @@ export abstract class CommonFormComponent<
   }
 
   update(elemToUpdate: E): void {
+    console.log(elemToUpdate);
     this.service.edit(this.entityId, elemToUpdate).subscribe({
       next: (elemUpdated) => {
         this.dialogRef.close({ data: elemUpdated });
         this.snackbarService.success(this.createdSuccessMessage);
       },
       error: (error) => {
+        console.log(error);
         this.dialogService.open(this.createdOrUpdateErrorMessage);
       },
     });
@@ -83,7 +86,6 @@ export abstract class CommonFormComponent<
   }
 
   initUpdateFormControl(): void {
-    console.log(this.entityInitUpdateFormControl);
     setTimeout(() => {
       this.entityForm.patchValue(this.entityInitUpdateFormControl);
     },);

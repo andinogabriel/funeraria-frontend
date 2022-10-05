@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { NGXLogger } from 'ngx-logger';
 import { first } from 'rxjs';
 import { PlanService } from 'src/app/features/services/plan.service';
+import { ItemsPlan } from 'src/app/shared/models/itemsPlan';
 import { Plan } from 'src/app/shared/models/plan';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -71,7 +72,7 @@ PlanService
     .pipe(first())
     .subscribe({
       next: (modeltList) => {
-        this.dataSource = modeltList.map(plan => ({...plan, 'numberOfItems': plan.itemsPlan.length, 'price': '$'+plan?.price}));
+        this.dataSource = modeltList.map(plan => ({...plan, 'numberOfItems': this.getItemsQuantity(plan?.itemsPlan), 'price': '$'+plan?.price}));
         this.logger.log(`${this.modelName} cargados.`)
       },
       error: () => this.dialogService.open(this.errorGetModelList),
@@ -83,13 +84,12 @@ PlanService
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.dataSource = [{...result?.data, 'numberOfItems': result?.data?.itemsPlan?.length}, ...this.dataSource];
+        this.dataSource = [{...result?.data, 'numberOfItems': this.getItemsQuantity(result?.data?.itemsPlan)}, ...this.dataSource];
       }
     });
   }
 
   override updateElement(elem: Plan): void {
-    console.log(elem);
     const dialogRef = this.dialog.open(PlanFormComponent,
       {
         data: {...elem, 'price': elem.price.toString().substring(1)}
@@ -97,16 +97,17 @@ PlanService
     );
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        if(result?.data?.category?.name.toLowerCase() !== ('ataud' || 'ataúd')) { 
-          result.data['itemLength'] = null;
-          result.data['itemWidth'] = null;
-          result.data['itemHeight'] = null;
-        }
-        const itemToUpdate = {...result?.data, 'categoryName': result?.data?.category?.name, 'brandName': result?.data?.brand?.name};
-        console.log(itemToUpdate);
-        this.dataSource = this.dataSource.map(cat => (cat.id === elem.id) ? itemToUpdate : cat);
+        console.log(result);
+        const planUpdated = result?.data as Plan;
+        this.dataSource = this.dataSource.map(plan => (plan.id === elem.id) ? {...planUpdated, 'price': '$' + planUpdated.price, 'numberOfItems': this.getItemsQuantity(planUpdated.itemsPlan)} : plan);
+        /*console.log(itemToUpdate);
+        this.dataSource = this.dataSource.map(cat => (cat.id === elem.id) ? itemToUpdate : cat);*/
       }
     });
+  }
+
+  private getItemsQuantity(itemsPlan: ItemsPlan[]): number {
+    return itemsPlan.reduce((sum, itemPlan) => sum + itemPlan.quantity, 0);
   }
 
 }

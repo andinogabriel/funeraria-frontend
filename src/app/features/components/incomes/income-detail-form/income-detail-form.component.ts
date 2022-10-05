@@ -18,6 +18,8 @@ export class IncomeDetailFormComponent implements OnInit {
   @Input() itemsFormGroup: Item[] = [];
   categories: Category[] = [];
   items: Item[] = [];
+  selectedCategory: Category = null;
+
   incomeDetailInputs = [
     {
       matLabel: "Cantidad",
@@ -54,6 +56,10 @@ export class IncomeDetailFormComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.getCategories();
+      if(this.inputFormGroup.get('category')?.value) {
+        this.selectedCategory = this.inputFormGroup.get('category').value;
+        this.getItems();
+      }
     });
   }
 
@@ -93,6 +99,11 @@ export class IncomeDetailFormComponent implements OnInit {
         next: (categories) => (this.categories = categories),
         error: () => console.log("Error al obtener las categorias."),
       });
+  }
+
+  private getItems(): void {
+    const categoryId = this.selectedCategory?.id;
+    this.getItemsByCategoryId(categoryId);
   }
 
   private getItemsByCategoryId(categoryId: number): void {

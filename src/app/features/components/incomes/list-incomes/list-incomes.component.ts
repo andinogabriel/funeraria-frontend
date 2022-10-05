@@ -34,7 +34,7 @@ IncomeService
 
   constructor(service: IncomeService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger, private receiptTypeService: ReceiptTypeService, private supplierService: SupplierService) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
-    this.entityId = 'receiptNumber'
+    this.entityId = 'receiptNumber';
     this.modelName = 'Ingresos';
     this.deleteSuccessMessage = 'Ingreso eliminado satisfactoriamente.';
     this.deleteErrorMessage = {
@@ -124,18 +124,19 @@ IncomeService
   }
 
   override updateElement(elem: IncomeToShow): void {
+    console.log(elem);
     const receiptTypeObject = this.receiptTypes.find(r => r.name === elem.receiptType);
     const supplierObject = this.suppliers.find(s => s.name === elem.supplier);
     const taxNumber = parseFloat(elem.tax.slice(0, -1));
     const totalAmountNumber = parseFloat(elem.totalAmount.substring(1));
     const dialogRef = this.dialog.open(IncomeFormComponent,
       {
-        data: {...elem, 'receiptType': receiptTypeObject, 'entrySupplier': supplierObject, 'tax': taxNumber, 'totalAmount': totalAmountNumber}
+        data: {...elem, 'receiptType': receiptTypeObject, 'supplier': supplierObject, 'tax': taxNumber, 'totalAmount': totalAmountNumber}
       }
     );
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        const incomeUpdated = {...result.data, 'entrySupplier': result.data?.entrySupplier?.name, 'receiptType': result.data?.receiptType?.name, 'tax': result.data?.tax + '%'}
+        const incomeUpdated: IncomeToShow = {...result.data, 'supplier': result.data?.supplier?.name, 'receiptType': result.data?.receiptType?.name, 'tax': result.data?.tax + '%', 'totalAmount': '$' + result.data?.totalAmount}
         this.dataSource = this.dataSource.map(income => (income.id === elem.id) ? incomeUpdated : income);
       }
     });

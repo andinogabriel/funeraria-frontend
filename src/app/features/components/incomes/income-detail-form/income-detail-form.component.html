@@ -15,6 +15,7 @@
       (selectionChange)="onCategoryChange($event)"
       [formControl]="$any(inputFormGroup.controls['category'])"
       [compareWith]="compareCategoryFn"
+      [(value)]="selectedCategory"
     >
       <mat-option *ngFor="let category of categories" [value]="category">{{
         category.name

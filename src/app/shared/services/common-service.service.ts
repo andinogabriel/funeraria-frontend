@@ -27,7 +27,7 @@ export abstract class CommonServiceService<E , M> {
     return this.http.post<M>(this.baseUrl, entityForm, {headers: this.headers});
   };
 
-  public edit(id: number, entityForm: E): Observable<M> {
+  public edit(id: any, entityForm: E): Observable<M> {
     this.invalidateBucket();
     return this.http.put<M>(`${this.baseUrl}/${id}`, entityForm, {headers: this.headers});
   };

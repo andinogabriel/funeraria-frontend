@@ -9,6 +9,9 @@
     type="number"
     [formControl]="$any(inputFormGroup.controls['mobileNumber'])"
   />
+  <mat-error *ngIf="hasError('mobileNumber', 'unique')"
+    >Telefono repetido</mat-error
+  >
   <mat-error *ngIf="hasError('mobileNumber', 'required')"
     >El telefono es requerido.</mat-error
   >

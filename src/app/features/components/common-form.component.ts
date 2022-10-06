@@ -68,7 +68,7 @@ export abstract class CommonFormComponent<
   }
 
   update(elemToUpdate: E): void {
-    console.log(elemToUpdate);
+    console.log(this.entityId);
     this.service.edit(this.entityId, elemToUpdate).subscribe({
       next: (elemUpdated) => {
         this.dialogRef.close({ data: elemUpdated });

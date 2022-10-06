@@ -31,6 +31,6 @@ export interface IncomeToShow {
   incomeUser: User;
   deleted?: boolean;
   lastModifiedBy?: User;
-  lastModifiedDate?: number;
+  lastModifiedDate?: string;
   incomeDetails: IncomeDetail[];
 }

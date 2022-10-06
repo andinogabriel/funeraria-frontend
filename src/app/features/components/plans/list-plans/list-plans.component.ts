@@ -97,11 +97,8 @@ PlanService
     );
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log(result);
         const planUpdated = result?.data as Plan;
         this.dataSource = this.dataSource.map(plan => (plan.id === elem.id) ? {...planUpdated, 'price': '$' + planUpdated.price, 'numberOfItems': this.getItemsQuantity(planUpdated.itemsPlan)} : plan);
-        /*console.log(itemToUpdate);
-        this.dataSource = this.dataSource.map(cat => (cat.id === elem.id) ? itemToUpdate : cat);*/
       }
     });
   }

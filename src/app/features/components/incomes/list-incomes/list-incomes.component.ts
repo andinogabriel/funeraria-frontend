@@ -137,13 +137,12 @@ IncomeService
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         const incomeUpdated: IncomeToShow = {...result.data, 'supplier': result.data?.supplier?.name, 'receiptType': result.data?.receiptType?.name, 'tax': result.data?.tax + '%', 'totalAmount': '$' + result.data?.totalAmount}
-        this.dataSource = this.dataSource.map(income => (income.id === elem.id) ? incomeUpdated : income);
+        this.dataSource = this.dataSource.map(income => (income.receiptNumber === elem.receiptNumber) ? incomeUpdated : income);
       }
     });
   }
 
   override showMoreInfo(elem: Income): void {
-    console.log(elem);
     this.dialog.open(IncomeMoreInfoComponent, { data: elem });
   }
 

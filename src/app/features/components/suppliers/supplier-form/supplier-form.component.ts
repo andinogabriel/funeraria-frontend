@@ -52,8 +52,7 @@ SupplierService
       smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
       errors: []
     },
-  ]
-
+  ];
  
   panelOpenState = false;
   selectedProvince: Province = null;
@@ -90,7 +89,7 @@ SupplierService
     if(this.data) {
       this.getMobileNumbers();
       this.getAddresses();
-      this.entityId = this.data?.id;
+      this.entityId = this.data?.nif;
       this.entityInitUpdateFormControl = {
         'name': this.data?.name ?? null,
         'nif': this.data?.nif ?? null,
@@ -127,17 +126,18 @@ SupplierService
   }
 
   deleteMobileNumber(mobileNumerIndex: number) {
-    if(this.mobileNumbers.value[mobileNumerIndex] !== '') {
+    if(this.mobileNumbers.value[mobileNumerIndex]['id']) {
       this.dialogService.open({
         confirmText: 'Aceptar',
         message: `¿Estas seguro de eliminar el número de télefono: ${this.mobileNumbers?.value[mobileNumerIndex]['mobileNumber']}?`,
         title: 'Eliminar número de télefono'
       });
       this.dialogService.confirmed().subscribe((confirmed) => { 
-        if (confirmed) this.mobileNumbers.removeAt(mobileNumerIndex);
+        confirmed && this.mobileNumbers.removeAt(mobileNumerIndex);
       });
+    } else {
+      this.mobileNumbers.removeAt(mobileNumerIndex);
     }
-    
   }
 
   get addresses() {
@@ -149,13 +149,25 @@ SupplierService
   }
 
   deleteAddress(addressIndex: number) {
-    this.addresses.removeAt(addressIndex);
+    if(this.addresses.value[addressIndex]['id'] !== undefined) {
+      this.dialogService.open({
+        confirmText: 'Aceptar',
+        message: '¿Estas seguro de eliminar esta dirección?',
+        title: 'Eliminar dirección'
+      });
+      this.dialogService.confirmed().subscribe((confirmed) => { 
+        confirmed && this.addresses.removeAt(addressIndex);
+      });
+    } else {
+      this.addresses.removeAt(addressIndex);
+    }
   }
 
   private getMobileNumbers(): void {
     if(this.data.hasOwnProperty('mobileNumbers')) {
       Object.values(this.data?.mobileNumbers as MobileNumber[]).forEach(m => {
         const mobileNumber = this.fb.group({
+          id: m?.id,
           mobileNumber: m?.mobileNumber ?? null
         });
         this.mobileNumbers.push(mobileNumber);
@@ -167,6 +179,7 @@ SupplierService
     if(this.data.hasOwnProperty('addresses')) {
       Object.values(this.data?.addresses as Address[]).forEach(a => {
         const address = this.fb.group({
+          id: a?.id,
           province: a?.city?.province,
           city: a?.city,
           streetName: a.streetName,

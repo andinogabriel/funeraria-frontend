@@ -82,7 +82,7 @@ SupplierService
     );
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.dataSource = this.dataSource.map(cat => (cat.id === elem.id) ? result.data : cat);
+        this.dataSource = this.dataSource.map(cat => (cat.nif === elem.nif) ? result.data : cat);
       }
     });
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class TelephoneFormService {
 
   getTelephoneForm() {
     return this.fb.group({
-      mobileNumber: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{6,14}$")]]
+      mobileNumber: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{6,14}$"), RxwebValidators.unique(
+        { message: 'Numero repetido.' }
+      )]]
     });
   }
 }

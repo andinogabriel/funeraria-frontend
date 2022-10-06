@@ -17,6 +17,7 @@ import { CommonModule } from "@angular/common";
 import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 import { AddressFormComponent } from "./components/address-form/address-form.component";
 import { TelephoneFormComponent } from './components/telephone-form/telephone-form.component';
+import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { TelephoneFormComponent } from './components/telephone-form/telephone-fo
     CustomMaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     FlexLayoutModule,
   ],
   declarations: [
@@ -46,6 +48,7 @@ import { TelephoneFormComponent } from './components/telephone-form/telephone-fo
   exports: [
     FormsModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     FlexLayoutModule,
     CustomMaterialModule,
     LimitToPipe,

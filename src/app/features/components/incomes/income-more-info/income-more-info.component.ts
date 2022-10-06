@@ -12,7 +12,6 @@ export class IncomeMoreInfoComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: IncomeToShow) {}
   income: IncomeToShow;
-  lastModifiedDate: string = "";
   dataToShow: { keyName: string; valueName: string | number }[];
 
   ngOnInit(): void {
@@ -34,7 +33,7 @@ export class IncomeMoreInfoComponent implements OnInit {
           " " +
           this.income?.incomeUser?.firstName,
       },
-      { keyName: "Tipo de recibo", valueName: this.income?.receiptType },
+      { keyName: "Tipo de recibo", valueName: this.income?.receiptType }
     ];
   }
 }

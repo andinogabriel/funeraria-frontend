@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { SupplierService } from 'src/app/features/services/supplier.service';
 import { Address } from 'src/app/shared/models/address';
 import { City } from 'src/app/shared/models/city';
@@ -168,7 +169,7 @@ SupplierService
       Object.values(this.data?.mobileNumbers as MobileNumber[]).forEach(m => {
         const mobileNumber = this.fb.group({
           id: m?.id,
-          mobileNumber: m?.mobileNumber ?? null
+          mobileNumber: [m?.mobileNumber ?? null, RxwebValidators.unique()]
         });
         this.mobileNumbers.push(mobileNumber);
       });

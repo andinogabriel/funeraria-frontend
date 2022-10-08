@@ -5,6 +5,7 @@
     cdkDragRootElement=".cdk-overlay-pane"
     cdkDragHandle
     style="cursor: move"
+    fxLayoutAlign="center"
   >
     Ingreso: {{ income?.receiptNumber }}
   </h3>
@@ -14,7 +15,7 @@
       <ng-container *ngFor="let income of dataToShow">
         <mat-list-item
           ><u>{{ income.keyName }}</u
-          >:&nbsp; {{ income.valueName }}</mat-list-item
+          >:&nbsp;{{ income.valueName }}</mat-list-item
         >
         <mat-divider></mat-divider>
       </ng-container>
@@ -37,20 +38,24 @@
     <mat-accordion *ngIf="income?.incomeDetails?.length > 0">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Detalles de ingrso</mat-panel-title>
+          <mat-panel-title fxLayoutAlign="center">Detalles de ingrso</mat-panel-title>
         </mat-expansion-panel-header>
-          <ng-container *ngFor="let incomeDetail of income?.incomeDetails">
-            <mat-list>
-              <div mat-subheader>{{incomeDetail.item.name}}</div>
-              <mat-list-item>
-                <div mat-line>Cantidad: {{incomeDetail.quantity}}</div>
-                <div mat-line>Precio de compra: ${{incomeDetail.purchasePrice}}</div>
-                <div mat-line>Precio de venta: ${{incomeDetail.salePrice}}</div>
-              </mat-list-item>
-              <mat-divider></mat-divider>
-            </mat-list>
-          </ng-container>
-        
+        <mat-divider></mat-divider>
+        <ng-container *ngFor="let incomeDetail of income?.incomeDetails">
+          <mat-list>
+            <div mat-subheader>
+              <b>{{ incomeDetail.item.name }}</b>
+            </div>
+            <mat-list-item>
+              <div mat-line>Cantidad: {{ incomeDetail.quantity }}</div>
+              <div mat-line>
+                Precio de compra: ${{ incomeDetail.purchasePrice }}
+              </div>
+              <div mat-line>Precio de venta: ${{ incomeDetail.salePrice }}</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+        </ng-container>
       </mat-expansion-panel>
       <br />
     </mat-accordion>

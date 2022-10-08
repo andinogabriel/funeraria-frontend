@@ -16,7 +16,6 @@ export class SupplierMoreInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.supplier = this.data;
-    console.log(this.supplier);
   }
 
 }

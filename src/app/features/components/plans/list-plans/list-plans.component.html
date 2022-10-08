@@ -2,12 +2,13 @@
   <div fxFlex="95%">
     <mat-card>
       <mat-card-content>
-        <h2>{{modelName}}</h2>
+        <h1 fxLayoutAlign = "center">{{modelName}}</h1>
         <app-table-reusable
           [tableData]="dataSource"
           [tableColumns]="displayedColumns"
           [isFilterable]="true"
           [isPageable]="true"
+          [hasMoreInfo]="true"
           [paginationSizes]="[2, 4, 6]"
           [defaultPageSize]="4"
           [emptyIcon]="'assignment'"
@@ -15,6 +16,7 @@
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"
           (updateAction)="updateElement($any($event))"
+          (showMoreAction)="showMoreInfo($any($event))"
         >
         </app-table-reusable>
       </mat-card-content>

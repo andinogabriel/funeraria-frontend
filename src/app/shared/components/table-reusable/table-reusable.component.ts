@@ -52,11 +52,8 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
     const columnNames = this.tableColumns.map(
       (tableColumn: ReusableTableColumn) => tableColumn.name
     );
-    if (this.rowActionIcon) {
-      this.displayedColumns = [this.rowActionIcon, ...columnNames];
-    } else {
-      this.displayedColumns = columnNames;
-    }
+    this.displayedColumns = this.rowActionIcon ? [this.rowActionIcon, ...columnNames]
+      : columnNames;
   }
 
   ngAfterViewInit(): void {
@@ -81,9 +78,11 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
     )?.dataKey;
     const keyName = sortParameters.active;
     if (sortParameters.direction === 'asc') {
-      this.tableDataSource.data = this.tableDataSource.data.sort((a,b) => a[keyName] < b[keyName] ? -1 : (a[keyName] > b[keyName] ? 1 : 0));
+      this.tableDataSource.data = this.tableDataSource.data
+        .sort((a,b) => a[keyName] < b[keyName] ? -1 : (a[keyName] > b[keyName] ? 1 : 0));
     } else if (sortParameters.direction === 'desc') {
-      this.tableDataSource.data = this.tableDataSource.data.sort((a,b) => a[keyName] > b[keyName] ? -1 : (a[keyName] < b[keyName] ? 1 : 0));
+      this.tableDataSource.data = this.tableDataSource.data
+        .sort((a,b) => a[keyName] > b[keyName] ? -1 : (a[keyName] < b[keyName] ? 1 : 0));
     } else {
       this.tableDataSource;
     }

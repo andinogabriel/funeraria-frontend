@@ -10,6 +10,7 @@ import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.ser
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CommonListComponent } from '../../common.list.component';
 import { PlanFormComponent } from '../plan-form/plan-form.component';
+import { PlanMoreInfoComponent } from '../plan-more-info/plan-more-info.component';
 
 @Component({
   selector: 'app-list-plans',
@@ -101,6 +102,10 @@ PlanService
         this.dataSource = this.dataSource.map(plan => (plan.id === elem.id) ? {...planUpdated, 'price': '$' + planUpdated.price, 'numberOfItems': this.getItemsQuantity(planUpdated.itemsPlan)} : plan);
       }
     });
+  }
+
+  override showMoreInfo(elem: Plan): void {
+    this.dialog.open(PlanMoreInfoComponent, { data: elem });
   }
 
   private getItemsQuantity(itemsPlan: ItemsPlan[]): number {

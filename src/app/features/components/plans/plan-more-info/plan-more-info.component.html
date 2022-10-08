@@ -1,0 +1,42 @@
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign = "center"
+  >
+    {{ plan.name }}
+  </h3>
+  <div mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-list *ngFor="let planInfo of planInfos">
+      <mat-list-item><u>{{planInfo.label}}</u>:&nbsp;{{ planInfo.value }}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <br />
+    <mat-accordion *ngIf="plan?.itemsPlan?.length > 0">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title fxLayoutAlign = "center">Detalles del plan</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+          <ng-container *ngFor="let itemPlan of plan.itemsPlan">
+            <mat-list>
+              <div mat-subheader><b>{{itemPlan.item.name}}</b></div>
+              <mat-list-item>
+                <div mat-line>Cantidad: {{itemPlan.quantity}}</div>
+                <div mat-line>Precio unitario: ${{itemPlan.item.price}}</div>
+                <div mat-line>Codigo: {{itemPlan.item.code}}</div>
+                <div mat-line>Marca: {{itemPlan.item.brand.name}}</div>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+          </ng-container>
+        
+      </mat-expansion-panel>
+      <br />
+    </mat-accordion>
+  </div>
+</div>

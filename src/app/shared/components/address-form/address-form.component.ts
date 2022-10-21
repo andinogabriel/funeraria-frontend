@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { UntypedFormBuilder } from "@angular/forms";
 import { City } from "../../models/city";
 import { Province } from "../../models/province";
 import { CityService } from "../../services/city.service";
@@ -17,7 +17,7 @@ export class AddressFormComponent implements OnInit {
   @Input() inputFormGroup = this.fb.group({});
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private provinceService: ProvinceService,
     private cityService: CityService
   ) {}

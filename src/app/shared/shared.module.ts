@@ -18,51 +18,59 @@ import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 import { AddressFormComponent } from "./components/address-form/address-form.component";
 import { TelephoneFormComponent } from './components/telephone-form/telephone-form.component';
 import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
+import { ScrollManagerDirective } from './directives/scroll-manager.directive';
+import { ScrollSectionDirective } from './directives/scroll-section.directive';
+import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CustomMaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RxReactiveFormsModule,
-    FlexLayoutModule,
-  ],
-  declarations: [
-    ConfirmDialogComponent,
-    ContentPlaceholderAnimationComponent,
-    LimitToPipe,
-    LocalDatePipe,
-    YesNoPipe,
-    LayoutComponent,
-    DataPropertyGetterPipe,
-    TableReusableComponent,
-    AlertComponent,
-    HideForRolesDirective,
-    ShowForRolesDirective,
-    AddressFormComponent,
-    TelephoneFormComponent
-  ],
-  exports: [
-    FormsModule,
-    ReactiveFormsModule,
-    RxReactiveFormsModule,
-    FlexLayoutModule,
-    CustomMaterialModule,
-    LimitToPipe,
-    ConfirmDialogComponent,
-    ContentPlaceholderAnimationComponent,
-    LocalDatePipe,
-    YesNoPipe,
-    TableReusableComponent,
-    HideForRolesDirective,
-    ShowForRolesDirective,
-    AddressFormComponent,
-    TelephoneFormComponent
-  ],
-  entryComponents: [ConfirmDialogComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [
+        CommonModule,
+        RouterModule,
+        CustomMaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RxReactiveFormsModule,
+        FlexLayoutModule,
+    ],
+    declarations: [
+        ConfirmDialogComponent,
+        ContentPlaceholderAnimationComponent,
+        LimitToPipe,
+        LocalDatePipe,
+        YesNoPipe,
+        LayoutComponent,
+        DataPropertyGetterPipe,
+        TableReusableComponent,
+        AlertComponent,
+        HideForRolesDirective,
+        ShowForRolesDirective,
+        AddressFormComponent,
+        TelephoneFormComponent,
+        ScrollManagerDirective,
+        ScrollSectionDirective,
+        ScrollAnchorDirective
+    ],
+    exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RxReactiveFormsModule,
+        FlexLayoutModule,
+        CustomMaterialModule,
+        LimitToPipe,
+        ConfirmDialogComponent,
+        ContentPlaceholderAnimationComponent,
+        LocalDatePipe,
+        YesNoPipe,
+        TableReusableComponent,
+        HideForRolesDirective,
+        ShowForRolesDirective,
+        ScrollManagerDirective,
+        ScrollSectionDirective,
+        ScrollAnchorDirective,
+        AddressFormComponent,
+        TelephoneFormComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule {}

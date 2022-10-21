@@ -8,18 +8,15 @@ import { CategoryFormComponent } from './category-form/category-form.component';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CategoriesRoutingModule,
-    SharedModule
-  ],
-  declarations: [
-    CategoriesListComponent,
-    CategoryFormComponent
-  ],
-  entryComponents: [
-    CategoryFormComponent
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    imports: [
+        CommonModule,
+        CategoriesRoutingModule,
+        SharedModule
+    ],
+    declarations: [
+        CategoriesListComponent,
+        CategoryFormComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CategoriesModule { }

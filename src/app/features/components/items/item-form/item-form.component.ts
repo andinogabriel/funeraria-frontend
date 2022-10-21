@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { first } from 'rxjs';
 import { CategoryService } from 'src/app/features/services/category.service';
@@ -56,7 +56,7 @@ ItemService
     dialogRef: MatDialogRef<ItemFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private brandService: BrandService,
     private categoryService: CategoryService,
   ) {
@@ -69,16 +69,16 @@ ItemService
       fb
     );
     this.createdSuccessMessage = `Artículo ${data ? 'editado' : 'creado'} satisfactoriamente.`;
-    this.entityForm = new FormGroup({
-      'name': new FormControl(''),
-      'description': new FormControl(''),
-      'brand': new FormControl(''),
-      'code': new FormControl(''),
-      'price': new FormControl(''),
-      'itemLength': new FormControl(''),
-      'itemHeight': new FormControl(''),
-      'itemWidth': new FormControl(''),
-      'category': new FormControl('')
+    this.entityForm = new UntypedFormGroup({
+      'name': new UntypedFormControl(''),
+      'description': new UntypedFormControl(''),
+      'brand': new UntypedFormControl(''),
+      'code': new UntypedFormControl(''),
+      'price': new UntypedFormControl(''),
+      'itemLength': new UntypedFormControl(''),
+      'itemHeight': new UntypedFormControl(''),
+      'itemWidth': new UntypedFormControl(''),
+      'category': new UntypedFormControl('')
     });
     if (this.data) {
       this.entityId = this.data?.code;
@@ -96,13 +96,13 @@ ItemService
       };
     } else {
       this.entityInitFormControl = {
-        'name': new FormControl('', [Validators.required]),
-        'brand': new FormControl('', [Validators.required]),
-        'category': new FormControl('', [Validators.required]),
-        'description': new FormControl(''),
-        'itemLength': new FormControl(''),
-        'itemWidth': new FormControl(''),
-        'itemHeight': new FormControl(''),
+        'name': new UntypedFormControl('', [Validators.required]),
+        'brand': new UntypedFormControl('', [Validators.required]),
+        'category': new UntypedFormControl('', [Validators.required]),
+        'description': new UntypedFormControl(''),
+        'itemLength': new UntypedFormControl(''),
+        'itemWidth': new UntypedFormControl(''),
+        'itemHeight': new UntypedFormControl(''),
       };
     }
     this.createdOrUpdateErrorMessage = {

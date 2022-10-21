@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/shared/models/category';
 
 @Component({
@@ -24,7 +24,7 @@ export class CategoryFormComponent extends CommonFormComponent<
     dialogRef: MatDialogRef<CategoryFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: FormBuilder
+    fb: UntypedFormBuilder
   ) {
     super(
       categoryService,
@@ -35,9 +35,9 @@ export class CategoryFormComponent extends CommonFormComponent<
       fb
     );
     this.createdSuccessMessage = 'Categoria creada satisfactoriamente.';
-    this.entityForm = new FormGroup({
-      name: new FormControl(''),
-      description: new FormControl('')
+    this.entityForm = new UntypedFormGroup({
+      name: new UntypedFormControl(''),
+      description: new UntypedFormControl('')
     });
     if(this.data) {
       this.entityId = this.data?.id;
@@ -47,8 +47,8 @@ export class CategoryFormComponent extends CommonFormComponent<
       };
     } else {
       this.entityInitFormControl = {
-        'name': new FormControl('', [Validators.required]),
-        'description': new FormControl('', [Validators.required]),
+        'name': new UntypedFormControl('', [Validators.required]),
+        'description': new UntypedFormControl('', [Validators.required]),
       };
     }
     this.createdOrUpdateErrorMessage = {

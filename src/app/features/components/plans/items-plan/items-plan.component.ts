@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { first } from 'rxjs/operators';
 import { CategoryService } from 'src/app/features/services/category.service';
@@ -27,7 +27,7 @@ export class ItemsPlanComponent implements OnInit {
   ]
   
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private categoryService: CategoryService,
     private itemSerivce: ItemService
   ) {}

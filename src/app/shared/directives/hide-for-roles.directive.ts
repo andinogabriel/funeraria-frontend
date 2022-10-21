@@ -13,11 +13,8 @@ export class HideForRolesDirective {
 
   @Input() set appHideForRoles(hideForRoles: string[]) {
     const hideFor = hideForRoles || [];
-    if (hideForRoles.length > 0) {
-      this.roleChecker(hideFor);
-    } else {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
+    hideForRoles.length > 0 ? this.roleChecker(hideFor)
+      : this.viewContainerRef.createEmbeddedView(this.templateRef);
   }
 
   roleChecker(hideFor: string[]) {

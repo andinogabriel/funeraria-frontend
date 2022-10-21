@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { FormControl, Validators, FormGroup } from "@angular/forms";
+import { UntypedFormControl, Validators, UntypedFormGroup } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { AuthenticationService } from "src/app/core/services/auth.service";
 import { NotificationService } from "src/app/core/services/notification.service";
@@ -16,7 +16,7 @@ import { SnackbarService } from "src/app/shared/services/snackbar.service";
 export class LoginComponent implements OnInit {
   title = "Funeraria Nuñez y Hnos.";
   subTitle = "Iniciar Sesión";
-  loginForm!: FormGroup;
+  loginForm!: UntypedFormGroup;
   loading!: boolean;
   isLogged = false;
   loginUser: LoginUser;
@@ -54,13 +54,13 @@ export class LoginComponent implements OnInit {
 
   private createForm() {
     const savedUserEmail = localStorage.getItem("savedUserEmail");
-    this.loginForm = new FormGroup({
-      email: new FormControl(savedUserEmail, [
+    this.loginForm = new UntypedFormGroup({
+      email: new UntypedFormControl(savedUserEmail, [
         Validators.required,
         Validators.email,
       ]),
-      password: new FormControl("", Validators.required),
-      rememberMe: new FormControl(savedUserEmail !== null),
+      password: new UntypedFormControl("", Validators.required),
+      rememberMe: new UntypedFormControl(savedUserEmail !== null),
     });
   }
 

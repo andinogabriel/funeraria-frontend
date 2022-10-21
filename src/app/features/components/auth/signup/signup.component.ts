@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
@@ -17,7 +17,7 @@ import { mustMatch } from 'src/app/shared/utils/validators';
 })
 export class SignupComponent implements OnInit {
 
-  signupForm!: FormGroup;
+  signupForm!: UntypedFormGroup;
   loading!: boolean;
   isLogged = false;
   signupUser: SignupUser;
@@ -84,12 +84,12 @@ export class SignupComponent implements OnInit {
   }
 
   private createForm() {
-    this.signupForm = new FormGroup({
-      firstName: new FormControl("", [Validators.required]),
-      lastName: new FormControl("", [Validators.required]),
-      email: new FormControl("", [Validators.required,Validators.email]),
-      password: new FormControl("", [Validators.required, Validators.minLength(8)]),
-      matchingPassword: new FormControl("", [Validators.required, Validators.minLength(8)]),
+    this.signupForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl("", [Validators.required]),
+      lastName: new UntypedFormControl("", [Validators.required]),
+      email: new UntypedFormControl("", [Validators.required,Validators.email]),
+      password: new UntypedFormControl("", [Validators.required, Validators.minLength(8)]),
+      matchingPassword: new UntypedFormControl("", [Validators.required, Validators.minLength(8)]),
     }, mustMatch('password', 'matchingPassword'));
     
   }

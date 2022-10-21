@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 })
 export class TelephoneFormService {
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   getTelephoneForm() {
     return this.fb.group({

@@ -170,5 +170,6 @@ p .mat-icon {
   background-color: rgba(211, 200, 200, 0.8);
 }
 
-
-
+html {
+  scroll-behavior: smooth;
+}

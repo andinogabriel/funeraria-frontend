@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { interval } from 'rxjs/internal/observable/interval';
@@ -63,7 +63,7 @@ PlanService
     dialogRef: MatDialogRef<PlanFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private itemService: ItemService,
     private categoryService: CategoryService,
   ) {
@@ -76,11 +76,11 @@ PlanService
       fb
     );
     this.createdSuccessMessage = `Plan ${data ? 'editado' : 'creado'} satisfactoriamente.`;
-    this.entityForm = new FormGroup({
-      name: new FormControl(''),
-      description: new FormControl(''),
-      profitPercentage: new FormControl(''),
-      itemsPlan:  new FormArray([])
+    this.entityForm = new UntypedFormGroup({
+      name: new UntypedFormControl(''),
+      description: new UntypedFormControl(''),
+      profitPercentage: new UntypedFormControl(''),
+      itemsPlan:  new UntypedFormArray([])
     });
     
     this.data ? this.initUpdatePlanForm() : this.initCreatePlanForm();
@@ -125,7 +125,7 @@ PlanService
   }
 
   get itemsPlan() {
-    return (<FormArray>this.entityForm.get('itemsPlan'));
+    return (<UntypedFormArray>this.entityForm.get('itemsPlan'));
   }
 
   get profitPercentage() {
@@ -188,11 +188,11 @@ PlanService
 
   private initCreatePlanForm(): void {
     this.entityInitFormControl = {
-      name: new FormControl('', [Validators.required]),
-      profitPercentage: new FormControl('', [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
-      category: new FormControl(''),
-      description: new FormControl(''),
-      itemsPlan:  new FormArray([this.getNewItemPlan()]),
+      name: new UntypedFormControl('', [Validators.required]),
+      profitPercentage: new UntypedFormControl('', [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
+      category: new UntypedFormControl(''),
+      description: new UntypedFormControl(''),
+      itemsPlan:  new UntypedFormArray([this.getNewItemPlan()]),
     };
   }
 

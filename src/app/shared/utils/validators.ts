@@ -1,8 +1,8 @@
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 
 
-export function dynamicValidator(formValidator: FormGroup, key: string, value: string, valueIsEqualTo: string, minMax?: boolean, minValue?: number, maxValue?: number) {
+export function dynamicValidator(formValidator: UntypedFormGroup, key: string, value: string, valueIsEqualTo: string, minMax?: boolean, minValue?: number, maxValue?: number) {
   if(value?.toLowerCase() === valueIsEqualTo?.toLowerCase()) {
     formValidator.get(key)?.setValidators([Validators.required, Validators.pattern('^[0-9]\\d*(\\.\\d{1,2})?$')]);
     if(minMax !== undefined && minMax !== null && minMax) {
@@ -16,7 +16,7 @@ export function dynamicValidator(formValidator: FormGroup, key: string, value: s
 }
 
 export function mustMatch(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];
 

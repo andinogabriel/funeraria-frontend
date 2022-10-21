@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { first, interval } from 'rxjs';
@@ -73,7 +73,7 @@ IncomeService
     dialogRef: MatDialogRef<IncomeFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private receiptTypeService: ReceiptTypeService,
     private supplierService: SupplierService
   ) {
@@ -86,13 +86,13 @@ IncomeService
       fb
     );
     this.createdSuccessMessage =  `Detalle de ingreso ${data ? 'editado' : 'creado'} satisfactoriamente.`;
-    this.entityForm = new FormGroup({
-      receiptNumber: new FormControl(''),
-      receiptSeries: new FormControl(''),
-      tax: new FormControl(''),
-      receiptType: new FormControl(''),
-      supplier: new FormControl(''),
-      incomeDetails:  new FormArray([])
+    this.entityForm = new UntypedFormGroup({
+      receiptNumber: new UntypedFormControl(''),
+      receiptSeries: new UntypedFormControl(''),
+      tax: new UntypedFormControl(''),
+      receiptType: new UntypedFormControl(''),
+      supplier: new UntypedFormControl(''),
+      incomeDetails:  new UntypedFormArray([])
     });
     this.createdOrUpdateErrorMessage = {
       confirmText: 'Aceptar',
@@ -114,12 +114,12 @@ IncomeService
       };
     } else {
       this.entityInitFormControl = {
-        'receiptNumber': new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20), Validators.pattern(onlyNumberWithoutDecimal)]),
-        'receiptSeries': new FormControl('', [Validators.required]),
-        'tax': new FormControl('', [Validators.required, Validators.min(0), Validators.max(100), Validators.required, Validators.pattern(onlyTwoDecimalRgx)]),
-        'receiptType': new FormControl('', [Validators.required]),
-        'supplier': new FormControl('', [Validators.required]),
-        'incomeDetails':  new FormArray([this.getNewIncomeDetail()]),
+        'receiptNumber': new UntypedFormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20), Validators.pattern(onlyNumberWithoutDecimal)]),
+        'receiptSeries': new UntypedFormControl('', [Validators.required]),
+        'tax': new UntypedFormControl('', [Validators.required, Validators.min(0), Validators.max(100), Validators.required, Validators.pattern(onlyTwoDecimalRgx)]),
+        'receiptType': new UntypedFormControl('', [Validators.required]),
+        'supplier': new UntypedFormControl('', [Validators.required]),
+        'incomeDetails':  new UntypedFormArray([this.getNewIncomeDetail()]),
       };
     }
   }
@@ -148,7 +148,7 @@ IncomeService
   }
 
   get incomeDetails() {
-    return (<FormArray>this.entityForm.get('incomeDetails'));
+    return (<UntypedFormArray>this.entityForm.get('incomeDetails'));
   }
 
   addEntryDetail() {

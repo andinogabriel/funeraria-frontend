@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { SupplierService } from 'src/app/features/services/supplier.service';
@@ -66,7 +66,7 @@ SupplierService
     dialogRef: MatDialogRef<SupplierFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private addressFormService: AddressFormService,
     private telephoneFormService: TelephoneFormService
   ) {
@@ -79,13 +79,13 @@ SupplierService
       fb
     );
     this.createdSuccessMessage = `Proveedor ${data ? 'editado' : 'creado'} satisfactoriamente.`;
-    this.entityForm = new FormGroup({
-      name: new FormControl(''),
-      nif: new FormControl(''),
-      webPage: new FormControl(''),
-      email: new FormControl(''),
-      mobileNumbers: new FormArray([]),
-      addresses: new FormArray([])
+    this.entityForm = new UntypedFormGroup({
+      name: new UntypedFormControl(''),
+      nif: new UntypedFormControl(''),
+      webPage: new UntypedFormControl(''),
+      email: new UntypedFormControl(''),
+      mobileNumbers: new UntypedFormArray([]),
+      addresses: new UntypedFormArray([])
     });
     if(this.data) {
       this.getMobileNumbers();
@@ -99,12 +99,12 @@ SupplierService
       };
     } else {
       this.entityInitFormControl = {
-        'name': new FormControl('', [Validators.required]),
-        'nif': new FormControl('', [Validators.required]),
-        'webPage': new FormControl(''),
-        'email': new FormControl('', [Validators.required, Validators.email]),
-        'mobileNumbers':  new FormArray([this.telephoneFormService.getTelephoneForm()]),
-        'addresses': new FormArray([this.addressFormService.getAddressForm()])
+        'name': new UntypedFormControl('', [Validators.required]),
+        'nif': new UntypedFormControl('', [Validators.required]),
+        'webPage': new UntypedFormControl(''),
+        'email': new UntypedFormControl('', [Validators.required, Validators.email]),
+        'mobileNumbers':  new UntypedFormArray([this.telephoneFormService.getTelephoneForm()]),
+        'addresses': new UntypedFormArray([this.addressFormService.getAddressForm()])
       };
     }
     this.createdOrUpdateErrorMessage = {
@@ -119,7 +119,7 @@ SupplierService
   }
 
   get mobileNumbers() {
-    return (<FormArray>this.entityForm.get('mobileNumbers'));
+    return (<UntypedFormArray>this.entityForm.get('mobileNumbers'));
   }
 
   addMobileNumber() {
@@ -142,7 +142,7 @@ SupplierService
   }
 
   get addresses() {
-    return (<FormArray>this.entityForm.get('addresses'));
+    return (<UntypedFormArray>this.entityForm.get('addresses'));
   }
 
   addAddress() {

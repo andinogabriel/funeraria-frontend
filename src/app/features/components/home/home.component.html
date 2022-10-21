@@ -1,1 +1,157 @@
-<h1>asd</h1>
+<mat-drawer-container appScrollManager>
+  <mat-drawer #drawer mode="over">
+    <mat-icon aria-hidden="false" class="close" (click)="drawer.toggle()"
+      >close</mat-icon
+    >
+    <br />
+    <h1>Funeraria Nuñez y Hnos.</h1>
+    <mat-list>
+      <mat-list-item (click)="scrollDrawerTo('form')"><a mat-button>Link 1</a></mat-list-item>
+      <mat-list-item (click)="scrollDrawerTo('buttons')"><a mat-button>Link 2 </a></mat-list-item>
+      <mat-list-item (click)="scrollDrawerTo('stepper')"><a mat-button>Link 3</a></mat-list-item>
+      <mat-list-item (click)="scrollDrawerTo('tables')"><a mat-button>Link 4</a></mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar class="nav">
+      <mat-list>
+        <mat-list-item appScrollAnchor="form"><a mat-button>Link 1</a></mat-list-item>
+        <mat-list-item appScrollAnchor="buttons"><a mat-button>Link 2 </a></mat-list-item>
+        <mat-list-item appScrollAnchor="stepper"><a mat-button>Link 3</a></mat-list-item>
+        <mat-list-item appScrollAnchor="tables"><a mat-button>Link 4</a></mat-list-item>
+      </mat-list>
+    </mat-toolbar>
+    <div class="silder">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        class="desktop-hide"
+        (click)="drawer.toggle()"
+      >
+        reorder
+      </mat-icon>
+      <br />
+      <carousel
+        [images]="slides"
+        [objectFit]="'cover'"
+        [cellWidth]="'100%'"
+        [arrows]="true"
+        [autoplay]="true"
+        [dots]="true"
+        [loop]="true"
+        [height]=600
+      >
+      </carousel>
+    </div>
+    <div class="features">
+      <div class="row">
+        <div class="column">
+          <mat-icon aria-hidden="false" aria-label="Example home icon"
+            >home</mat-icon
+          >
+          <h3>Zero To Hero</h3>
+          <p>
+            Hit the ground running with comprehensive, modern UI components that
+            work across the web, mobile, and desktop.
+          </p>
+        </div>
+        <div class="column">
+          <mat-icon aria-hidden="false" aria-label="Example home icon"
+            >home</mat-icon
+          >
+          <h3>Fast and Consistent</h3>
+          <p>
+            Finely tuned performance, because every millisecond counts. Fully
+            tested across modern browsers.
+          </p>
+        </div>
+        <div class="column">
+          <mat-icon aria-hidden="false" aria-label="Example home icon"
+            >home</mat-icon
+          >
+          <h3>Optimized for Angular</h3>
+          <p>
+            Built by the Angular team to integrate seamlessly with Angular. so
+            that all users are welcome.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contents">
+      <h2>Component</h2>
+      <div class="row">
+        <div class="column center-content" appScrollSection="form" id="form">
+          <h3>Angular Material Form</h3>
+          <p>
+            Angular Material is a component used to wrap several Angular
+            Material components and apply common Text field styles such as the
+            underline, floating label, and hint messages.
+          </p>
+        </div>
+        <div class="column">
+          <img
+            src="https://unsplash.com/photos/W9AwZaSrwQU/download?force=true"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <img
+            src="https://unsplash.com/photos/MI9-PY5cyNs/download?force=true"
+          />
+        </div>
+        <div class="column center-content" appScrollSection="buttons" id="buttons">
+          <h3>Angular Material Buttons</h3>
+          <p>
+            Angular Material buttons are native button or a tags elements
+            enhanced with Material Design styling and ink ripples.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column center-content" appScrollSection="stepper" id="stepper">
+          <h3>Angular Material Stepper</h3>
+          <p>
+            Material stepper builds on the foundation of the CDK stepper that is
+            responsible for the logic that drives a stepped workflow. Material
+            stepper extends the CDK stepper and has Material Design styling.
+          </p>
+        </div>
+        <div class="column">
+          <img
+            src="https://unsplash.com/photos/6JVlSdgMacE/download?force=true"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <img
+            src="https://unsplash.com/photos/Fi-GJaLRGKc/download?force=true"
+          />
+        </div>
+        <div class="column center-content" appScrollSection="tables" id="tables">
+          <h3>Angular Material Tables</h3>
+          <p>
+            This table builds on the foundation of the CDK data-table and uses a
+            similar interface for its data input and template.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="contactus">
+      <h2>Subscribe now To get Updates</h2>
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Subscribe</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <button mat-flat-button>Subscribe Now</button>
+      </form>
+    </div>
+    <div class="footer" color="primary">
+      <mat-toolbar color="primary">
+        <span>Diseño de sistemas 2022</span>
+      </mat-toolbar>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

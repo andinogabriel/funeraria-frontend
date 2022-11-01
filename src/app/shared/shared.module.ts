@@ -22,7 +22,6 @@ import { ScrollManagerDirective } from './directives/scroll-manager.directive';
 import { ScrollSectionDirective } from './directives/scroll-section.directive';
 import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
 
-
 @NgModule({
     imports: [
         CommonModule,
@@ -49,7 +48,7 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         TelephoneFormComponent,
         ScrollManagerDirective,
         ScrollSectionDirective,
-        ScrollAnchorDirective
+        ScrollAnchorDirective,
     ],
     exports: [
         FormsModule,
@@ -69,7 +68,7 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         ScrollSectionDirective,
         ScrollAnchorDirective,
         AddressFormComponent,
-        TelephoneFormComponent
+        TelephoneFormComponent,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

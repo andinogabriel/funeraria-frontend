@@ -1,4 +1,5 @@
 import { Gender } from 'src/app/shared/models/gender';
+import { Relationship } from 'src/app/shared/models/relationship';
 import { User } from 'src/app/shared/models/user';
 
 export interface Affiliate {
@@ -6,8 +7,9 @@ export interface Affiliate {
   lastName: string;
   firstName: string;
   dni: number;
-  birthDate: number;
-  startDate: number;
-  affiliateGender: Gender;
+  birthDate: string;
+  startDate: string;
+  gender: Gender;
   user: User;
+  relationship: Relationship
 }

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { IncomeToShow } from "src/app/shared/models/income";
+import { MoreInfo } from "src/app/shared/models/moreInfo";
 
 @Component({
   selector: "app-income-more-info",
@@ -12,7 +13,7 @@ export class IncomeMoreInfoComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: IncomeToShow) {}
   income: IncomeToShow;
-  dataToShow: { keyName: string; valueName: string | number }[];
+  dataToShow: MoreInfo[];
 
   ngOnInit(): void {
     this.income = this.data;
@@ -21,19 +22,19 @@ export class IncomeMoreInfoComponent implements OnInit {
 
   private initDataToShow(): void {
     this.dataToShow = [
-      { keyName: "Numero de serie", valueName: this.income.receiptSeries },
-      { keyName: "Fecha de ingreso", valueName: this.income.incomeDate },
-      { keyName: "Impuesto", valueName: this.income.tax },
-      { keyName: "Monto total", valueName: this.income?.totalAmount },
-      { keyName: "Proveedor", valueName: this.income?.supplier },
+      { label: "Numero de serie", value: this.income.receiptSeries },
+      { label: "Fecha de ingreso", value: this.income.incomeDate },
+      { label: "Impuesto", value: this.income.tax },
+      { label: "Monto total", value: this.income?.totalAmount },
+      { label: "Proveedor", value: this.income?.supplier },
       {
-        keyName: "Usuario del ingreso",
-        valueName:
+        label: "Usuario del ingreso",
+        value:
           this.income?.incomeUser?.lastName +
           " " +
           this.income?.incomeUser?.firstName,
       },
-      { keyName: "Tipo de recibo", valueName: this.income?.receiptType }
+      { label: "Tipo de recibo", value: this.income?.receiptType }
     ];
   }
 }

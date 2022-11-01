@@ -1,6 +1,6 @@
 <mat-drawer-container appScrollManager>
   <mat-drawer #drawer mode="over">
-    <mat-icon aria-hidden="false" class="close" (click)="drawer.toggle()"
+    <mat-icon class="close" (click)="drawer.toggle()"
       >close</mat-icon
     >
     <br />
@@ -8,8 +8,8 @@
     <mat-list>
       <mat-list-item (click)="scrollDrawerTo('form')"><a mat-button>Link 1</a></mat-list-item>
       <mat-list-item (click)="scrollDrawerTo('buttons')"><a mat-button>Link 2 </a></mat-list-item>
-      <mat-list-item (click)="scrollDrawerTo('stepper')"><a mat-button>Link 3</a></mat-list-item>
-      <mat-list-item (click)="scrollDrawerTo('tables')"><a mat-button>Link 4</a></mat-list-item>
+      <mat-list-item (click)="scrollDrawerTo('tables')"><a mat-button>Link 3</a></mat-list-item>
+      <mat-list-item><a mat-button [routerLink]="!isLogged ? ['/auth/iniciar-sesion'] : ['/dashboard'] ">{{!isLogged ? 'Iniciar Session' : 'Mi Panel'}}</a></mat-list-item>
     </mat-list>
   </mat-drawer>
   <mat-drawer-content>
@@ -17,13 +17,12 @@
       <mat-list>
         <mat-list-item appScrollAnchor="form"><a mat-button>Link 1</a></mat-list-item>
         <mat-list-item appScrollAnchor="buttons"><a mat-button>Link 2 </a></mat-list-item>
-        <mat-list-item appScrollAnchor="stepper"><a mat-button>Link 3</a></mat-list-item>
-        <mat-list-item appScrollAnchor="tables"><a mat-button>Link 4</a></mat-list-item>
+        <mat-list-item appScrollAnchor="tables"><a mat-button>Link 3</a></mat-list-item>
+        <mat-list-item><a mat-button [routerLink]="!isLogged ? ['/auth/iniciar-sesion'] : ['/dashboard'] ">{{!isLogged ? 'Iniciar Session' : 'Mi Panel'}}</a></mat-list-item>
       </mat-list>
     </mat-toolbar>
     <div class="silder">
       <mat-icon
-        aria-hidden="false"
         aria-label="Example home icon"
         class="desktop-hide"
         (click)="drawer.toggle()"
@@ -46,7 +45,7 @@
     <div class="features">
       <div class="row">
         <div class="column">
-          <mat-icon aria-hidden="false" aria-label="Example home icon"
+          <mat-icon aria-label="Example home icon"
             >home</mat-icon
           >
           <h3>Zero To Hero</h3>
@@ -56,7 +55,7 @@
           </p>
         </div>
         <div class="column">
-          <mat-icon aria-hidden="false" aria-label="Example home icon"
+          <mat-icon aria-label="Example home icon"
             >home</mat-icon
           >
           <h3>Fast and Consistent</h3>
@@ -66,7 +65,7 @@
           </p>
         </div>
         <div class="column">
-          <mat-icon aria-hidden="false" aria-label="Example home icon"
+          <mat-icon aria-label="Example home icon"
             >home</mat-icon
           >
           <h3>Optimized for Angular</h3>
@@ -109,32 +108,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="column center-content" appScrollSection="stepper" id="stepper">
-          <h3>Angular Material Stepper</h3>
-          <p>
-            Material stepper builds on the foundation of the CDK stepper that is
-            responsible for the logic that drives a stepped workflow. Material
-            stepper extends the CDK stepper and has Material Design styling.
-          </p>
-        </div>
-        <div class="column">
-          <img
-            src="https://unsplash.com/photos/6JVlSdgMacE/download?force=true"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="column">
-          <img
-            src="https://unsplash.com/photos/Fi-GJaLRGKc/download?force=true"
-          />
-        </div>
         <div class="column center-content" appScrollSection="tables" id="tables">
           <h3>Angular Material Tables</h3>
           <p>
             This table builds on the foundation of the CDK data-table and uses a
             similar interface for its data input and template.
           </p>
+        </div>
+        <div class="column">
+          <img
+            src="https://unsplash.com/photos/Fi-GJaLRGKc/download?force=true"
+          />
         </div>
       </div>
     </div>

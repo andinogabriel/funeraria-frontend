@@ -1,1 +1,25 @@
-<p>list-affiliates works!</p>
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+  <div fxFlex="95%">
+    <mat-card>
+      <mat-card-content>
+        <h1 fxLayoutAlign = "center">{{modelName}}</h1>
+        <app-table-reusable
+          [tableData]="dataSource"
+          [tableColumns]="displayedColumns"
+          [isFilterable]="true"
+          [isPageable]="true"
+          [paginationSizes]="[2, 4, 6]"
+          [hasMoreInfo]="true"
+          [defaultPageSize]="4"
+          [emptyIcon]="'supervised_user_circle'"
+          [emptyMessage]="'Todavia no hay afiliados registrados.'"
+          (deleteAction)="removeRow($any($event))"
+          (createAction)="createElement()"
+          (updateAction)="updateElement($any($event))"
+          (showMoreAction)="showMoreInfo($any($event))"
+        >
+        </app-table-reusable>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

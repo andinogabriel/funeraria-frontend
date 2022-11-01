@@ -1,4 +1,5 @@
 import { AbstractControl, AsyncValidatorFn, UntypedFormArray, ValidationErrors, ValidatorFn } from '@angular/forms';
+import * as moment from 'moment';
 import { delay, map, Observable, of } from 'rxjs';
 import { Item } from '../models/item';
 import { MobileNumber } from '../models/mobileNumber';
@@ -31,5 +32,9 @@ export function containsDuplicates(array: any) {
     return true;
   }
   return false;
+}
+
+export function getAge(birthDate: string): number {
+  return (moment().year() - moment(birthDate, 'DD-MM-YYYY').year());
 }
 

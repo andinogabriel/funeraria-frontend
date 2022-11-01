@@ -48,6 +48,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'afiliados',
+    loadChildren: () => import('./features/components/affiliates/affiliates.module').then(m => m.AffiliatesModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'mi-cuenta',
     loadChildren: () => import('./features/components/account/account.module').then(m => m.AccountModule),
     canActivate: [AuthGuard]

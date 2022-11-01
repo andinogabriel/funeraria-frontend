@@ -1,6 +1,6 @@
 import { NgModule, LOCALE_ID } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { MatMomentDateModule, MomentDateAdapter } from "@angular/material-moment-adapter";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
@@ -37,20 +37,22 @@ import {
 } from "@angular/material/paginator";
 import { SelectCheckAllComponent } from "./select-check-all/select-check-all.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { MAT_DATE_FORMATS } from "@angular/material/core";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { CustomPaginatorIntlService } from "../shared/services/custom-paginator-intl.service";
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: "DD MMM YYYY",
+    dateInput: 'DD-MM-YYYY', 
   },
   display: {
-    dateInput: "DD MMM YYYY",
-    monthYearLabel: "MMM YYYY",
-    dateA11yLabel: "LL",
-    monthYearA11yLabel: "MMMM YYYY",
+    dateInput: 'DD-MM-YYYY', 
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
+
 
 @NgModule({
   imports: [
@@ -120,10 +122,12 @@ export const MY_FORMATS = {
   ],
   providers: [
     {
-      provide: MAT_DATE_FORMATS,
-      useValue: MY_FORMATS,
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
     },
-    { provide: LOCALE_ID, useValue: "en-gb" },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService },
   ],
   declarations: [SelectCheckAllComponent],

@@ -32,6 +32,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         {line: 'Proveedores', routerLink: "proveedores", icon: 'local_shipping', roles: ['ROLE_ADMIN']},
         {line: 'Planes', routerLink: "planes", icon: 'assignment', roles: ['ROLE_ADMIN']},
         {line: 'Usuarios', routerLink: "usuarios", icon: 'people', roles: ['ROLE_ADMIN']},
+        {line: 'Afiliados', routerLink: "afiliados", icon: 'supervised_user_circle', roles: ['ROLE_ADMIN']},
         {line: 'Mi cuenta', routerLink: "mi-cuenta", icon: 'person', roles: ['ROLE_ADMIN', 'ROLE_USER']},
     ]
 

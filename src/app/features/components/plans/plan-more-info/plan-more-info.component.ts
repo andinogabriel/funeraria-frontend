@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MoreInfo } from 'src/app/shared/models/moreInfo';
 import { Plan } from 'src/app/shared/models/plan';
 
 @Component({
@@ -10,7 +11,7 @@ import { Plan } from 'src/app/shared/models/plan';
 export class PlanMoreInfoComponent implements OnInit {
 
   panelOpenState = false;
-  planInfos: {label: string, value: string | number}[] = [];
+  planInfos: MoreInfo[] = [];
   
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: Plan,) { }

@@ -28,6 +28,7 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
   @Input() isSortable = true;
   @Input() isFilterable = true;
   @Input() hasMoreInfo = false;
+  @Input() noCreateAndDelete = false;
   @Input() emptyIcon!: string;
   @Input() emptyMessage!: string;
   @Input() tableColumns!: ReusableTableColumn[];

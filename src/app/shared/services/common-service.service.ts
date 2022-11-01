@@ -11,11 +11,11 @@ export abstract class CommonServiceService<E , M> {
   constructor(protected http: HttpClient, private manager: HttpCacheManager) { }
 
   public findAll(): Observable<M[]> {
-    return this.http.get<M[]>(this.baseUrl, {
+    return this.manager ? this.http.get<M[]>(this.baseUrl, {
       context: withCache({
         bucket: this.bucket
       }),
-    });
+    }) : this.http.get<M[]>(this.baseUrl);
   };
 
   public getById(id: number): Observable<M> {

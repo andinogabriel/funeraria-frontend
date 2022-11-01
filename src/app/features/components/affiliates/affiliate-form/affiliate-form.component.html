@@ -1,1 +1,123 @@
-<p>affiliate-form works!</p>
+<div class="md-dialog-container">
+  <h2
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign="center none"
+  >
+    {{ data ? "Editar" : "Registrar" }} afiliado
+  </h2>
+  <br />
+  <form
+    [formGroup]="entityForm"
+    (ngSubmit)="entityForm.valid && onSubmit()"
+    novalidate
+  >
+    <div mat-dialog-content>
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+      >
+        <mat-form-field
+          *ngFor="let item of affiliateFormInputs"
+          [fxFlex]="item.smWidth"
+          [fxFlex.lt-md]="item.smWidth"
+          [fxFlex.lt-sm]="item.lgWidth"
+          appearance="outline"
+        >
+          <mat-label>{{ item.label }}</mat-label>
+          <input
+            matInput
+            [placeholder]="item.label"
+            [formControlName]="item.name"
+            [type]="item.type"
+          />
+          <mat-error *ngFor="let error of item.errors">
+            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{
+              error.message
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          [fxFlex]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-md]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-sm]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input
+            matInput
+            formControlName="birthDate"
+            [max]="maxDate"
+            [min]="minDate"
+            [formControl]="serializedDate"
+            [matDatepicker]="picker"
+            readonly
+            (dateInput)="OnDateChange($event.value)"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field
+          [fxFlex]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-md]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-sm]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>Genero</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="gender"
+            [compareWith]="compareFn"
+          >
+            <mat-option
+              *ngFor="let gender of genders"
+              [value]="gender"
+            >
+              {{ gender.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('gender', 'required')"
+            >El genero es requerido</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field
+          [fxFlex]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-md]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-sm]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>Parentesco</mat-label>
+          <mat-select
+            ngDefaultControl
+            formControlName="relationship"
+            [compareWith]="compareFn"
+          >
+            <mat-option
+              *ngFor="let relationship of relationships"
+              [value]="relationship"
+            >
+              {{ relationship.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('relationship', 'required')"
+            >El parentesco es requerido</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{ data ? "Editar" : "Registrar" }}
+      </button>
+    </div>
+  </form>
+</div>

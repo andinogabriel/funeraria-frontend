@@ -1,0 +1,36 @@
+<div class="md-dialog-container edit-roles">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+  >
+    Actualizar Roles
+  </h3>
+  <div mat-dialog-content>
+    <div
+      fxLayout="row wrap"
+      fxLayout.lt-sm="column"
+      fxLayoutGap="15px"
+      fxLayoutAlign="flex-start"
+    >
+      <div
+        fxFlex="0 1 calc(100% - 15px)"
+        fxFlex.lt-md="0 1 calc(100% - 15px)"
+        fxFlex.lt-sm="100%"
+      >
+        <ng-multiselect-dropdown
+          [placeholder]="'Roles'"
+          [settings]="dropdownSettings"
+          [data]="dropdownList"
+          [(ngModel)]="selectedItems"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onSelectAll($event)"
+        >
+        </ng-multiselect-dropdown>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign="center"
+  >
+    {{ affiliate.lastName }} {{ affiliate.firstName }}
+  </h3>
+  <br>
+  <div mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-list *ngFor="let income of dataToShow">
+      <mat-list-item
+        ><u>{{ income.label }}</u
+        >:&nbsp;{{ income.value }}</mat-list-item
+      >
+      <mat-divider></mat-divider>
+    </mat-list>
+    <br />
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign="center"
+  >
+    {{ user.lastName }} {{ user.firstName }}
+  </h3>
+  <div mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-list *ngFor="let userInfo of userInfos">
+      <mat-list-item
+        ><u>{{ userInfo.label }}</u
+        >:&nbsp;{{ userInfo.name }}</mat-list-item
+      >
+      <mat-divider></mat-divider>
+    </mat-list>
+    <br />
+  </div>
+</div>

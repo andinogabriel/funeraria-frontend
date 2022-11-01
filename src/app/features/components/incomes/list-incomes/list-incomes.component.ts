@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from '@ngneat/until-destroy';
-import * as moment from 'moment';
 import { NGXLogger } from 'ngx-logger';
 import { first, interval } from 'rxjs';
 import { IncomeService } from 'src/app/features/services/income.service';
@@ -124,7 +123,6 @@ IncomeService
   }
 
   override updateElement(elem: IncomeToShow): void {
-    console.log(elem);
     const receiptTypeObject = this.receiptTypes.find(r => r.name === elem.receiptType);
     const supplierObject = this.suppliers.find(s => s.name === elem.supplier);
     const taxNumber = parseFloat(elem.tax.slice(0, -1));

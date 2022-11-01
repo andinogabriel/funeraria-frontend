@@ -1,21 +1,24 @@
 <div class="container" fxLayout="row" fxLayoutAlign="center none">
   <div fxFlex="95%">
-
     <mat-card>
       <mat-card-content>
-        <h2>Users</h2>
-
-
-        <div class="container" fxLayout="row" fxLayoutAlign="center none">
-          <div fxFlex="50%" class="text-center no-records animate">
-            <mat-icon>people_outline</mat-icon>
-            <p>Todavia no hay usuarios registrados.</p>
-          </div>
-          <mat-icon> </mat-icon>
-        </div>
-
+        <h1 fxLayoutAlign = "center">{{modelName}}</h1>
+        <app-table-reusable
+          [tableData]="dataSource"
+          [tableColumns]="displayedColumns"
+          [isFilterable]="true"
+          [isPageable]="true"
+          [hasMoreInfo]="true"
+          [paginationSizes]="[5, 10, 20]"
+          [defaultPageSize]="5"
+          [noCreateAndDelete]="true"
+          [emptyIcon]="'people'"
+          [emptyMessage]="'Todavia no hay usuarios registrados.'"
+          (updateAction)="updateElement($any($event))"
+          (showMoreAction)="showMoreInfoUser($any($event))"
+        >
+        </app-table-reusable>
       </mat-card-content>
     </mat-card>
-
   </div>
 </div>

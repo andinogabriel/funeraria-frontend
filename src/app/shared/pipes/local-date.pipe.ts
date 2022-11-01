@@ -10,7 +10,7 @@ export class LocalDatePipe implements PipeTransform {
     if (!value || !args) {
       return '';
     }
-    return moment.utc(value).local().format(args);
+    return moment.utc(value).local().format(args) as string; 
   }
 
 }

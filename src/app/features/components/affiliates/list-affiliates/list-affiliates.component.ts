@@ -95,21 +95,25 @@ AffiliateService
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        const affiliateUpdated = result?.data;
-        this.dataSource = [{...affiliateUpdated, relationshipName: affiliateUpdated.relationship.name, affiliator: affiliateUpdated.user.lastName + ' ' + affiliateUpdated.user.firstName, age: getAge(affiliateUpdated.birthDate)}, ...this.dataSource];
+        const affiliateCreated = result?.data;
+        this.dataSource = [{...affiliateCreated, relationshipName: affiliateCreated.relationship.name, affiliator: affiliateCreated.user.lastName + ' ' + affiliateCreated.user.firstName, age: getAge(affiliateCreated.birthDate)}, ...this.dataSource];
       }
     });
   }
 
   override updateElement(elem: Affiliate): void {
+    console.log(first);
     const dialogRef = this.dialog.open(AffiliateFormComponent,
       {
         data: elem
       }
     );
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result.data);
       if(result) {
-        console.log(result);
+        const affiliateToUpdate = result?.data;
+        const affiliateUpdated = {...affiliateToUpdate, relationshipName: affiliateToUpdate.relationship.name, affiliator: affiliateToUpdate.user.lastName + ' ' + affiliateToUpdate.user.firstName, age: getAge(affiliateToUpdate.birthDate)};
+        this.dataSource = this.dataSource.map(affiliate => (affiliate.dni === elem.dni) ? affiliateUpdated : affiliate);
       }
     });
   }

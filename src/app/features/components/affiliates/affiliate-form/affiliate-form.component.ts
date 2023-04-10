@@ -79,12 +79,12 @@ AffiliateService
     this.minDate = new Date(new Date().getFullYear() - 130, 0, 1);
     this.createdSuccessMessage =  `Afiliado ${data ? 'editado' : 'creado'} satisfactoriamente.`;
     this.entityForm = new FormGroup({
-      firstName: new FormControl<string | null>(''),
-      lastName: new FormControl<string | null>(''),
-      birthDate: new FormControl<Date | null>(null),
-      dni: new FormControl<number | null>(null),
-      relationship: new FormControl<Relationship | null>(null),
-      gender: new FormControl<Gender | null>(null),
+      firstName: new FormControl<string | null>('', [Validators.required]),
+      lastName: new FormControl<string | null>('', [Validators.required]),
+      birthDate: new FormControl<Date | null>(null, [Validators.required]),
+      dni: new FormControl<number | null>(null, [Validators.required, RxwebValidators.digit(), Validators.pattern('^[0-9]{6,9}$')]),
+      relationship: new FormControl<Relationship | null>(null, [Validators.required]),
+      gender: new FormControl<Gender | null>(null, [Validators.required]),
     });
     this.createdOrUpdateErrorMessage = {
       confirmText: 'Aceptar',
@@ -108,7 +108,7 @@ AffiliateService
         birthDate: new FormControl<Date | null>(null, [Validators.required]),
         dni: new FormControl<number | null>(null, [Validators.required, RxwebValidators.digit(), Validators.pattern('^[0-9]{6,9}$')]),
         relationship: new FormControl<Relationship | null>(null, [Validators.required]),
-        gender: new FormControl<Relationship | null>(null, [Validators.required])
+        gender: new FormControl<Gender | null>(null, [Validators.required])
       };
     }
   }

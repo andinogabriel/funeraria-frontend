@@ -1,0 +1,172 @@
+<div class="md-dialog-container">
+  <h2
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign="center"
+  >
+    {{ data ? "Editar" : "Registrar" }} Funeral
+  </h2>
+  <br />
+  <form
+    [formGroup]="entityForm"
+    (ngSubmit)="entityForm.valid && onSubmit()"
+    novalidate
+  >
+    <div mat-dialog-content>
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+      >
+        <mat-form-field
+          *ngFor="let item of funeralFormInputs"
+          [fxFlex]="item.smWidth"
+          [fxFlex.lt-md]="item.smWidth"
+          [fxFlex.lt-sm]="item.lgWidth"
+          appearance="outline"
+        >
+          <mat-label>{{ item.label }}</mat-label>
+          <input
+            matInput
+            [placeholder]="item.label"
+            [formControlName]="item.name"
+            [type]="item.type"
+          />
+          <mat-error *ngFor="let error of item.errors">
+            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{
+              error.message
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          [fxFlex]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-md]="'0 1 calc(50% - 15px)'"
+          [fxFlex.lt-sm]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>Fecha de funeral</mat-label>
+          <input
+            matInput
+            formControlName="funeralDate"
+            [min]="minDate"
+            [max]="maxDate"
+            [formControl]="serializedDate"
+            [matDatepicker]="picker"
+            readonly
+            (dateInput)="OnDateChange($event.value, 'funeralDate')"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field
+          *ngFor="let item of funeralSelectInputs"
+          [fxFlex]="item.smWidth"
+          [fxFlex.lt-md]="item.smWidth"
+          [fxFlex.lt-sm]="item.lgWidth"
+          appearance="outline"
+        >
+          <mat-label>{{ item.label }}</mat-label>
+          <mat-select
+            ngDefaultControl
+            [formControlName]="item.name"
+            [compareWith]="compareFn"
+          >
+            <mat-option *ngFor="let it of item.items" [value]="it">
+              {{ it.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngFor="let error of item.errors">
+            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">
+              {{ error.message }}
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <br />
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Difunto</mat-panel-title>
+            <mat-panel-description>
+              {{ data ? "Editar" : "Registrar" }} difunto
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div
+            fxLayout="row wrap"
+            fxLayout.lt-sm="column"
+            fxLayoutGap="15px"
+            fxLayoutAlign="flex-start"
+            formGroupName="deceased"
+          >
+            <mat-form-field
+              *ngFor="let item of deceasedInputs"
+              [fxFlex]="item.smWidth"
+              [fxFlex.lt-md]="item.smWidth"
+              [fxFlex.lt-sm]="item.lgWidth"
+              appearance="outline"
+            >
+              <mat-label>{{ item.label }}</mat-label>
+              <input
+                matInput
+                [placeholder]="item.label"
+                [formControlName]="item.name"
+                [type]="item.type"
+              />
+              <mat-error *ngFor="let error of item.errors">
+                <span
+                  *ngIf="
+                    !!!entityForm.controls['deceased'].hasError(error.name)
+                  "
+                  >{{ error?.message }}</span
+                >
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field
+              *ngFor="let item of datesForm"
+              fxFlex="0 1 calc(33% - 15px)"
+              fxFlex.lt-md="0 1 calc(33% - 15px)"
+              fxFlex.lt-sm="100%"
+              appearance="outline"
+            >
+              <mat-label>{{item.label}}</mat-label>
+              <input
+                matInput
+                [formControlName]="item.name"
+                [min]="item.dateMin"
+                [max]="item.dateMax"
+                [formControl]="serializedDate"
+                [matDatepicker]="picker"
+                readonly
+                (dateInput)="OnDateChange($event.value, item.name)"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngFor="let error of item.errors">
+                <span *ngIf="!!!entityForm.get('deceased').get(item.name).hasError(error.name)">
+                  {{ error?.message }}
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <br />
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{ data ? "Editar" : "Registrar" }}
+      </button>
+    </div>
+  </form>
+</div>

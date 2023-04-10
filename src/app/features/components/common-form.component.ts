@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { Directive, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { CommonServiceService } from '../../shared/services/common-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -18,7 +18,7 @@ export abstract class CommonFormComponent<
   S extends CommonServiceService<E, M>
 > implements OnInit{
   entity!: E;
-  entityForm!: UntypedFormGroup;
+  entityForm!: FormGroup;
   protected entityId: any;
   protected createdSuccessMessage: string;
   protected createdOrUpdateErrorMessage: ConfirmDialog;
@@ -33,7 +33,7 @@ export abstract class CommonFormComponent<
     protected dialogRef: MatDialogRef<CommonFormComponent<E, M, S>>,
     protected snackbarService: SnackbarService,
     protected dialogService: ConfirmDialogService,
-    protected fb: UntypedFormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

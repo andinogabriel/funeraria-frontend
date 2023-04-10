@@ -102,7 +102,6 @@ PlanService
     interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
 
- 
 
   override create(elemToCreate: PlanRequest): void {
     this.service.create(elemToCreate).subscribe({

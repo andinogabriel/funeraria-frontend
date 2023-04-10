@@ -33,6 +33,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'funerales',
+    loadChildren: () => import('./features/components/funeral/funeral.module').then(m => m.FuneralModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'proveedores',
     loadChildren: () => import('./features/components/suppliers/suppliers.module').then(m => m.SuppliersModule),
     canActivate: [AuthGuard]

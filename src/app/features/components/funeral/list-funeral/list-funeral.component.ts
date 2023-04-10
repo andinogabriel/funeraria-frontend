@@ -1,0 +1,110 @@
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
+import { NGXLogger } from 'ngx-logger';
+import { first } from 'rxjs';
+import { FuneralService } from 'src/app/features/services/funeral.service';
+import { Deceased } from 'src/app/shared/models/deceased';
+import { Funeral, FuneralRequest } from 'src/app/shared/models/funeral';
+import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { CommonListComponent } from '../../common.list.component';
+import { FuneralFormComponent } from '../funeral-form/funeral-form.component';
+import { FuneralMoreInfoComponent } from '../funeral-more-info/funeral-more-info.component';
+
+@Component({
+  selector: 'app-list-funeral',
+  templateUrl: './list-funeral.component.html',
+  styleUrls: ['./list-funeral.component.css']
+})
+export class ListFuneralComponent extends CommonListComponent<
+FuneralRequest,
+Funeral,
+FuneralService
+> {
+
+  constructor(service: FuneralService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
+    super(service, dialogService, snackbarService, dialog, titleService, logger);
+    this.entityId = 'id';
+    this.modelName = 'Funerales';
+    this.deleteSuccessMessage = 'Funeral eliminado satisfactoriamente.';
+    this.deleteErrorMessage = {
+      confirmText: 'Aceptar',
+      message: 'Error al tratar de eliminar el funeral seleccionada.',
+      title: 'Error al eliminar el funeral.',
+    };
+    this.errorGetModelList = {
+      confirmText: 'Aceptar',
+      message: 'Error al tratar de obtener todas los funerales.',
+      title: 'Error al obtener los funerales.',
+    };
+    this.deleteMessageOptions = {
+      confirmText: 'Aceptar',
+      message: '¿Estas seguro de eliminar el funeral seleccionada?',
+      title: 'Eliminar funeral.',
+    };
+    this.displayedColumns = [
+      {
+        name: 'Fecha de sepelio',
+        dataKey: 'funeralDate',
+        isSortable: true,
+      },
+      {
+        name: 'Difunto',
+        dataKey: 'deceased',
+        isSortable: false,
+      },
+      {
+        name: 'Plan',
+        dataKey: 'plan',
+        isSortable: true,
+      },
+      {
+        name: 'Monto',
+        dataKey: 'totalAmount',
+        isSortable: true,
+      },
+      {
+        name: 'Tipo de recibo',
+        dataKey: 'receiptType',
+        isSortable: true,
+      }
+    ];
+  }
+
+  override getModelList(): void {
+    this.service
+    .findAll()
+    .pipe(first())
+    .subscribe({
+      next: (modeltList) => {
+        this.dataSource = modeltList.map(funeral => ({...funeral, deceased: this.getDeceasedNames(funeral), plan: funeral.plan['name'], totalAmount: '$' + funeral.totalAmount, receiptType: funeral.receiptType['name']}));
+        this.logger.log(`${this.modelName} cargados.`)
+      },
+      error: () => this.dialogService.open(this.errorGetModelList),
+    });
+  }
+
+  override createElement(): void {
+    const dialogRef = this.dialog.open(FuneralFormComponent, {
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        const funeralCreated: Funeral = result.data;
+        this.dataSource = [{...funeralCreated, deceased: this.getDeceasedNames(funeralCreated), plan: funeralCreated.plan['name'], totalAmount: '$' + funeralCreated.totalAmount, receiptType: funeralCreated.receiptType['name']}, ...this.dataSource];
+      }
+    });
+  }
+
+
+  override showMoreInfo(elem: FuneralRequest): void {
+    this.dialog.open(FuneralMoreInfoComponent, { data: elem });
+  }
+
+  private getDeceasedNames = (funeral: Funeral): string => (
+    funeral.deceased['lastName'] + ' ' + funeral.deceased['firstName']
+  );
+
+  
+
+}

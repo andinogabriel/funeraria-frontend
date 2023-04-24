@@ -86,6 +86,7 @@ export const MY_FORMATS = {
     DragDropModule,
     MatSortModule,
     MatGridListModule,
+    MatStepperModule
   ],
   exports: [
     CommonModule,
@@ -115,6 +116,7 @@ export const MY_FORMATS = {
     MatCheckboxModule,
     MatFormFieldModule,
     MatExpansionModule,
+    MatStepperModule,
     SelectCheckAllComponent,
     DragDropModule,
     MatSortModule,

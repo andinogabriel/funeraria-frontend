@@ -1,18 +1,21 @@
-import { AbstractControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
+import { onlyTwoDecimalRgx } from './regex';
 
 
-
-export function dynamicValidator(formValidator: UntypedFormGroup, key: string, value: string, valueIsEqualTo: string, minMax?: boolean, minValue?: number, maxValue?: number) {
-  if(value?.toLowerCase() === valueIsEqualTo?.toLowerCase()) {
-    formValidator.get(key)?.setValidators([Validators.required, Validators.pattern('^[0-9]\\d*(\\.\\d{1,2})?$')]);
-    if(minMax !== undefined && minMax !== null && minMax) {
-      formValidator.get(key)?.setValidators([Validators.required, Validators.pattern('^[0-9]\\d*(\\.\\d{1,2})?$'), Validators.min(minValue), Validators.max(maxValue)]);
+export function dynamicValidator(formValidator: UntypedFormGroup, key: string, value: string, possibleValues: string[], minMax?: boolean, minValue?: number, maxValue?: number) {
+  const control = formValidator.get(key);
+  if (!control) return;
+  
+  const validators = [];
+  if (possibleValues.includes(value?.toLowerCase())) {
+    validators.push(Validators.required);
+    if (minMax) {
+      validators.push(Validators.pattern(onlyTwoDecimalRgx), Validators.min(minValue), Validators.max(maxValue));
     }
-    formValidator.get(key)?.updateValueAndValidity();
-  } else {
-    formValidator.get(key)?.clearValidators();
-    formValidator.get(key)?.updateValueAndValidity();
   }
+
+  control.setValidators(validators);
+  control.updateValueAndValidity();
 }
 
 export function mustMatch(controlName: string, matchingControlName: string) {

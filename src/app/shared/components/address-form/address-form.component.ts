@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { UntypedFormBuilder } from "@angular/forms";
+import { FormGroup, UntypedFormBuilder } from "@angular/forms";
 import { City } from "../../models/city";
 import { Province } from "../../models/province";
 import { CityService } from "../../services/city.service";
@@ -14,7 +14,44 @@ export class AddressFormComponent implements OnInit {
   selectedProvince: Province = null;
   provinces: Province[] = [];
   cities: City[] = [];
+  addressForm!: FormGroup;
   @Input() inputFormGroup = this.fb.group({});
+  @Input() formGroupName!: string;
+
+  addressInputs = [
+    {
+      name: "streetName",
+      label: "Calle",
+      type: "text",
+      smWidth: "0 1 calc(33% - 15px)",
+      lgWidth: "100%",
+      errors: [{ name: "required", message: "La calle requerida" }],
+    },
+    {
+      name: "blockStreet",
+      label: "Altura",
+      type: "number",
+      smWidth: "0 1 calc(20% - 15px)",
+      lgWidth: "100%",
+      errors: [],
+    },
+    {
+      name: "apartment",
+      label: "Departamento",
+      type: "street",
+      smWidth: "0 1 calc(40% - 15px)",
+      lgWidth: "100%",
+      errors: [],
+    },
+    {
+      name: "flat",
+      label: "Piso",
+      type: "street",
+      smWidth: "0 1 calc(40% - 15px)",
+      lgWidth: "100%",
+      errors: [],
+    },
+  ]
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -53,7 +90,7 @@ export class AddressFormComponent implements OnInit {
   }
 
   hasError = (controlName: string, errorName: string): boolean => {
-    return this.inputFormGroup?.controls[controlName].hasError(errorName);
+    return !!!this.formGroupName ? this.inputFormGroup?.controls[controlName].hasError(errorName) : this.addressForm?.controls[controlName].hasError(errorName);
   };
 
   getCities(): void {
@@ -75,5 +112,4 @@ export class AddressFormComponent implements OnInit {
     });
   }
 
-  
 }

@@ -11,6 +11,7 @@ import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CommonListComponent } from '../../common.list.component';
 import { FuneralFormComponent } from '../funeral-form/funeral-form.component';
 import { FuneralMoreInfoComponent } from '../funeral-more-info/funeral-more-info.component';
+import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-list-funeral',
@@ -23,8 +24,11 @@ Funeral,
 FuneralService
 > {
 
-  constructor(service: FuneralService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
+  scrollStrategy: ScrollStrategy;
+
+  constructor(service: FuneralService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger, private readonly sso: ScrollStrategyOptions) {
     super(service, dialogService, snackbarService, dialog, titleService, logger);
+    this.scrollStrategy = this.sso.close();
     this.entityId = 'id';
     this.modelName = 'Funerales';
     this.deleteSuccessMessage = 'Funeral eliminado satisfactoriamente.';
@@ -86,7 +90,9 @@ FuneralService
   }
 
   override createElement(): void {
-    const dialogRef = this.dialog.open(FuneralFormComponent, {
+    const dialogRef = this.dialog.open(FuneralFormComponent, 
+    {
+      scrollStrategy: this.scrollStrategy,
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {

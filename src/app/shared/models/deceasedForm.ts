@@ -1,25 +1,9 @@
-import { Gender } from "./gender";
-import { Relationship } from "./relationship";
-import { User } from "./user";
-import { DeathCause } from './deathCause';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Address, AddressFormGroup, getAddressFormControl } from 'src/app/shared/models/address';
+import { Relationship } from "./relationship";
+import { DeathCause } from "./deathCause";
+import { Gender } from "./gender";
 import { RxwebValidators } from "@rxweb/reactive-form-validators";
-
-export interface Deceased {
-  id?: number;
-  lastName: string;
-  firstName?: string;
-  dni: number;
-  birthDate: number;
-  deathDate: number;
-  placeOfDeath: Address;
-  registerDate: number;
-  deceasedRelationship: Relationship;
-  deceasedUser: User;
-  deceasedGender: Gender;
-  deceasedDeathCause: DeathCause;
-}
+import { AddressFormGroup, getAddressFormControl } from "./address";
 
 export type DeceasedForm = {
   lastName: FormControl<string>;
@@ -67,3 +51,4 @@ export function getDeceasedFormControl(): DeceasedForm {
     placeOfDeath: new FormGroup(getAddressFormControl())
   };
 }
+

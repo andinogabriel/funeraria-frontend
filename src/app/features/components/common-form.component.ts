@@ -18,7 +18,7 @@ export abstract class CommonFormComponent<
   S extends CommonServiceService<E, M>
 > implements OnInit{
   entity!: E;
-  entityForm!: FormGroup;
+  public entityForm!: FormGroup;
   protected entityId: any;
   protected createdSuccessMessage: string;
   protected createdOrUpdateErrorMessage: ConfirmDialog;
@@ -46,6 +46,7 @@ export abstract class CommonFormComponent<
   };
 
   onSubmit(): void {
+    console.log(this.entityForm);
     this.entity = this.entityForm.getRawValue();
     console.log(this.entity);
     if(this.data) {

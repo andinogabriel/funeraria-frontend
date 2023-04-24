@@ -1,0 +1,171 @@
+<div formGroupName="deceased">
+  <div
+    fxLayout="row wrap"
+    fxLayout.lt-sm="column"
+    fxLayoutGap="15px"
+    fxLayoutAlign="flex-start"
+  >
+    <mat-form-field
+      *ngFor="let item of deceasedInputs"
+      [fxFlex]="item.smWidth"
+      [fxFlex.lt-md]="item.smWidth"
+      [fxFlex.lt-sm]="item.lgWidth"
+      appearance="outline"
+    >
+      <mat-label>{{ item.label }}</mat-label>
+      <input
+        matInput
+        [placeholder]="item.label"
+        [formControlName]="item.name"
+        [type]="item.type"
+      />
+      <mat-error *ngFor="let error of item.errors">
+        <span
+          *ngIf="parentForm.get('deceased').get(item.name).hasError(error.name)"
+          >{{ error?.message }}</span
+        >
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      *ngFor="let item of datesForm"
+      fxFlex="0 1 calc(33% - 8px)"
+      fxFlex.lt-md="0 1 calc(33% - 8px)"
+      fxFlex.lt-sm="100%"
+      appearance="outline"
+    >
+      <mat-label>{{ item.label }}</mat-label>
+      <input
+        matInput
+        [formControlName]="item.name"
+        [min]="item.dateMin"
+        [max]="item.dateMax"
+        [formControl]="serializedDate"
+        [matDatepicker]="picker"
+        readonly
+        (dateInput)="OnDateChange($event.value, item.name)"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngFor="let error of item.errors">
+        <span
+          *ngIf="parentForm.get('deceased').get(item.name).hasError(error.name)"
+        >
+          {{ error?.message }}
+        </span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      *ngFor="let item of deceasedSelectInputs"
+      [fxFlex]="item.smWidth"
+      [fxFlex.lt-md]="item.smWidth"
+      [fxFlex.lt-sm]="item.lgWidth"
+      appearance="outline"
+    >
+      <mat-label>{{ item.label }}</mat-label>
+      <mat-select
+        ngDefaultControl
+        [formControlName]="item.name"
+        [compareWith]="compareFn"
+      >
+        <mat-option *ngFor="let it of item.items" [value]="it">
+          {{ it.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngFor="let error of item.errors">
+        <span
+          *ngIf="parentForm.get('deceased').get(item.name).hasError(error.name)"
+        >
+          {{ error.message }}
+        </span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
+    <mat-divider fxFlex="0"></mat-divider>
+    <span>Lugar de deceso</span>
+    <mat-divider fxFlex="0"></mat-divider>
+  </div>
+  <br />
+  <div
+    fxLayout="row wrap"
+    fxLayout.lt-sm="column"
+    fxLayoutGap="15px"
+    fxLayoutAlign="flex-start"
+    formGroupName="placeOfDeath"
+  >
+    <mat-form-field
+      appearance="outline"
+      fxFlex="0 1 calc(33% - 15px)"
+      fxFlex.lt-md="0 1 calc(33% - 15px)"
+      fxFlex.lt-sm="100%"
+    >
+      <mat-label>Provincia</mat-label>
+      <mat-select
+        [(value)]="selectedProvince"
+        (selectionChange)="getCities()"
+        formControlName="province"
+        [compareWith]="compareFn"
+      >
+        <mat-option *ngFor="let province of provinces" [value]="province">{{
+          province?.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      fxFlex="0 1 calc(33% - 15px)"
+      fxFlex.lt-md="0 1 calc(33% - 15px)"
+      fxFlex.lt-sm="100%"
+    >
+      <mat-label>Ciudad</mat-label>
+      <mat-select formControlName="city" [compareWith]="compareFn">
+        <mat-option *ngIf="cities?.length < 1"
+          >Seleccione una provincia</mat-option
+        >
+        <mat-option *ngFor="let city of cities" [value]="city">{{
+          city?.name
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          parentForm
+            .get('deceased')
+            .get('placeOfDeath')
+            .get('city')
+            .hasError('required')
+        "
+      >
+        <span>La ciudad es requerida</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      *ngFor="let item of addressInputs"
+      appearance="outline"
+      fxFlex="0 1 calc(33% - 15px)"
+      fxFlex.lt-md="0 1 calc(33% - 15px)"
+      fxFlex.lt-sm="100%"
+    >
+      <mat-label>{{ item.label }}</mat-label>
+      <input
+        matInput
+        [placeholder]="item.label"
+        [formControlName]="item.name"
+        [type]="item.type"
+      />
+      <mat-error *ngFor="let error of item.errors">
+        <span
+          *ngIf="
+            parentForm
+              .get('deceased')
+              .get('placeOfDeath')
+              .get(item.name)
+              .hasError(error.name)
+          "
+          >{{ error?.message }}</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

@@ -29,12 +29,12 @@ export type DeceasedForm = {
   birthDate: FormControl<Date>;
   deathDate: FormControl<Date>;
   gender: FormControl<Gender>;
-  userRelationship: FormControl<Relationship>;
+  deceasedRelationship: FormControl<Relationship>;
   deathCause: FormControl<DeathCause>;
 };
 
 export function getDeceasedFormControl(): DeceasedForm {
-  return {
+  return Object.freeze({
     firstName: new FormControl<string | null>("", {
       validators: [Validators.required],
     }),
@@ -58,12 +58,12 @@ export function getDeceasedFormControl(): DeceasedForm {
     gender: new FormControl<Gender | null>(null, {
       validators: [Validators.required],
     }),
-    userRelationship: new FormControl<Relationship | null>(null, {
+    deceasedRelationship: new FormControl<Relationship | null>(null, {
       validators: [Validators.required],
     }),
     deathCause: new FormControl<DeathCause | null>(null, {
       validators: [Validators.required],
     }),
     placeOfDeath: new FormGroup(getAddressFormControl())
-  };
+  });
 }

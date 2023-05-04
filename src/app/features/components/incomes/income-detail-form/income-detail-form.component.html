@@ -44,20 +44,21 @@
   <ng-container *ngFor="let entryDetail of incomeDetailInputs">
     <mat-form-field
       appearance="outline"
-      [fxFlex]="entryDetail.fxFlexTam"
-      [fxFlex.lt-md]="entryDetail.fxFlexTam"
-      fxFlex.lt-sm="100%"
+      [fxFlex]="entryDetail.lWidth"
+      [fxFlex.lt-md]="entryDetail.mWidth"
+      [fxFlex.lt-sm]="entryDetail.smWidth"
     >
-      <mat-label>{{ entryDetail.matLabel }}</mat-label>
+      <mat-label>{{ entryDetail.label }}</mat-label>
       <input
         matInput
-        type="number"
+        [type]="entryDetail.type"
         [formControl]="$any(inputFormGroup.controls[entryDetail.name])"
       />
-      <mat-error *ngIf="hasError(entryDetail.name, 'required')">{{
-        entryDetail.requiredErrorMsg
-      }}</mat-error>
-      <mat-error *ngIf="!hasError(entryDetail.name, 'required') && hasError(entryDetail.name, 'pattern')">{{ entryDetail.patternErrorMsg }}</mat-error>
+      <mat-error *ngFor="let error of entryDetail.errors">
+        <span *ngIf="inputFormGroup?.controls[entryDetail.name].hasError(error.name)">{{
+          error?.message
+        }}</span>
+      </mat-error>
     </mat-form-field>
   </ng-container>
 </div>

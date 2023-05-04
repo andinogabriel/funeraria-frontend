@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { NGXLogger } from 'ngx-logger';
-import { first } from 'rxjs';
+import { first, firstValueFrom } from 'rxjs';
 import { FuneralService } from 'src/app/features/services/funeral.service';
-import { Deceased } from 'src/app/shared/models/deceased';
 import { Funeral, FuneralRequest } from 'src/app/shared/models/funeral';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -102,6 +101,20 @@ FuneralService
     });
   }
 
+  override async updateElement(elem: Funeral): Promise<void> {
+    const funeralToEdit = await firstValueFrom(this.service.getById(elem?.id));
+    const dialogRef = this.dialog.open(FuneralFormComponent,
+      {
+        data: funeralToEdit
+      }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        console.log(result);
+      }
+    });
+  }
+
 
   override showMoreInfo(elem: FuneralRequest): void {
     this.dialog.open(FuneralMoreInfoComponent, { data: elem });
@@ -110,7 +123,5 @@ FuneralService
   private getDeceasedNames = (funeral: Funeral): string => (
     funeral.deceased['lastName'] + ' ' + funeral.deceased['firstName']
   );
-
-  
 
 }

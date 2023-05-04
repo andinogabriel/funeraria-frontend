@@ -159,6 +159,7 @@ FuneralService
 
   private initUpdatePlanForm(): void {
     this.entityId = this.data?.id;
+    console.log(this.data);
     this.entityInitUpdateFormControl = {
       receiptNumber: this.data?.receiptNumber ?? null,
       receiptSeries: this.data?.receiptSeries ?? null,

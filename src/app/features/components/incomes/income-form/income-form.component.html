@@ -5,9 +5,11 @@
     cdkDragRootElement=".cdk-overlay-pane"
     cdkDragHandle
     style="cursor: move"
+    fxLayoutAlign="center"
   >
     {{ data ? "Editar" : "Registrar" }} Ingreso
   </h3>
+  <br />
   <form
     [formGroup]="entityForm"
     (ngSubmit)="entityForm.valid && onSubmit()"
@@ -20,18 +22,29 @@
         fxLayoutGap="15px"
         fxLayoutAlign="flex-start"
       >
-        <mat-form-field
-          *ngFor="let item of incomeFormInputs"
-          [fxFlex]="item.smWidth"
-          [fxFlex.lt-md]="item.smWidth"
-          [fxFlex.lt-sm]="item.lgWidth"
-          appearance="outline"
-        >
-          <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type" >
-          <mat-error *ngFor="let error of item.errors">
-            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
-          </mat-error>
-        </mat-form-field>
+        <ng-container *ngFor="let item of incomeFormInputs">
+          <ng-container *ngIf="!item.showInCreate">
+            <mat-form-field
+              [fxFlex]="item.smWidth"
+              [fxFlex.lt-md]="item.smWidth"
+              [fxFlex.lt-sm]="item.lgWidth"
+              appearance="outline"
+            >
+              <input
+                matInput
+                [placeholder]="item.label"
+                [formControlName]="item.name"
+                [type]="item.type"
+              />
+              <mat-error *ngFor="let error of item.errors">
+                <span
+                  *ngIf="entityForm.controls[item.name].hasError(error.name)"
+                  >{{ error.message }}</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
 
         <mat-form-field
           fxFlex="0 1 calc(40% - 15px)"
@@ -78,9 +91,9 @@
           >
         </mat-form-field>
       </div>
-      <mat-list >
+      <mat-list>
         <mat-divider></mat-divider>
-        <mat-list-item>Precio: ${{price}}</mat-list-item>
+        <mat-list-item>Precio: ${{ price }}</mat-list-item>
         <mat-divider></mat-divider>
       </mat-list>
       <br />
@@ -93,9 +106,12 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <ng-container
-            *ngFor="let newEntryDetail of incomeDetails?.controls; let i = index"
+            *ngFor="
+              let newEntryDetail of incomeDetails?.controls;
+              let i = index
+            "
           >
-            <app-income-detail-form 
+            <app-income-detail-form
               [inputFormGroup]="$any(newEntryDetail)"
               [itemsFormGroup]="itemsForm"
             >

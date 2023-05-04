@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { UntypedFormBuilder } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { MatSelectChange } from "@angular/material/select";
 import { first } from "rxjs";
 import { CategoryService } from "src/app/features/services/category.service";
@@ -22,33 +22,39 @@ export class IncomeDetailFormComponent implements OnInit {
 
   incomeDetailInputs = [
     {
-      matLabel: "Cantidad",
-      name: "quantity",
-      requiredErrorMsg: "La cantidad del articulo es requerida.",
-      patternErrorMsg:
-        "La cantidad debe ser mayor a 0 y debe ser un numero entero.",
-      fxFlexTam: "0 1 calc(20% - 15px)",
+      name: 'quantity', label: 'Cantidad', type: 'number',
+      lWidth: '0 1 calc(20% - 15px)', mWidth: '0 1 calc(20% - 15px)', smWidth: '100%',
+      errors: [
+        {name: 'required', message: 'La cantidad del articulo es requerida'},
+        {name: 'min', message: 'La cantidad debe ser positiva'},
+        {name: 'pattern', message: 'La cantidad solo debe contener dos decimales'},
+        {name: 'digit', message: 'Ingrese valores numericos'}
+      ]
     },
     {
-      matLabel: "Precio de compra",
-      name: "purchasePrice",
-      requiredErrorMsg: "El precio de compra es requerido.",
-      patternErrorMsg:
-        "El precio de compra debe ser mayor a 0 y solo contener 2 decimales.",
-      fxFlexTam: "0 1 calc(40% - 15px)",
+      name: 'purchasePrice', label: 'Precio de compra', type: 'number',
+      lWidth: '0 1 calc(40% - 15px)',  mWidth: '0 1 calc(40% - 15px)', smWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El precio de compra es requerido'},
+        {name: 'min', message: 'El precio de compra debe ser positivo'},
+        {name: 'pattern', message: 'El precio de compra solo debe contener dos decimales'},
+        {name: 'digit', message: 'Ingrese valores numericos'}
+      ]
     },
     {
-      matLabel: "Precio de venta",
-      name: "salePrice",
-      requiredErrorMsg: "El precio de venta es requerido.",
-      patternErrorMsg:
-        "El precio de venta debe ser mayor a 0 y solo contener 2 decimales.",
-      fxFlexTam: "0 1 calc(40% - 15px)",
+      name: 'salePrice', label: 'Precio de venta', type: 'number',
+      lWidth: '0 1 calc(40% - 15px)',  mWidth: '0 1 calc(40% - 15px)', smWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El precio de venta es requerido'},
+        {name: 'min', message: 'El precio de venta debe ser positivo'},
+        {name: 'pattern', message: 'El precio de venta solo debe contener dos decimales'},
+        {name: 'digit', message: 'Ingrese valores numericos'}
+      ]
     },
   ];
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private categoryService: CategoryService,
     private itemSerivce: ItemService
   ) {}

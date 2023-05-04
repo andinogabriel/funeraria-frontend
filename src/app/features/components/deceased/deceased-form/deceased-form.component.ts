@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import {
   ControlContainer,
   FormBuilder,
@@ -7,10 +7,11 @@ import {
   FormGroupDirective
 } from "@angular/forms";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { first } from "rxjs/operators";
 import { City } from "src/app/shared/models/city";
 import { DeathCause } from "src/app/shared/models/deathCause";
-import {getDeceasedFormControl } from "src/app/shared/models/deceased";
+import { getDeceasedFormControl } from "src/app/shared/models/deceased";
 import { Gender } from "src/app/shared/models/gender";
 import { Province } from "src/app/shared/models/province";
 import { Relationship } from "src/app/shared/models/relationship";
@@ -133,6 +134,7 @@ export class DeceasedFormComponent implements OnInit {
   ];
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private parent: FormGroupDirective,
     private genderService: GenderService,
@@ -150,17 +152,17 @@ export class DeceasedFormComponent implements OnInit {
       this.getRelationships();
       this.getDeathCauses();
       this.getProvinces();
-      if(this.parentForm.get('deceased').get('placeOfDeath').get('province').value) {
-        this.selectedProvince = this.parentForm.get('deceased').get('placeOfDeath').get('province').value;
-        this.getCities();
-      }
+      this.getProvinceToEdit();
     });
     this.parentForm = this.parent.form;
     this.parentForm.addControl(
       "deceased",
       this.fb.group(getDeceasedFormControl())
     );
-    console.log(this.parentForm);
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 
   OnDateChange(event: MatDatepickerInputEvent<Date>, itemName: string) {
@@ -210,7 +212,7 @@ export class DeceasedFormComponent implements OnInit {
           this.deceasedSelectInputs = [
             ...this.deceasedSelectInputs,
             {
-              name: "userRelationship",
+              name: "deceasedRelationship",
               label: "Parentesco",
               items: this.relationships,
               smWidth: "0 1 calc(33% - 10px)",
@@ -256,6 +258,13 @@ export class DeceasedFormComponent implements OnInit {
   getCities(): void {
     const provinceId = this.selectedProvince.id;
     this.getCitiesByProvince(provinceId);
+  }
+
+  private getProvinceToEdit(): void {
+    if(this.parentForm.get('deceased').get('placeOfDeath')) {
+      this.selectedProvince = this.selectedProvince = this.parentForm?.get('deceased')?.get('placeOfDeath')?.get('city')?.value['province'];
+      this.getCities();
+    }
   }
 
   private getProvinces(): void {

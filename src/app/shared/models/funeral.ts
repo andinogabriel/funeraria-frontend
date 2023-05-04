@@ -1,7 +1,7 @@
 import { ReceiptType } from './receiptType';
-import { Deceased } from './deceased';
+import { Deceased, getDeceasedFormControl } from './deceased';
 import { Plan } from './plan';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { onlyTwoDecimalRgx } from '../utils/regex';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
@@ -49,6 +49,7 @@ export type FuneralForm = {
   tax: FormControl<number>;
   receiptType: FormControl<ReceiptType>;
   plan: FormControl<Plan>;
+  //deceased: FormControl<Deceased>;
 };
 
 export function getFuneralFormControl() : FuneralForm {
@@ -58,6 +59,7 @@ export function getFuneralFormControl() : FuneralForm {
     receiptSeries: new FormControl<string | null>('', [Validators.required]),
     tax: new FormControl<number | null>(null, [Validators.required, RxwebValidators.digit(), Validators.pattern(onlyTwoDecimalRgx), Validators.min(1)]),
     receiptType:  new FormControl<ReceiptType | null>(null, [Validators.required]),
-    plan: new FormControl<Plan | null>(null, [Validators.required])
+    plan: new FormControl<Plan | null>(null, [Validators.required]),
+    //deceased: new FormControl<Deceased | null>(null),
   };
 }

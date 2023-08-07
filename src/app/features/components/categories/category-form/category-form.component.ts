@@ -1,11 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonFormComponent } from '../../common-form.component';
 import { CategoryService } from 'src/app/features/services/category.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/shared/models/category';
 
 @Component({
@@ -18,13 +17,31 @@ export class CategoryFormComponent extends CommonFormComponent<
   Category,
   CategoryService
 > {
+
+  CategoryFormInputs = [
+    {
+      name: 'name', label: 'Nombre', type: 'text',
+      lgWidth: '0 1 calc(100% - 15px)', smWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El nombre de la categoría es requerido'}
+      ]
+    },
+    {
+      name: 'description', label: 'Descripción', type: 'text',
+      lgWidth: '0 1 calc(100% - 15px)', smWidth: '100%',
+      errors: [
+        {name: 'required', message: 'El nombre de la categoría es requerido'}
+      ]
+    },
+  ]
+
   constructor(
     categoryService: CategoryService,
     @Inject(MAT_DIALOG_DATA) public override data: Category,
     dialogRef: MatDialogRef<CategoryFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: UntypedFormBuilder
+    fb: FormBuilder
   ) {
     super(
       categoryService,
@@ -35,26 +52,31 @@ export class CategoryFormComponent extends CommonFormComponent<
       fb
     );
     this.createdSuccessMessage = 'Categoria creada satisfactoriamente.';
-    this.entityForm = new UntypedFormGroup({
-      name: new UntypedFormControl(''),
-      description: new UntypedFormControl('')
+    this.entityForm = new FormGroup({
+      name: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required])
     });
-    if(this.data) {
-      this.entityId = this.data?.id;
-      this.entityInitUpdateFormControl = {
-        'name': this.data?.name ?? null,
-        'description': this.data?.description ?? null
-      };
-    } else {
-      this.entityInitFormControl = {
-        'name': new UntypedFormControl('', [Validators.required]),
-        'description': new UntypedFormControl('', [Validators.required]),
-      };
-    }
     this.createdOrUpdateErrorMessage = {
       confirmText: 'Aceptar',
       message: `Ha sucedido un error al intentar ${data ? 'editar' : 'crear'} la categoria.`,
       title: `Error al ${data ? 'editar' : 'crear'} categoria`
     }
+    this.data ? this.initUpdateCategory() : this.initCreateCategory();
   }
+
+  private initUpdateCategory(): void {
+    this.entityId = this.data?.id;
+    this.entityInitUpdateFormControl = {
+      name: this.data?.name ?? null,
+      description: this.data?.description ?? null
+    };
+  }
+
+  private initCreateCategory(): void {
+    this.entityInitFormControl = {
+      name: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required])
+    };
+  }
+
 }

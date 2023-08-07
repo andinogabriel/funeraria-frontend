@@ -1,5 +1,8 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';import { MatDrawer } from '@angular/material/sidenav';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { TokenService } from 'src/app/core/services/token.service';
 ;
 
@@ -11,9 +14,12 @@ import { TokenService } from 'src/app/core/services/token.service';
 export class HomeComponent implements OnInit {
   
   @ViewChild('drawer', { static: false }) drawer: MatDrawer;
+  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
+  mobileQuery: MediaQueryList;
   title = 'my-app';
   isShowHideFlag = "over";
   isLogged: boolean;
+  screenHeight: number;
   slides = [
     {path: 'https://efuneraria.com/wp-content/uploads/2022/02/que-es-una-funeraria.jpg'}, 
     {path: 'https://www.ecured.cu/images/b/bf/Funeraria_1.jpg'},
@@ -28,23 +34,30 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private viewportScroller: ViewportScroller, 
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router,
+    public spinnerService: SpinnerService,
     ) {}
    
   ngOnInit(): void {
+    this.screenHeight = window.innerHeight;
     this.isLogged = !!this.tokenService.getToken();
   }
+  
 
-  showHide() {
+  scrollDrawerTo(name: string, mobile?: boolean) {
+    mobile && this.sidenav?.close();
+    this.viewportScroller?.scrollToAnchor(name);
   }
 
-  scrollTo(name: string) {
-    this.viewportScroller.scrollToAnchor(name);
+  scrollToLoginOrDashboard() {
+    this.drawer?.toggle();
+    this.router.navigate([!this.isLogged ? "'/auth/iniciar-sesion'" : "'/dashboard'"]);
   }
 
-  scrollDrawerTo(name: string) {
-    this.viewportScroller.scrollToAnchor(name);
-    this.drawer.toggle();
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.screenHeight = window.innerHeight;
   }
 
 }

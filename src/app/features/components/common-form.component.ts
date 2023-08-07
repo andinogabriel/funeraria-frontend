@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { Directive, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonServiceService } from '../../shared/services/common-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -46,14 +46,8 @@ export abstract class CommonFormComponent<
   };
 
   onSubmit(): void {
-    console.log(this.entityForm);
     this.entity = this.entityForm.getRawValue();
-    console.log(this.entity);
-    if(this.data) {
-      this.update(this.entity);
-    } else {
-      this.create(this.entity);
-    }
+    this.data ? this.update(this.entity) : this.create(this.entity);
   }
 
   create(elemToCreate: E): void {
@@ -69,7 +63,6 @@ export abstract class CommonFormComponent<
   }
 
   update(elemToUpdate: E): void {
-    console.log(this.entityId);
     this.service.edit(this.entityId, elemToUpdate).subscribe({
       next: (elemUpdated) => {
         this.dialogRef.close({ data: elemUpdated });

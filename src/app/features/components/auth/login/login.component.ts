@@ -79,7 +79,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/dashboard"]);
         },
         error: (error: any) => {
-          console.log(error);
           this.isLogged = false;
           this.loginErrMessage = error?.error?.message;
           this.snackbarService.error(this.loginErrMessage);

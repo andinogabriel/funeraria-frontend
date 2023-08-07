@@ -1,6 +1,6 @@
-import { AbstractControl, AsyncValidatorFn, UntypedFormArray, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {FormArray, ValidatorFn } from '@angular/forms';
 import * as moment from 'moment';
-import { delay, map, Observable, of } from 'rxjs';
+import { delay, of } from 'rxjs';
 import { Item } from '../models/item';
 import { MobileNumber } from '../models/mobileNumber';
 
@@ -10,7 +10,7 @@ export const filterAlreadySelectedItems = (items: Item[], itemsFormGroup: Item[]
 );
 
 export const isMobileNumberDuplicated = () => {
-  const validator: ValidatorFn = (formArray: UntypedFormArray) => {  
+  const validator: ValidatorFn = (formArray: FormArray) => {  
     const mobileNumbers: MobileNumber[] = formArray.controls.map(control => control.value);
     const mobNumbers = mobileNumbers.map(value => value.mobileNumber)
     const hasDuplicate = mobNumbers.some(

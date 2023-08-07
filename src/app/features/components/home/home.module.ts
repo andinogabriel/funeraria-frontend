@@ -15,7 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     HomeRoutingModule,
     SharedModule,
-    IvyCarouselModule
+    IvyCarouselModule,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

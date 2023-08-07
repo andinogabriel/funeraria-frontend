@@ -33,8 +33,8 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
   @Input() emptyMessage!: string;
   @Input() tableColumns!: ReusableTableColumn[];
   @Input() rowActionIcon!: string;
-  @Input() paginationSizes: number[] = [5, 10, 15];
-  @Input() defaultPageSize = this.paginationSizes[1];
+  @Input() paginationSizes: number[] = [5, 10, 20];
+  @Input() defaultPageSize = this.paginationSizes[0];
 
   selectedRow: any;
 
@@ -74,18 +74,12 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
   }
 
   sortTable(sortParameters: Sort) {
-    sortParameters.active = this?.tableColumns?.find(
-      (column) => column?.name === sortParameters?.active
-    )?.dataKey;
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.tableDataSource.data = this.tableDataSource.data
-        .sort((a,b) => a[keyName] < b[keyName] ? -1 : (a[keyName] > b[keyName] ? 1 : 0));
-    } else if (sortParameters.direction === 'desc') {
-      this.tableDataSource.data = this.tableDataSource.data
-        .sort((a,b) => a[keyName] > b[keyName] ? -1 : (a[keyName] < b[keyName] ? 1 : 0));
-    } else {
-      this.tableDataSource;
+    const keyName = this.tableColumns.find(column => column.name === sortParameters.active)?.dataKey;
+    if (keyName) {
+      this.tableDataSource.data.sort((a, b) => {
+        const comparison = a[keyName] < b[keyName] ? -1 : a[keyName] > b[keyName] ? 1 : 0;
+        return sortParameters.direction === 'desc' ? -comparison : comparison;
+      });
     }
   }
 

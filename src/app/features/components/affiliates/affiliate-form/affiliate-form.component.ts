@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { untilDestroyed } from '@ngneat/until-destroy';
@@ -63,7 +63,7 @@ AffiliateService
     dialogRef: MatDialogRef<AffiliateFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: UntypedFormBuilder,
+    fb: FormBuilder,
     private genderService: GenderService,
     private relationshipService: RelationshipService
   ) {
@@ -91,26 +91,7 @@ AffiliateService
       message: `Ha sucedido un error al intentar ${data ? 'editar' : 'crear'} el afiliado.`,
       title: `Error al ${data ? 'editar' : 'crear'} el afiliado.`
     }
-    if(this.data) {
-      this.entityId = this.data?.dni;
-      this.entityInitUpdateFormControl = {
-        firstName: this.data?.firstName ?? null,
-        lastName: this.data?.lastName ?? null,
-        birthDate: new Date(moment(this.data.birthDate, "DD-MM-YYYY").toDate()) ?? null,
-        dni: this.data?.dni ?? null,
-        relationship: this.data?.relationship ?? null,
-        gender: this.data?.gender ?? null
-      };
-    } else {
-      this.entityInitFormControl = {
-        firstName: new FormControl<string | null>('', [Validators.required]),
-        lastName: new FormControl<string | null>('', [Validators.required]),
-        birthDate: new FormControl<Date | null>(null, [Validators.required]),
-        dni: new FormControl<number | null>(null, [Validators.required, RxwebValidators.digit(), Validators.pattern('^[0-9]{6,9}$')]),
-        relationship: new FormControl<Relationship | null>(null, [Validators.required]),
-        gender: new FormControl<Gender | null>(null, [Validators.required])
-      };
-    }
+    this.data ? this.initUpdateAffiliate() : this.initCrateAffiliate();
   }
 
   override ngOnInit(): void {
@@ -139,5 +120,29 @@ AffiliateService
       error: () => console.log('Error al obtener los parentescos.')
     });
   }
+
+  private initUpdateAffiliate(): void {
+    this.entityId = this.data?.dni;
+    this.entityInitUpdateFormControl = {
+      firstName: this.data?.firstName ?? null,
+      lastName: this.data?.lastName ?? null,
+      birthDate: new Date(moment(this.data.birthDate, "DD-MM-YYYY").toDate()) ?? null,
+      dni: this.data?.dni ?? null,
+      relationship: this.data?.relationship ?? null,
+      gender: this.data?.gender ?? null
+    };
+  }
+
+  private initCrateAffiliate(): void {
+    this.entityInitFormControl = {
+      firstName: new FormControl<string | null>('', [Validators.required]),
+      lastName: new FormControl<string | null>('', [Validators.required]),
+      birthDate: new FormControl<Date | null>(null, [Validators.required]),
+      dni: new FormControl<number | null>(null, [Validators.required, RxwebValidators.digit(), Validators.pattern('^[0-9]{6,9}$')]),
+      relationship: new FormControl<Relationship | null>(null, [Validators.required]),
+      gender: new FormControl<Gender | null>(null, [Validators.required])
+    };
+  }
+  
 
 }

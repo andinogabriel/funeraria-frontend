@@ -6,6 +6,10 @@ body {
   font-size: 14px;
 }
 
+mat-icon{
+  font-family: 'Material Icons' !important;
+}
+
 .full-width {
   width: 100%;
 }

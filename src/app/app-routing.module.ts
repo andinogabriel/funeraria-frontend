@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router, Scroll } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
+import { ViewportScroller } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 const appRoutes: Routes = [
   {
@@ -81,9 +83,31 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {
+      anchorScrolling: 'enabled',
+    })
   ],
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor(router: Router, viewportScroller: ViewportScroller) {
+    router.events
+      .pipe(filter((e): e is Scroll => e instanceof Scroll))
+      .subscribe((e) => {
+        if (e.position) {
+          // backward navigation
+          setTimeout(() => {
+            viewportScroller.scrollToPosition(e.position);
+          }, 0);
+        } else if (e.anchor) {
+          // anchor navigation
+          console.log(e.anchor);
+          viewportScroller.scrollToAnchor(e.anchor);
+        } else {
+          // forward navigation
+          viewportScroller.scrollToPosition([0, 0]);
+        }
+      });
+    }
+ }

@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { UntypedFormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 
 @Injectable({
   providedIn: "root",
 })
 export class AddressFormService {
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
   getAddressForm() {
     return this.fb.group({

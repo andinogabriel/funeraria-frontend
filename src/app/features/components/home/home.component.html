@@ -1,35 +1,49 @@
-<mat-drawer-container appScrollManager>
-  <mat-drawer #drawer mode="over">
-    <mat-icon class="close" (click)="drawer.toggle()"
-      >close</mat-icon
-    >
-    <br />
-    <h1>Funeraria Nuñez y Hnos.</h1>
-    <mat-list>
-      <mat-list-item (click)="scrollDrawerTo('form')"><a mat-button>Link 1</a></mat-list-item>
-      <mat-list-item (click)="scrollDrawerTo('buttons')"><a mat-button>Link 2 </a></mat-list-item>
-      <mat-list-item (click)="scrollDrawerTo('tables')"><a mat-button>Link 3</a></mat-list-item>
-      <mat-list-item><a mat-button [routerLink]="!isLogged ? ['/auth/iniciar-sesion'] : ['/dashboard'] ">{{!isLogged ? 'Iniciar Session' : 'Mi Panel'}}</a></mat-list-item>
-    </mat-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <mat-toolbar class="nav">
-      <mat-list>
-        <mat-list-item appScrollAnchor="form"><a mat-button>Link 1</a></mat-list-item>
-        <mat-list-item appScrollAnchor="buttons"><a mat-button>Link 2 </a></mat-list-item>
-        <mat-list-item appScrollAnchor="tables"><a mat-button>Link 3</a></mat-list-item>
-        <mat-list-item><a mat-button [routerLink]="!isLogged ? ['/auth/iniciar-sesion'] : ['/dashboard'] ">{{!isLogged ? 'Iniciar Session' : 'Mi Panel'}}</a></mat-list-item>
-      </mat-list>
-    </mat-toolbar>
-    <div class="silder">
-      <mat-icon
-        aria-label="Example home icon"
-        class="desktop-hide"
-        (click)="drawer.toggle()"
+<div style="height: 80vh">
+  <mat-toolbar color="primary" class="navbar">
+    <mat-toolbar-row>
+      <button
+        mat-icon-button
+        (click)="sidenav?.toggle()"
+        fxShow="true"
+        fxHide.gt-sm
       >
-        reorder
-      </mat-icon>
-      <br />
+        <mat-icon [ngStyle]="{ color: 'white' }">menu</mat-icon>
+      </button>
+      <a class="navbar-brand" [routerLink]="['/']" matTooltip="Inicio">
+        <h1>Funeraria Nuñez y Hnos.</h1>
+      </a>
+
+      <span class="navbar-spacer"></span>
+      <div fxShow="true" fxHide.lt-md>
+        <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+        <a (click)="scrollDrawerTo('form', false)" mat-button>Nosotros</a>
+        <a (click)="scrollDrawerTo('buttons', false)" mat-button>Servicios</a>
+        <a (click)="scrollDrawerTo('tables', false)" mat-button>Contacto</a>
+        <a (click)="scrollToLoginOrDashboard()" mat-button>{{
+          !isLogged ? "Iniciar Session" : "Mi Panel"
+        }}</a>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav>
+      <mat-nav-list>
+        <a (click)="sidenav?.toggle()" mat-list-item
+          ><mat-icon mat-list-icon [ngStyle]="{ color: 'white' }"
+            >close</mat-icon
+          ></a
+        >
+        <a (click)="scrollDrawerTo('form', true)" mat-list-item>Nosotros</a>
+        <a (click)="scrollDrawerTo('buttons', true)" mat-list-item>Servicios</a>
+        <a (click)="scrollDrawerTo('tables', true)" mat-list-item>Contacto</a>
+        <a
+          [routerLink]="!isLogged ? ['/auth/iniciar-sesion'] : ['/dashboard']"
+          mat-list-item
+          >{{ !isLogged ? "Iniciar Session" : "Mi Panel" }}</a
+        >
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlexFill>
       <carousel
         [images]="slides"
         [objectFit]="'cover'"
@@ -38,104 +52,109 @@
         [autoplay]="true"
         [dots]="true"
         [loop]="true"
-        [height]=600
-      >
-      </carousel>
-    </div>
-    <div class="features">
-      <div class="row">
-        <div class="column">
-          <mat-icon aria-label="Example home icon"
-            >home</mat-icon
-          >
-          <h3>Zero To Hero</h3>
-          <p>
-            Hit the ground running with comprehensive, modern UI components that
-            work across the web, mobile, and desktop.
-          </p>
-        </div>
-        <div class="column">
-          <mat-icon aria-label="Example home icon"
-            >home</mat-icon
-          >
-          <h3>Fast and Consistent</h3>
-          <p>
-            Finely tuned performance, because every millisecond counts. Fully
-            tested across modern browsers.
-          </p>
-        </div>
-        <div class="column">
-          <mat-icon aria-label="Example home icon"
-            >home</mat-icon
-          >
-          <h3>Optimized for Angular</h3>
-          <p>
-            Built by the Angular team to integrate seamlessly with Angular. so
-            that all users are welcome.
-          </p>
+        [height]="screenHeight > 600 ? 600 : screenHeight * 0.6"
+      ></carousel>
+      <div class="features">
+        <div class="row">
+          <div class="column">
+            <h3>Estamos aquí para ayudarte</h3>
+            <p>
+              Te acompañamos en cualquier momento del día, los 365 días del año
+            </p>
+          </div>
+          <div class="column">
+            <h3>Trabajamos con o sin prepagas</h3>
+            <p>
+              Trabajamos con la mayoría de las prepagas existententes en el
+              país, asi como tambien proveemos servicios a los que no poseen
+            </p>
+          </div>
+          <div class="column">
+            <h3>Te ayudamos en el proceso de despedida</h3>
+            <p>
+              Te ofrecemos todo nuestro catálogo de productos y servicios para
+              organizar un funeral adecuado a tus necesidades y gustos
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="contents">
-      <h2>Component</h2>
-      <div class="row">
-        <div class="column center-content" appScrollSection="form" id="form">
-          <h3>Angular Material Form</h3>
-          <p>
-            Angular Material is a component used to wrap several Angular
-            Material components and apply common Text field styles such as the
-            underline, floating label, and hint messages.
-          </p>
+      <div class="contents">
+        <h2>Component</h2>
+        <div class="row">
+          <div class="column center-content" id="form">
+            <h3>NOSOTROS</h3>
+            <p>
+              Desde 2013 ofrecemos servicios funerarios de excelencia en la
+              ciudad de Presidencia Roque Sáenz Peña. Los años de experiencia y
+              la confianza de quienes nos eligen en los momentos más difíciles,
+              nos motivan a crecer año tras año. Llegamos para homenajear y
+              brindar protección exequial a ese ser querido tan especial. Con
+              una vigencia permanente en esta industria, sabemos bien cómo hacer
+              nuestro trabajo.
+            </p>
+          </div>
+          <div class="column">
+            <img
+              src="https://unsplash.com/photos/W9AwZaSrwQU/download?force=true"
+            />
+          </div>
         </div>
-        <div class="column">
-          <img
-            src="https://unsplash.com/photos/W9AwZaSrwQU/download?force=true"
-          />
+        <div class="row">
+          <div class="column">
+            <img
+              src="https://unsplash.com/photos/MI9-PY5cyNs/download?force=true"
+            />
+          </div>
+          <div class="column center-content" id="buttons">
+            <h3>Angular Material Buttons</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea quos
+              unde aspernatur ab iusto libero voluptatibus dolore sapiente earum
+              eligendi a eveniet explicabo, aliquam consequuntur culpa. Veniam
+              molestiae obcaecati eveniet. Lorem, ipsum dolor sit amet
+              consectetur adipisicing elit. Rerum quasi dolor commodi distinctio
+              dicta nobis, itaque cum deserunt, quis sit modi voluptate
+              consequuntur alias numquam debitis, amet doloribus non
+              necessitatibus!
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column center-content" id="tables">
+            <h3>Angular Material Tables</h3>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum
+              distinctio quisquam facere, cumque perspiciatis, explicabo dolorem
+              possimus nihil quis quos labore doloribus ab alias odio
+              dignissimos sapiente facilis vero sit? Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Eum pariatur explicabo modi.
+              Pariatur, quo ipsam, ea voluptates eveniet magnam eos voluptatem
+              minus perspiciatis accusamus accusantium inventore vel corrupti.
+              Voluptatem, quasi!
+            </p>
+          </div>
+          <div class="column">
+            <img
+              src="https://unsplash.com/photos/Fi-GJaLRGKc/download?force=true"
+            />
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="column">
-          <img
-            src="https://unsplash.com/photos/MI9-PY5cyNs/download?force=true"
-          />
-        </div>
-        <div class="column center-content" appScrollSection="buttons" id="buttons">
-          <h3>Angular Material Buttons</h3>
-          <p>
-            Angular Material buttons are native button or a tags elements
-            enhanced with Material Design styling and ink ripples.
-          </p>
-        </div>
+      <div class="contactus">
+        <h2>Subscribe now To get Updates</h2>
+        <form>
+          <mat-form-field appearance="fill">
+            <mat-label>Subscribe</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <button mat-flat-button>Subscribe Now</button>
+        </form>
       </div>
-      <div class="row">
-        <div class="column center-content" appScrollSection="tables" id="tables">
-          <h3>Angular Material Tables</h3>
-          <p>
-            This table builds on the foundation of the CDK data-table and uses a
-            similar interface for its data input and template.
-          </p>
-        </div>
-        <div class="column">
-          <img
-            src="https://unsplash.com/photos/Fi-GJaLRGKc/download?force=true"
-          />
-        </div>
+      <div class="footer" color="primary">
+        <mat-toolbar color="primary">
+          <span>Diseño de sistemas 2023</span>
+        </mat-toolbar>
       </div>
-    </div>
-    <div class="contactus">
-      <h2>Subscribe now To get Updates</h2>
-      <form>
-        <mat-form-field appearance="fill">
-          <mat-label>Subscribe</mat-label>
-          <input matInput />
-        </mat-form-field>
-        <button mat-flat-button>Subscribe Now</button>
-      </form>
-    </div>
-    <div class="footer" color="primary">
-      <mat-toolbar color="primary">
-        <span>Diseño de sistemas 2022</span>
-      </mat-toolbar>
-    </div>
-  </mat-drawer-content>
-</mat-drawer-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

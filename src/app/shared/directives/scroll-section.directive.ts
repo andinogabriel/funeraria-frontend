@@ -13,15 +13,15 @@ export class ScrollSectionDirective {
   ) {}
 
   ngOnInit() {
-    this.manager.register(this);
+    this.manager?.register(this);
   }
 
   ngOnDestroy() {
-    this.manager.remove(this);
+    this.manager?.remove(this);
   }
 
   scroll() {
-    this.host.nativeElement.scrollIntoView({
+    this.host?.nativeElement?.scrollIntoView({
       behavior: 'smooth',
     });
   }

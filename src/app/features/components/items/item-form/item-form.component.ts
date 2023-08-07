@@ -27,7 +27,7 @@ ItemService
   brands: Brand[] = [];
   categories: Category[] = [];
   categorySelected: Category;
-  coffinValues = ['ataúd', 'ataud'];
+  coffinValues = ['ataúd', 'ataud', 'ataudes'];
 
   formInputText = [
     {

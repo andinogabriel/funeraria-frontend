@@ -30,7 +30,7 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         FormsModule,
         ReactiveFormsModule,
         RxReactiveFormsModule,
-        FlexLayoutModule,
+        FlexLayoutModule
     ],
     declarations: [
         ConfirmDialogComponent,
@@ -48,7 +48,7 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         TelephoneFormComponent,
         ScrollManagerDirective,
         ScrollSectionDirective,
-        ScrollAnchorDirective,
+        ScrollAnchorDirective
     ],
     exports: [
         FormsModule,
@@ -68,7 +68,7 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         ScrollSectionDirective,
         ScrollAnchorDirective,
         AddressFormComponent,
-        TelephoneFormComponent,
+        TelephoneFormComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

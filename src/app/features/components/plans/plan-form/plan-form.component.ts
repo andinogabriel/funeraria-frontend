@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { interval } from 'rxjs/internal/observable/interval';
@@ -9,11 +9,11 @@ import { ItemService } from 'src/app/features/services/item.service';
 import { PlanService } from 'src/app/features/services/plan.service';
 import { Category } from 'src/app/shared/models/category';
 import { Item } from 'src/app/shared/models/item';
-import { ItemsPlan } from 'src/app/shared/models/itemsPlan';
-import { Plan, PlanRequest } from 'src/app/shared/models/plan';
+import { ITEM_PLAN_FORM_GROUP, ItemsPlan } from 'src/app/shared/models/itemsPlan';
+import { PLAN_FORM_CONTROL, Plan, PlanRequest } from 'src/app/shared/models/plan';
 import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { onlyNumberWithoutDecimal, onlyTwoDecimalRgx } from 'src/app/shared/utils/regex';
+import { onlyTwoDecimalRgx } from 'src/app/shared/utils/regex';
 import { CommonFormComponent } from '../../common-form.component';
 
 @Component({
@@ -38,16 +38,16 @@ PlanService
       name: 'name', label: 'Nombre', type: 'text',
       smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
       errors: [
-        {name: 'required', message: 'El nombre es requerido.'}
+        {name: 'required', message: 'El nombre es requerido'}
       ]
     },
     {
       name: 'profitPercentage', label: 'Porcentaje', type: 'number',
       smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
       errors: [
-        {name: 'required', message: 'El porcentaje es requerido.'},
-        {name: 'min', message: 'El porcentaje debe ser positivo.'},
-        {name: 'pattern', message: 'El porcentaje debe contener solo dos decimales.'},
+        {name: 'required', message: 'El porcentaje es requerido'},
+        {name: 'min', message: 'El porcentaje debe ser positivo'},
+        {name: 'pattern', message: 'El porcentaje debe contener solo dos decimales'},
       ]
     },
     {
@@ -63,7 +63,7 @@ PlanService
     dialogRef: MatDialogRef<PlanFormComponent>,
     snackbarService: SnackbarService,
     dialogService: ConfirmDialogService,
-    fb: UntypedFormBuilder,
+    fb: FormBuilder,
     private itemService: ItemService,
     private categoryService: CategoryService,
   ) {
@@ -76,12 +76,7 @@ PlanService
       fb
     );
     this.createdSuccessMessage = `Plan ${data ? 'editado' : 'creado'} satisfactoriamente.`;
-    this.entityForm = new UntypedFormGroup({
-      name: new UntypedFormControl(''),
-      description: new UntypedFormControl(''),
-      profitPercentage: new UntypedFormControl(''),
-      itemsPlan:  new UntypedFormArray([])
-    });
+    this.entityForm = new FormGroup(PLAN_FORM_CONTROL);
     
     this.data ? this.initUpdatePlanForm() : this.initCreatePlanForm();
   
@@ -93,15 +88,14 @@ PlanService
   }
 
   override ngOnInit(): void {
-    this.data ? this.initUpdateFormControl() : this.initFormControl();
     setTimeout(() => {
       this.getItems();
       this.getCategories();
     });
     this.priceCalculator();
+    this.data ? this.initUpdateFormControl() : this.initFormControl();
     interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
-
 
   override create(elemToCreate: PlanRequest): void {
     this.service.create(elemToCreate).subscribe({
@@ -110,7 +104,6 @@ PlanService
         this.snackbarService.success(this.createdSuccessMessage);
       },
       error: (err) => {
-        console.log(err);
         this.dialogService.open(err ? {...this.createdOrUpdateErrorMessage, 'message': err?.error?.message} : this.createdOrUpdateErrorMessage)
       },
     });
@@ -124,7 +117,7 @@ PlanService
   }
 
   get itemsPlan() {
-    return (<UntypedFormArray>this.entityForm.get('itemsPlan'));
+    return (<FormArray>this.entityForm.get('itemsPlan'));
   }
 
   get profitPercentage() {
@@ -160,11 +153,7 @@ PlanService
   }
 
   private getNewItemPlan() {
-    return this.fb.group({
-      quantity: [null, [Validators.required, Validators.pattern(onlyNumberWithoutDecimal)]],
-      item: [null, Validators.required],
-      category: [null, Validators.required],
-    });
+    return this.fb.group(ITEM_PLAN_FORM_GROUP);
   }
 
   private priceCalculator(): void {
@@ -176,27 +165,29 @@ PlanService
   }
 
   private initUpdatePlanForm(): void {
+    this.price = parseInt(this.data?.price as string);
     this.entityId = this.data?.id;
     this.getItemsPlanFromUpdate();
-      this.entityInitUpdateFormControl = {
-        name: this.data?.name ?? null,
-        description: this.data?.description ?? null,
-        profitPercentage: this.data?.profitPercentage ?? null,
-      };
+    this.entityInitUpdateFormControl = {
+      name: this.data?.name ?? null,
+      description: this.data?.description ?? null,
+      profitPercentage: this.data?.profitPercentage ?? null,
+    };
   }
 
   private initCreatePlanForm(): void {
     this.entityInitFormControl = {
-      name: new UntypedFormControl('', [Validators.required]),
-      profitPercentage: new UntypedFormControl('', [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
-      category: new UntypedFormControl(''),
-      description: new UntypedFormControl(''),
-      itemsPlan:  new UntypedFormArray([this.getNewItemPlan()]),
+      name: new FormControl<string | null>('', [Validators.required]),
+      profitPercentage:  new FormControl<number | null>(null, [Validators.required, Validators.min(1), Validators.pattern(onlyTwoDecimalRgx)]),
+      category: new FormControl<Category | null>(null),
+      description: new FormControl<string | null>(''),
+      itemsPlan:  new FormArray([this.getNewItemPlan()]),
     };
   }
 
   private getItemsPlanFromUpdate(): void {
     if(this.data.hasOwnProperty('itemsPlan')) {
+      this.itemsPlan.clear();
       Object.values(this.data?.itemsPlan as ItemsPlan[]).forEach(a => {
         const itemPlan = this.fb.group({
           item: a?.item,

@@ -5,9 +5,11 @@
     cdkDragRootElement=".cdk-overlay-pane"
     cdkDragHandle
     style="cursor: move"
+    fxLayoutAlign="center"
   >
     {{ data ? "Editar" : "Registrar" }} proveedor
   </h3>
+  <br>
   <form
     [formGroup]="entityForm"
     (ngSubmit)="entityForm.valid && onSubmit()"

@@ -25,7 +25,7 @@ export class AffiliateMoreInfoComponent implements OnInit {
 
   private initDataToShow(): void {
     this.dataToShow = [
-      { label: "Afiliador", value: this.affiliate.user.lastName + ' ' + this.affiliate.user.firstName},
+      { label: "Afiliador", value: this.affiliate?.user?.lastName + ' ' + this.affiliate.user.firstName},
       { label: "Parentesco", value: this.affiliate.relationship.name },
       { label: "DNI", value: this.affiliate.dni },
       { label: "Sexo", value: this.affiliate.gender.name },

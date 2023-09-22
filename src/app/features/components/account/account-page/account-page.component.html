@@ -1,35 +1,117 @@
 <div class="container" fxLayout="row" fxLayoutAlign="center none">
-
   <div fxFlex="95%">
-
     <mat-card>
       <mat-card-content>
         <h2>Mi cuenta</h2>
 
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
-
           <div fxFlex="30%" fxFlex.sm="95%" fxFlex.xs="95%">
             <app-profile-details></app-profile-details>
           </div>
 
           <div fxFlex></div>
 
-          <div fxFlex="65%" fxFlex.sm="95%" fxFlex.xs="950%">
-
-
+          <div fxFlex="65%" fxFlex.sm="95%" fxFlex.xs="95%">
+            <app-spinner></app-spinner>
             <mat-tab-group>
               <mat-tab label="Cambiar contraseña">
-                <app-change-password></app-change-password>
+                <ng-template matTabContent>
+                  <app-change-password></app-change-password>
+                </ng-template>
+              </mat-tab>
+              <mat-tab label="Direcciones">
+                <ng-template matTabContent>
+                  <div
+                    fxLayout="row wrap"
+                    fxLayout.lt-sm="column"
+                    fxLayoutGap="15px"
+                    fxLayoutAlign="flex-start"
+                  >
+                    <br />
+                    <ng-container
+                      *ngFor="
+                        let newAddress of addresses?.controls;
+                        let i = index
+                      "
+                    >
+                      <app-address-form
+                        [inputFormGroup]="$any(newAddress)"
+                      ></app-address-form>
+                      <button
+                        [disabled]="addresses?.length <= 1"
+                        mat-icon-button
+                        type="button"
+                        color="warn"
+                        matTooltip="Eliminar direccion"
+                        (click)="deleteAddress(i)"
+                      >
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </ng-container>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      color="primary"
+                      matTooltip="Agregar direccion"
+                      (click)="addAddress()"
+                    >
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                  <div fxLayoutAlign="end center">
+                    <button mat-raised-button color="primary" type="button" (click)="saveUserAddresses()" [disabled]="addresses.invalid">Guardar</button>
+                  </div>
+                </ng-template>
+              </mat-tab>
+              <mat-tab label="Nums de tel.">
+                <ng-template matTabContent>
+                  <br>
+                  <div
+                    fxLayout="row wrap"
+                    fxLayout.lt-sm="column"
+                    fxLayoutGap="10px"
+                    fxLayoutAlign="flex-start"
+                    *ngIf="addressessLoaded | async"
+                  >
+                    <ng-container
+                      *ngFor="
+                        let newMobNumber of mobileNumbers?.controls;
+                        let i = index
+                      "
+                    >
+                      <app-telephone-form
+                        [inputFormGroup]="$any(newMobNumber)"
+                      ></app-telephone-form>
+                      <button
+                        [disabled]="mobileNumbers?.length <= 1"
+                        mat-icon-button
+                        type="button"
+                        color="warn"
+                        matTooltip="Eliminar telefono"
+                        (click)="deleteMobileNumber(i)"
+                      >
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </ng-container>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      color="primary"
+                      matTooltip="Agregar telefono"
+                      (click)="addMobileNumber()"
+                    >
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                  <div fxLayoutAlign="end center">
+                    <button mat-raised-button color="primary" type="button" (click)="saveUserMobileNumbers()" [disabled]="mobileNumbers.invalid">Guardar</button>
+                  </div>
+                </ng-template>
               </mat-tab>
             </mat-tab-group>
-
-
           </div>
-
         </div>
       </mat-card-content>
     </mat-card>
   </div>
-
-
 </div>

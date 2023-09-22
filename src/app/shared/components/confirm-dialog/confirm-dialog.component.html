@@ -1,10 +1,21 @@
-<h1 mat-dialog-title style="cursor: move" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
-  {{data.title}}
-</h1>
+<h2
+  mat-dialog-title
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  cdkDragHandle
+  style="cursor: move"
+  fxLayoutAlign="center"
+>
+  {{ data.title }}
+</h2>
+<mat-divider></mat-divider>
+<br />
 <div mat-dialog-content>
-  <p>{{data.message}}</p>
+  <p>{{ data.message }}</p>
 </div>
 <div mat-dialog-actions fxLayot="row" fxLayoutAlign="end stretch">
   <button mat-raised-button mat-dialog-close>Cancelar</button>
-  <button mat-raised-button color="primary" (click)="confirm()">{{data.confirmText}}</button>
+  <button mat-raised-button color="primary" (click)="confirm()">
+    {{ data.confirmText }}
+  </button>
 </div>

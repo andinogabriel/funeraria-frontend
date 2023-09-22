@@ -1,0 +1,63 @@
+<div class="table-container mat-elevation-z8">
+  <div
+    class="table-container"
+    *ngIf="tableDataSource?.data?.length > 0; else noData"
+  >
+    <table mat-table [dataSource]="tableDataSource" matSort>
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef>Apellido</th>
+        <td mat-cell *matCellDef="let element">{{ element?.lastName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dni">
+        <th mat-header-cell *matHeaderCellDef>Dni</th>
+        <td mat-cell *matCellDef="let element">{{ element?.dni }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="affiliator">
+        <th mat-header-cell *matHeaderCellDef>Afiliador</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.user?.lastName }} {{ element?.user?.firstName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="relationship">
+        <th mat-header-cell *matHeaderCellDef>Parentesco</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.relationship?.name }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="{ highlight: selectedRow === row }"
+        (click)="emitAffiliateSelectedAction(row)"
+      ></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    sticky
+    pageSize="5"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+    *ngIf="tableDataSource?.data?.length > 0"
+  >
+  </mat-paginator>
+</div>
+<ng-template #noData>
+  <div class="table-container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="50%" class="text-center no-records animate">
+      <mat-icon>supervised_user_circle</mat-icon>
+      <p>No se encontraron afiliados con el valor especificado</p>
+    </div>
+    <mat-icon> </mat-icon>
+  </div>
+</ng-template>

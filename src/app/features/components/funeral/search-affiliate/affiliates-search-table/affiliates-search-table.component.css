@@ -46,19 +46,11 @@ mat-header-cell {
   text-align: center !important;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 75vh; 
-}
-
-.table {
-  flex: 1;
+.table-container {
+  height: 84%;
   overflow: auto;
 }
 
-.mat-paginator {
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
+.highlight {
+  background: lightblue;
 }

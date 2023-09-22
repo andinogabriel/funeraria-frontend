@@ -37,4 +37,3 @@ export function containsDuplicates(array: any) {
 export function getAge(birthDate: string): number {
   return (moment().year() - moment(birthDate, 'DD-MM-YYYY').year());
 }
-

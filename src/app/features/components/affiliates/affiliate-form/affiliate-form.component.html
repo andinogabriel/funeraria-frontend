@@ -9,6 +9,7 @@
   >
     {{ data ? "Editar" : "Registrar" }} afiliado
   </h2>
+  <mat-divider></mat-divider>
   <br />
   <form
     [formGroup]="entityForm"
@@ -77,10 +78,7 @@
             formControlName="gender"
             [compareWith]="compareFn"
           >
-            <mat-option
-              *ngFor="let gender of genders"
-              [value]="gender"
-            >
+            <mat-option *ngFor="let gender of genders" [value]="gender">
               {{ gender.name }}
             </mat-option>
           </mat-select>

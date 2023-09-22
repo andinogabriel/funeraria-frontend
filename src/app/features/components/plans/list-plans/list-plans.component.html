@@ -11,6 +11,7 @@
           [hasMoreInfo]="true"
           [emptyIcon]="'assignment'"
           [emptyMessage]="'Todavia no hay planes registrados.'"
+          [dataFetched]="dataFetched"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"
           (updateAction)="updateElement($any($event))"

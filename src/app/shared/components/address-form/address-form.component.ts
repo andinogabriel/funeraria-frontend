@@ -33,7 +33,7 @@ export class AddressFormComponent implements OnInit {
       type: "number",
       smWidth: "0 1 calc(20% - 15px)",
       lgWidth: "100%",
-      errors: [],
+      errors: [{ name: "required", message: "La altura requerida" }],
     },
     {
       name: "apartment",

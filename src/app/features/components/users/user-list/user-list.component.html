@@ -11,6 +11,7 @@
           [hasMoreInfo]="true"
           [noCreateAndDelete]="true"
           [emptyIcon]="'people'"
+          [dataFetched]="dataFetched"
           [emptyMessage]="'Todavia no hay usuarios registrados.'"
           (updateAction)="updateElement($any($event))"
           (showMoreAction)="showMoreInfoUser($any($event))"

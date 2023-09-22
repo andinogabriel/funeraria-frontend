@@ -11,6 +11,7 @@ import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { GlobalErrorHandler } from './services/globar-error.handler';
 import { AdminGuard } from './guards/admin.guard';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { LoadingInterceptor } from './interceptors/loading';
 
 
 @NgModule({
@@ -28,6 +29,11 @@ import { HttpCacheInterceptorModule } from '@ngneat/cashew';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     },
     {

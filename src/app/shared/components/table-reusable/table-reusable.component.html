@@ -1,4 +1,5 @@
-<ng-container>
+<div class="container">
+  <app-spinner></app-spinner>
   <!-- Filter -->
   <ng-container>
     <div fxLayout="row">
@@ -65,8 +66,9 @@
   </ng-container>
 
   <!-- Table -->
+
   <div
-    class="mat-elevation-z2"
+    class="mat-elevation-z2 table"
     *ngIf="tableDataSource?.data?.length > 0; else noData"
   >
     <table
@@ -98,7 +100,7 @@
 
         <!-- column data -->
         <td mat-cell *matCellDef="let element">
-          {{ element | dataPropertyGetter: tableColumn.dataKey }}
+          {{ element | dataPropertyGetter : tableColumn.dataKey }}
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -112,20 +114,21 @@
   </div>
 
   <!-- Pagination -->
+
   <mat-paginator
     *ngIf="isPageable && tableDataSource?.data?.length > 0"
-    [pageSizeOptions]="paginationSizes"
     [pageSize]="defaultPageSize"
     showFirstLastButtons
   >
   </mat-paginator>
+
   <ng-template #noData>
-    <div class="container" fxLayout="row" fxLayoutAlign="center none">
-      <div fxFlex="50%" class="text-center no-records animate">
+    <div class="container" fxLayout="row" fxLayoutAlign="center center">
+      <div *ngIf="!!dataFetched" fxFlex="50%" class="text-center no-records animate">
         <mat-icon>{{ emptyIcon }}</mat-icon>
         <p>{{ emptyMessage }}</p>
       </div>
       <mat-icon> </mat-icon>
     </div>
   </ng-template>
-</ng-container>
+</div>

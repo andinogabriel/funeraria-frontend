@@ -10,6 +10,7 @@
           [isPageable]="true"
           [hasMoreInfo]="true"
           [emptyIcon]="'assignment'"
+          [dataFetched]="dataFetched"
           [emptyMessage]="'Todavia no hay funerales registrados.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"

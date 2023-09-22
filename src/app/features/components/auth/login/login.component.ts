@@ -1,12 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { UntypedFormControl, Validators, UntypedFormGroup } from "@angular/forms";
+import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { AuthenticationService } from "src/app/core/services/auth.service";
-import { NotificationService } from "src/app/core/services/notification.service";
 import { TokenService } from "src/app/core/services/token.service";
 import { LoginUser } from "src/app/shared/models/loginUser";
 import { SnackbarService } from "src/app/shared/services/snackbar.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { DeviceInfo } from "src/app/shared/models/deviceInfo";
+import { DeviceUUID } from "device-uuid";
 
 @Component({
   selector: "app-login",
@@ -15,12 +17,13 @@ import { SnackbarService } from "src/app/shared/services/snackbar.service";
 })
 export class LoginComponent implements OnInit {
   title = "Funeraria Nuñez y Hnos.";
-  subTitle = "Iniciar Sesión";
-  loginForm!: UntypedFormGroup;
+  subTitle = "Volver al inicio";
+  loginForm!: FormGroup;
   loading!: boolean;
   isLogged = false;
   loginUser: LoginUser;
   loginErrMessage: string;
+  deviceInfo: DeviceInfo = null;
 
   loginInputs = [
     {
@@ -43,32 +46,39 @@ export class LoginComponent implements OnInit {
     private titleService: Title,
     private snackbarService: SnackbarService,
     private authenticationService: AuthenticationService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private deviceService: DeviceDetectorService
   ) {}
 
   ngOnInit() {
     this.titleService.setTitle("Iniciar Sesión");
     this.authenticationService.logout();
     this.createForm();
+    this.deviceInfo = this.deviceService.getDeviceInfo();
   }
 
   private createForm() {
     const savedUserEmail = localStorage.getItem("savedUserEmail");
-    this.loginForm = new UntypedFormGroup({
-      email: new UntypedFormControl(savedUserEmail, [
+    this.loginForm = new FormGroup({
+      email: new FormControl<string | null>(savedUserEmail, [
         Validators.required,
         Validators.email,
       ]),
-      password: new UntypedFormControl("", Validators.required),
-      rememberMe: new UntypedFormControl(savedUserEmail !== null),
+      password: new FormControl<string | null>("", Validators.required),
+      rememberMe: new FormControl<boolean | null>(savedUserEmail !== null),
     });
   }
 
   login(): void {
+    console.log(this.deviceInfo);
     const email = this.loginForm.get("email")?.value;
     const password = this.loginForm.get("password")?.value;
     const rememberMe = this.loginForm.get("rememberMe")?.value;
-    this.loginUser = new LoginUser(email, password);
+    const deviceInfo = {
+      deviceId: new DeviceUUID().get(),
+      deviceType: `${this.deviceInfo?.os_version}-${this.deviceInfo?.deviceType}-${this.deviceInfo?.browser}-v${this.deviceInfo?.browser_version}`
+    }
+    this.loginUser = new LoginUser(email, password, deviceInfo);
     this.authenticationService.login(this.loginUser)
       .subscribe({
         next: (data) => {
@@ -78,36 +88,13 @@ export class LoginComponent implements OnInit {
             : localStorage.removeItem("savedUserEmail");
           this.router.navigate(["/dashboard"]);
         },
-        error: (error: any) => {
+        error: (errr: any) => {
           this.isLogged = false;
-          this.loginErrMessage = error?.error?.message;
+          this.loginErrMessage = errr?.error?.message;
           this.snackbarService.error(this.loginErrMessage);
         }
       })
   }
-
-  /*
-  login() {
-    const email = this.loginForm.get("email")?.value;
-    const password = this.loginForm.get("password")?.value;
-    const rememberMe = this.loginForm.get("rememberMe")?.value;
-
-    this.loading = true;
-    this.authenticationService.login(email, password).subscribe({
-      next: () => {
-        if (rememberMe) {
-          localStorage.setItem("savedUserEmail", email);
-        } else {
-          localStorage.removeItem("savedUserEmail");
-        }
-        this.router.navigate(["/"]);
-      },
-      error: (error) => {
-        this.notificationService.openSnackBar(error);
-        this.loading = false;
-      },
-    });
-  }*/
 
   resetPassword() {
     this.router.navigate(["/auth/password-reset-request"]);
@@ -116,6 +103,5 @@ export class LoginComponent implements OnInit {
   signup() {
     this.router.navigate(["/auth/registrarse"]);
   }
-
 
 }

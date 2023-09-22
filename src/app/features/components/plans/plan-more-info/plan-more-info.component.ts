@@ -19,7 +19,6 @@ export class PlanMoreInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.plan = this.data;
-    console.log(this.plan);
     this.initPlanInfos();
   }
 

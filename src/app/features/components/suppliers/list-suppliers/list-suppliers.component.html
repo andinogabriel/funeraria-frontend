@@ -11,6 +11,7 @@
           [hasMoreInfo]="true"
           [emptyIcon]="'local_shipping'"
           [emptyMessage]="'Todavia no hay proveedores registrados.'"
+          [dataFetched]="dataFetched"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"
           (updateAction)="updateElement($any($event))"

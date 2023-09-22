@@ -54,12 +54,30 @@ export type FuneralForm = {
 
 export function getFuneralFormControl() : FuneralForm {
   return {
-    funeralDate: new FormControl<Date | null>(null, [Validators.required]),
-    receiptNumber: new FormControl<string | null>('', [Validators.required]),
-    receiptSeries: new FormControl<string | null>('', [Validators.required]),
-    tax: new FormControl<number | null>(null, [Validators.required, RxwebValidators.digit(), Validators.pattern(onlyTwoDecimalRgx), Validators.min(1)]),
-    receiptType:  new FormControl<ReceiptType | null>(null, [Validators.required]),
-    plan: new FormControl<Plan | null>(null, [Validators.required]),
+    funeralDate: new FormControl<Date | null>(null, {
+      validators: [Validators.required],
+      updateOn: 'submit'
+    }),
+    receiptNumber: new FormControl<string | null>('', {
+      validators: Validators.required,
+      updateOn: 'submit'
+    }),
+    receiptSeries: new FormControl<string | null>('', {
+      validators: Validators.required,
+      updateOn: 'submit'
+    }),
+    tax: new FormControl<number | null>(null, {
+      validators: [Validators.required, RxwebValidators.digit(), Validators.pattern(onlyTwoDecimalRgx), Validators.min(1)],
+      updateOn: 'submit'
+    }),
+    receiptType:  new FormControl<ReceiptType | null>(null, {
+      validators: Validators.required,
+      updateOn: 'submit'
+    }),
+    plan: new FormControl<Plan | null>(null, {
+      validators: Validators.required,
+      updateOn: 'submit'
+    }),
     //deceased: new FormControl<Deceased | null>(null),
   };
 }

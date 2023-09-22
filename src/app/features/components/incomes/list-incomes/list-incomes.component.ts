@@ -97,7 +97,8 @@ IncomeService
     .subscribe({
       next: (modeltList) => {
         this.dataSource = modeltList.map(item => ({...item, 'tax': item?.tax + '%', 'totalAmount': item?.totalAmount ? '$' + item.totalAmount : '0', 'receiptType': item?.receiptType['name'], 'supplier': item?.supplier['name']}))
-        this.logger.log(`${this.modelName} cargados.`)
+        this.logger.log(`${this.modelName} cargados.`);
+        this.dataFetched = true;
       },
       error: () => this.dialogService.open(this.errorGetModelList),
     });

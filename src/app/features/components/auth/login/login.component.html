@@ -1,32 +1,74 @@
-<div class="container login-container" fxLayout="row" fxLayoutAlign="center center">
-    <form [formGroup]="loginForm" fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="90%" (ngSubmit)="loginForm.valid && login()" novalidate>
-        <mat-card>
-            <mat-card-title>{{title}}</mat-card-title>
-            <mat-card-subtitle>{{subTitle}}</mat-card-subtitle>
-            <mat-card-content>
-                <mat-form-field class="full-width" appearance="outline"
-                *ngFor="let loginInput of loginInputs">
-                    <input matInput [placeholder]="loginInput.label" [formControlName]="loginInput.name"
-                    [type]="loginInput.type">
-                    <mat-error *ngFor="let error of loginInput.errors">
-                        <span *ngIf="loginForm.controls[loginInput.name].hasError(error.name)">{{error.message}}</span>
-                      </mat-error>
-                </mat-form-field>
+<div
+  class="container login-container"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form
+    [formGroup]="loginForm"
+    fxFlex="30%"
+    fxFlex.sm="50%"
+    fxFlex.xs="90%"
+    (ngSubmit)="loginForm.valid && login()"
+    novalidate
+  >
+    <mat-card>
+      <mat-card-title fxLayoutAlign="center center">{{ title }}</mat-card-title>
+      <mat-card-subtitle>
+        <a [routerLink]="'/'">{{ subTitle }}</a>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <mat-form-field
+          class="full-width"
+          appearance="outline"
+          *ngFor="let loginInput of loginInputs"
+        >
+          <input
+            matInput
+            [placeholder]="loginInput.label"
+            [formControlName]="loginInput.name"
+            [type]="loginInput.type"
+          />
+          <mat-error *ngFor="let error of loginInput.errors">
+            <span
+              *ngIf="loginForm.controls[loginInput.name].hasError(error.name)"
+              >{{ error.message }}</span
+            >
+          </mat-error>
+        </mat-form-field>
 
-                <div class="full-width">
-                    <mat-slide-toggle formControlName="rememberMe">Recordar mi email</mat-slide-toggle>
-                </div>
+        <div class="full-width">
+          <mat-slide-toggle formControlName="rememberMe"
+            >Recordar mi email</mat-slide-toggle
+          >
+        </div>
+      </mat-card-content>
 
-            </mat-card-content>
+      <mat-card-actions
+        class="login-actions"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="space-between center"
+      >
+        <button
+          mat-raised-button
+          id="login"
+          color="primary"
+          (click)="loginForm.valid && login()"
+        >
+          Iniciar Sesión
+        </button>
+        <button mat-button type="button" (click)="signup()">Registrate</button>
+        <button
+          mat-button
+          id="resetPassword"
+          (click)="resetPassword()"
+          type="button"
+        >
+          Reestablecer contraseña
+        </button>
+      </mat-card-actions>
+    </mat-card>
 
-            <mat-card-actions class="login-actions" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
-                <button mat-raised-button id="login" color="primary" (click)="loginForm.valid && login()">Iniciar Sesión</button>
-                <button mat-button type="button" (click)="signup()">Registrate</button>
-                <button mat-button id="resetPassword" (click)="resetPassword()" type="button">Reestablecer contraseña</button>
-            </mat-card-actions>
-
-        </mat-card>
-
-        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-    </form>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  </form>
 </div>

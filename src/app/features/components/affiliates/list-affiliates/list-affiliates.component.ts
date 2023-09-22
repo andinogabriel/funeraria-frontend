@@ -11,6 +11,7 @@ import { getAge } from 'src/app/shared/utils/commonFunctions';
 import { CommonListComponent } from '../../common.list.component';
 import { AffiliateFormComponent } from '../affiliate-form/affiliate-form.component';
 import { AffiliateMoreInfoComponent } from '../affiliate-more-info/affiliate-more-info.component';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-list-affiliates',
@@ -23,7 +24,7 @@ Affiliate,
 AffiliateService
 > {
 
-  constructor(service: AffiliateService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger,) {
+  constructor(service: AffiliateService, dialogService: ConfirmDialogService, snackbarService: SnackbarService, dialog: MatDialog, titleService: Title, logger: NGXLogger, private tokenService: TokenService) {
     super(service,dialogService, snackbarService, dialog, titleService, logger);
     this.entityId = 'dni';
     this.modelName = 'Afiliados';
@@ -78,16 +79,29 @@ AffiliateService
   }
 
   override getModelList(): void {
-    this.service
-    .findAll()
-    .pipe(first())
-    .subscribe({
-      next: (modeltList) => {
-        this.dataSource = modeltList.map(affiliate => ({...affiliate, relationshipName: affiliate.relationship.name, affiliator: affiliate.user.lastName + ' ' + affiliate.user.firstName, age: getAge(affiliate.birthDate)}))
-        this.logger.log(`${this.modelName} cargados.`);
-      },
-      error: () => this.dialogService.open(this.errorGetModelList),
-    });
+    this.tokenService.isAdmin() ? 
+      this.service
+      .findAll()
+      .pipe(first())
+      .subscribe({
+        next: (modelList) => {
+          this.dataSource = this.processModelList(modelList);
+          this.logger.log(`${this.modelName} cargados.`);
+          this.dataFetched = true;
+        },
+        error: () => this.dialogService.open(this.errorGetModelList),
+      }) :
+      this.service
+      .getAffiliatesByUser()
+      .pipe(first())
+      .subscribe({
+        next: (modelList) => {
+          this.dataSource = this.processModelList(modelList);
+          this.logger.log(`${this.modelName} cargados.`);
+          this.dataFetched = true;
+        },
+        error: () => this.dialogService.open(this.errorGetModelList),
+      });
   }
 
   override createElement(): void {
@@ -120,6 +134,15 @@ AffiliateService
 
   override showMoreInfo(elem: Affiliate): void {
     this.dialog.open(AffiliateMoreInfoComponent, { data: elem });
+  }
+
+  private processModelList(modelList: Affiliate[]): Affiliate[] {
+    return modelList.map(affiliate => ({
+      ...affiliate,
+      relationshipName: affiliate.relationship.name,
+      affiliator: `${affiliate.user.lastName} ${affiliate.user.firstName}`,
+      age: getAge(affiliate.birthDate)
+    }));
   }
 
 }

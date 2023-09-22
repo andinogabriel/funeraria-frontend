@@ -7,7 +7,6 @@ import {
   FormGroupDirective
 } from "@angular/forms";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { first } from "rxjs/operators";
 import { City } from "src/app/shared/models/city";
 import { DeathCause } from "src/app/shared/models/deathCause";
@@ -65,7 +64,7 @@ export class DeceasedFormComponent implements OnInit {
       name: "dni",
       label: "Dni",
       type: "number",
-      smWidth: "0 1 calc(33% - 15px)",
+      smWidth: "0 1 calc(32% - 15px)",
       lgWidth: "100%",
       errors: [
         { name: "required", message: "El dni es requerido" },
@@ -79,6 +78,8 @@ export class DeceasedFormComponent implements OnInit {
     {
       name: "birthDate",
       label: "Fecha de nac.",
+      smWidth: "0 1 calc(32% - 15px)",
+      lgWidth: "100%",
       dateMin: new Date(new Date().getFullYear() - 130, 0, 1),
       dateMax: new Date(),
       errors: [{ name: "required", message: "La fecha de nac es requerida" }],
@@ -86,6 +87,8 @@ export class DeceasedFormComponent implements OnInit {
     {
       name: "deathDate",
       label: "Fecha de deceso",
+      smWidth: "0 1 calc(32% - 15px)",
+      lgWidth: "100%",
       dateMax: new Date(),
       dateMin: new Date(
         new Date().getFullYear(),
@@ -261,8 +264,8 @@ export class DeceasedFormComponent implements OnInit {
   }
 
   private getProvinceToEdit(): void {
-    if(this.parentForm.get('deceased').get('placeOfDeath')) {
-      this.selectedProvince = this.selectedProvince = this.parentForm?.get('deceased')?.get('placeOfDeath')?.get('city')?.value['province'];
+    if(this.parentForm?.get('deceased')?.get('placeOfDeath').value['city']) {
+      this.selectedProvince = this.parentForm?.get('deceased')?.get('placeOfDeath')?.get('city')?.value['province'];
       this.getCities();
     }
   }

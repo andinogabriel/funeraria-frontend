@@ -24,13 +24,16 @@ export function getAddressFormControl(): AddressFormGroup {
     return {
       streetName: new FormControl<string | null>("", {
         validators: [Validators.required],
+        updateOn: 'submit'
       }),
       flat: new FormControl<string | null>("", {}),
       blockStreet: new FormControl<number | null>(null, {
         validators: [Validators.required],
+        updateOn: 'submit'
       }),
       city: new FormControl<City | null>(null, {
         validators: [Validators.required],
+        updateOn: 'submit'
       }),
       apartment: new FormControl<string | null>('', {}),
       province: new FormControl<Province | null>(null, {}),

@@ -82,7 +82,8 @@ FuneralService
     .subscribe({
       next: (modeltList) => {
         this.dataSource = modeltList.map(funeral => ({...funeral, deceased: this.getDeceasedNames(funeral), plan: funeral.plan['name'], totalAmount: '$' + funeral.totalAmount, receiptType: funeral.receiptType['name']}));
-        this.logger.log(`${this.modelName} cargados.`)
+        this.logger.log(`${this.modelName} cargados.`);
+        this.dataFetched = true;
       },
       error: () => this.dialogService.open(this.errorGetModelList),
     });

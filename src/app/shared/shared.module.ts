@@ -21,6 +21,7 @@ import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
 import { ScrollManagerDirective } from './directives/scroll-manager.directive';
 import { ScrollSectionDirective } from './directives/scroll-section.directive';
 import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         TelephoneFormComponent,
         ScrollManagerDirective,
         ScrollSectionDirective,
-        ScrollAnchorDirective
+        ScrollAnchorDirective,
+        SpinnerComponent
     ],
     exports: [
         FormsModule,
@@ -68,7 +70,8 @@ import { ScrollAnchorDirective } from './directives/scroll-anchor.directive';
         ScrollSectionDirective,
         ScrollAnchorDirective,
         AddressFormComponent,
-        TelephoneFormComponent
+        TelephoneFormComponent,
+        SpinnerComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

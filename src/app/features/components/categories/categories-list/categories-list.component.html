@@ -9,6 +9,7 @@
           [isFilterable]="true"
           [isPageable]="true"
           [emptyIcon]="'category'"
+          [dataFetched]="dataFetched"
           [emptyMessage]="'Todavia no hay categorías registradas.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"

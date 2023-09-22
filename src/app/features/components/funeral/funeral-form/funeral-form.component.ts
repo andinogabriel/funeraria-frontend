@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
-import { interval} from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { Observable, interval} from 'rxjs';
+import { first, map, startWith } from 'rxjs/operators';
 import { FuneralService } from 'src/app/features/services/funeral.service';
 import { PlanService } from 'src/app/features/services/plan.service';
 import { Funeral, FuneralRequest, getFuneralFormControl } from 'src/app/shared/models/funeral';
@@ -16,6 +16,8 @@ import { ConfirmDialogService } from 'src/app/shared/services/confirm-dialog.ser
 import { ReceiptTypeService } from 'src/app/shared/services/receipt-type.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CommonFormComponent } from '../../common-form.component';
+import { SearchAffiliateComponent } from '../search-affiliate/search-affiliate.component';
+import { Affiliate } from 'src/app/features/models/affiliate';
 
 @Component({
   selector: 'app-funeral-form',
@@ -71,6 +73,7 @@ FuneralService
     fb: UntypedFormBuilder,
     private planService: PlanService,
     private receiptTypeService: ReceiptTypeService,
+    private dialog: MatDialog,
   ) {
     super(
       funeralService,
@@ -111,8 +114,23 @@ FuneralService
     this.entityForm?.get(itemName)?.setValue(event);
   }
 
-  submitForm(): void {
-    console.log(this.entityForm);
+  searchAffiliate(): void {
+    this.dialog.open(SearchAffiliateComponent).afterClosed()
+    .pipe(first())
+    .subscribe({
+      next: (value: Affiliate) => {
+        this.entityForm?.get('deceased')?.setValue({
+          ...this.entityForm?.get('deceased')?.value,
+          birthDate: moment(value.birthDate, 'DD-MM-yyyy').toDate(),
+          deceasedRelationship: value.relationship,
+          dni: value.dni.toString(),
+          firstName: value.firstName,
+          gender: value.gender,
+          lastName: value.lastName,
+        });
+      },
+      error: (err) => this.snackbarService.error(err?.error?.message ? err?.error?.message : 'Hubo un error al seleccionar el afiliado')
+    });
   }
 
   private getPlans(): void {
@@ -125,14 +143,14 @@ FuneralService
             {
               name: 'plan', label: 'Plan',
               items: this.plans,
-              smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+              smWidth: '0 1 calc(44% - 15px)', lgWidth: '100%',
               errors: [
                 { name: 'required', message: 'El plan es requerido' }
               ]
             }
           ]
         },
-        error: (error) => console.log(error?.error)
+        error: (err) => this.snackbarService.error(err?.error?.message ? err?.error?.message : "Hubo un error en obtener los planes de funeral.")
     });
   }
 
@@ -146,20 +164,19 @@ FuneralService
             {
               name: 'receiptType', label: 'Tipo de recibo',
               items: this.receiptTypes,
-              smWidth: '0 1 calc(50% - 15px)', lgWidth: '100%',
+              smWidth: '0 1 calc(44% - 15px)', lgWidth: '100%',
               errors: [
                 { name: 'required', message: 'El tipo de recibo es requerido' }
               ]
             }
           ]
         },
-        error: (error) => console.log(error?.error)
+        error: (err) => this.snackbarService.error(err?.error?.message ? err?.error?.message : "Hubo un error en obtener los tipo. de recibos.")
     });
   }
 
   private initUpdatePlanForm(): void {
     this.entityId = this.data?.id;
-    console.log(this.data);
     this.entityInitUpdateFormControl = {
       receiptNumber: this.data?.receiptNumber ?? null,
       receiptSeries: this.data?.receiptSeries ?? null,

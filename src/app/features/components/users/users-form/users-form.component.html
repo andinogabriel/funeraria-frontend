@@ -5,9 +5,12 @@
     cdkDragRootElement=".cdk-overlay-pane"
     cdkDragHandle
     style="cursor: move"
+    fxLayoutAlign="center"
   >
     Actualizar Roles
   </h3>
+  <mat-divider></mat-divider>
+  <br>
   <div mat-dialog-content>
     <div
       fxLayout="row wrap"
@@ -15,22 +18,28 @@
       fxLayoutGap="15px"
       fxLayoutAlign="flex-start"
     >
-      <div
+      <mat-form-field
+        appearance="outline"
         fxFlex="0 1 calc(100% - 15px)"
         fxFlex.lt-md="0 1 calc(100% - 15px)"
         fxFlex.lt-sm="100%"
       >
-        <ng-multiselect-dropdown
-          [placeholder]="'Roles'"
-          [settings]="dropdownSettings"
-          [data]="dropdownList"
-          [(ngModel)]="selectedItems"
-          (onSelect)="onItemSelect($event)"
-          (onSelectAll)="onSelectAll($event)"
+        <mat-label>Roles</mat-label>
+        <mat-select
+          ngDefaultControl
+          [(value)]="selectedRol"
         >
-        </ng-multiselect-dropdown>
-        <br>
-      </div>
+          <mat-option *ngFor="let rol of roles" [value]="rol">
+            {{ rol?.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+  </div>
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button mat-dialog-close>Cerrar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!selectedRol" (click)="assingRole()">
+      Aceptar
+    </button>
   </div>
 </div>

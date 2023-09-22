@@ -1,32 +1,169 @@
-<div class="container login-container" fxLayout="row" fxLayoutAlign="center center">
-  <form [formGroup]="signupForm" fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="90%" (ngSubmit)="signupForm.valid && signup(signupForm?.value)" novalidate>
+<div
+  class="container login-container"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form
+    [formGroup]="signupForm"
+    fxFlex="50%"
+    fxFlex.sm="50%"
+    fxFlex.xs="90%"
+    (ngSubmit)="signupForm.valid && signup(signupForm?.value)"
+    novalidate
+  >
     <mat-card>
-      <mat-card-title>Funeraria Nuñez y Hnos.</mat-card-title>
+      <mat-card-title fxLayoutAlign="center center"
+        >Funeraria Nuñez y Hnos.</mat-card-title
+      >
       <mat-card-subtitle>Registrarse</mat-card-subtitle>
       <mat-card-content>
-        <div
-        fxLayout="row wrap"
-        fxLayout.lt-sm="column"
-        fxLayoutGap="15px"
-        fxLayoutAlign="flex-start"
+        <mat-stepper
+          class="example-stepper"
+          [orientation]="(stepperOrientation | async)!"
         >
-          <mat-form-field
-            *ngFor="let item of formControls"
-            [fxFlex]="item.smWidth"
-            [fxFlex.lt-md]="item.smWidth"
-            [fxFlex.lt-sm]="item.lgWidth"
-            appearance="outline"
-          >
-            <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
-            <mat-error *ngFor="let error of item.errors">
-              <span *ngIf="signupForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
-            </mat-error>
-          </mat-form-field>
-        </div>
+          <mat-step [stepControl]="signupForm" label="Datos personales">
+            <form [formGroup]="signupForm">
+              <div
+                fxLayout="row wrap"
+                fxLayout.lt-sm="column"
+                fxLayoutGap="15px"
+                fxLayoutAlign="flex-start"
+              >
+                <mat-form-field
+                  *ngFor="let item of formControls"
+                  [fxFlex]="item.smWidth"
+                  [fxFlex.lt-md]="item.smWidth"
+                  [fxFlex.lt-sm]="item.lgWidth"
+                  appearance="outline"
+                >
+                  <input
+                    matInput
+                    [placeholder]="item.label"
+                    [formControlName]="item.name"
+                    [type]="item.type"
+                  />
+                  <mat-error *ngFor="let error of item.errors">
+                    <span
+                      *ngIf="
+                        signupForm.controls[item.name].hasError(error.name)
+                      "
+                      >{{ error.message }}</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <br />
+              <div fxLayoutAlign="end center">
+                <button mat-raised-button matStepperNext>Siguiente</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="addressFormGroup" label="Direcciones">
+            <form [formGroup]="addressFormGroup">
+              <mat-label>Direcciones</mat-label>
+              <div
+                fxLayout="row wrap"
+                fxLayout.lt-sm="column"
+                fxLayoutGap="15px"
+                fxLayoutAlign="flex-start"
+              >
+                <ng-template matStepContent>
+                  <ng-container
+                    *ngFor="
+                      let newAddress of addresses?.controls;
+                      let i = index
+                    "
+                  >
+                    <app-address-form
+                      [inputFormGroup]="$any(newAddress)"
+                    ></app-address-form>
+                    <button
+                      [disabled]="addresses?.length <= 1"
+                      mat-icon-button
+                      type="button"
+                      color="warn"
+                      matTooltip="Eliminar direccion"
+                      (click)="deleteAddress(i)"
+                    >
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </ng-container>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    color="primary"
+                    matTooltip="Agregar direccion"
+                    (click)="addAddress()"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <div fxLayoutAlign="end center" fxLayoutGap="5px">
+                    <button mat-raised-button matStepperPrevious>Atras</button>
+                    <button mat-raised-button matStepperNext>Siguiente</button>
+                  </div>
+                </ng-template>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="mobileNumberFormGroup" label="Num. telefono">
+            <form [formGroup]="mobileNumberFormGroup">
+              <mat-label>Numeros de telofono</mat-label>
+              <div
+                fxLayout="row wrap"
+                fxLayout.lt-sm="column"
+                fxLayoutGap="10px"
+                fxLayoutAlign="flex-start"
+              >
+                <ng-container
+                  *ngFor="
+                    let newMobNumber of mobileNumbers?.controls;
+                    let i = index
+                  "
+                >
+                  <app-telephone-form
+                    [inputFormGroup]="$any(newMobNumber)"
+                  ></app-telephone-form>
+                  <button
+                    [disabled]="mobileNumbers?.length <= 1"
+                    mat-icon-button
+                    type="button"
+                    color="warn"
+                    matTooltip="Eliminar telefono"
+                    (click)="deleteMobileNumber(i)"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </ng-container>
+                <button
+                  mat-icon-button
+                  type="button"
+                  color="primary"
+                  matTooltip="Agregar telefono"
+                  (click)="addMobileNumber()"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <br />
+              <div fxLayoutAlign="end center">
+                <button mat-raised-button matStepperPrevious>Atras</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-stepper>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-raised-button routerLink="/auth/iniciar-sesion">Iniciar Sesión</button>
-        <button mat-raised-button id="Registrate" color="primary" (click)="signupForm.valid && signup(signupForm?.value)">Registrate</button>
+        <button mat-raised-button routerLink="/auth/iniciar-sesion">
+          Iniciar Sesión
+        </button>
+        <button
+          mat-raised-button
+          id="Registrate"
+          color="primary"
+          (click)="signupForm.valid && signup(signupForm?.value)"
+        >
+          Registrate
+        </button>
       </mat-card-actions>
     </mat-card>
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

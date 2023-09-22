@@ -13,3 +13,17 @@ export interface Affiliate {
   user: User;
   relationship: Relationship
 }
+
+export interface AffiliateList {
+  id?: number;
+  lastName: string;
+  firstName: string;
+  dni: number;
+  birthDate: string;
+  startDate: string;
+  relationshipName: string;
+  gender: Gender;
+  user: User;
+  relationship: Relationship
+}
+

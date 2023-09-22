@@ -9,6 +9,7 @@
   >
     {{ data ? "Editar" : "Registrar" }} Funeral
   </h2>
+  <mat-divider></mat-divider>
   <br />
   <form
     [formGroup]="entityForm"
@@ -93,6 +94,15 @@
             </span>
           </mat-error>
         </mat-form-field>
+        <div
+          fxFlex="0 1 calc(12% - 15px)"
+          fxFlex.lt-md="0 1 calc(12% - 15px)"
+          fxFlex.lt-sm="100%"
+        >
+          <button mat-raised-button type="button" (click)="searchAffiliate()">
+            Buscar afiliado
+          </button>
+        </div>
       </div>
       <br />
       <mat-accordion>
@@ -103,15 +113,14 @@
               {{ data ? "Editar" : "Registrar" }} difunto
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <app-deceased-form >
-          </app-deceased-form>
+          <app-deceased-form> </app-deceased-form>
         </mat-expansion-panel>
       </mat-accordion>
       <br />
     </div>
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
       <button mat-raised-button mat-dialog-close>Cerrar</button>
-      <button mat-raised-button color="primary" type="submit" (click)="submitForm()">
+      <button mat-raised-button color="primary" type="submit">
         {{ data ? "Editar" : "Registrar" }}
       </button>
     </div>

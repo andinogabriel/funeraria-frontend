@@ -22,6 +22,7 @@ export abstract class CommonListComponent<
   protected entityId: any;
   dataSource: M[] = [];
   modelName!: string;
+  dataFetched: boolean;
   deleteSuccessMessage!: string;
   deleteErrorMessage!: ConfirmDialog;
   errorGetModelList: ConfirmDialog;
@@ -50,7 +51,8 @@ export abstract class CommonListComponent<
       .subscribe({
         next: (modeltList) => {
           this.dataSource = modeltList;
-          this.logger.log(`${this.modelName} cargados.`)
+          this.logger.log(`${this.modelName} cargados.`);
+          this.dataFetched = true;
         },
         error: (error) => {
           console.log(error);

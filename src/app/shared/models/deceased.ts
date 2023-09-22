@@ -37,32 +37,39 @@ export function getDeceasedFormControl(): DeceasedForm {
   return Object.freeze({
     firstName: new FormControl<string | null>("", {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     lastName: new FormControl<string | null>("", {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     dni: new FormControl<number | null>(null, {
       validators: [
         Validators.required,
-        Validators.min(1),
         RxwebValidators.maxLength({ value: 9 }),
         RxwebValidators.minLength({ value: 6 }),
       ],
+      updateOn: 'change'
     }),
     birthDate: new FormControl<Date | null>(null, {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     deathDate: new FormControl<Date | null>(null, {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     gender: new FormControl<Gender | null>(null, {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     deceasedRelationship: new FormControl<Relationship | null>(null, {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     deathCause: new FormControl<DeathCause | null>(null, {
       validators: [Validators.required],
+      updateOn: 'submit'
     }),
     placeOfDeath: new FormGroup(getAddressFormControl())
   });

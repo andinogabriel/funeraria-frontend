@@ -1,20 +1,21 @@
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { NGXLogger } from 'ngx-logger';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { SpinnerService } from 'src/app/core/services/spinner.service';
-import { CurrentUser } from 'src/app/shared/models/currentUser';
-
+import { Validators, FormGroup, FormControl } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { NGXLogger } from "ngx-logger";
+import { AuthenticationService } from "src/app/core/services/auth.service";
+import { NotificationService } from "src/app/core/services/notification.service";
+import { SpinnerService } from "src/app/core/services/spinner.service";
+import { CurrentUser } from "src/app/shared/models/currentUser";
+import { ResetPassword } from "src/app/shared/models/resetPassword";
+import { SnackbarService } from "src/app/shared/services/snackbar.service";
+import { mustMatch } from "src/app/shared/utils/validators";
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.css']
+  selector: "app-change-password",
+  templateUrl: "./change-password.component.html",
+  styleUrls: ["./change-password.component.css"],
 })
 export class ChangePasswordComponent implements OnInit {
-
-  form!: UntypedFormGroup;
+  form!: FormGroup;
   hideCurrentPassword: boolean;
   hideNewPassword: boolean;
   currentPassword!: string;
@@ -23,32 +24,37 @@ export class ChangePasswordComponent implements OnInit {
   newPasswordConfirm!: string;
   disableSubmit!: boolean;
 
-  constructor(private authService: AuthenticationService,
+  constructor(
+    private authService: AuthenticationService,
     private logger: NGXLogger,
     private spinnerService: SpinnerService,
-    private notificationService: NotificationService) {
-
+    private snackbarService: SnackbarService
+  ) {
     this.hideCurrentPassword = true;
     this.hideNewPassword = true;
   }
 
   ngOnInit() {
-    this.form = new UntypedFormGroup({
-      currentPassword: new UntypedFormControl('', Validators.required),
-      newPassword: new UntypedFormControl('', Validators.required),
-      newPasswordConfirm: new UntypedFormControl('', Validators.required),
-    });
+    this.form = new FormGroup(
+      {
+        currentPassword: new FormControl<string | null>(
+          "",
+          Validators.required
+        ),
+        newPassword: new FormControl<string | null>("", [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+        newPasswordConfirm: new FormControl<string | null>("", [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+      },
+      mustMatch("newPassword", "newPasswordConfirm")
+    );
 
     this.setCurrentUser();
-
-    this.form.get('currentPassword')?.valueChanges
-      .subscribe(val => { this.currentPassword = val; });
-
-    this.form.get('newPassword')?.valueChanges
-      .subscribe(val => { this.newPassword = val; });
-
-    this.form.get('newPasswordConfirm')?.valueChanges
-      .subscribe(val => { this.newPasswordConfirm = val; });
+    this.setCurrentFormValues();
 
     this.spinnerService.visibility.subscribe((value) => {
       this.disableSubmit = value;
@@ -56,23 +62,44 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword() {
-
     if (this.newPassword !== this.newPasswordConfirm) {
-      this.notificationService.openSnackBar('La nueva contraseña no coincide.');
+      this.snackbarService.error("La nueva contraseña no coincide.");
       return;
     }
+    const passwordReset: ResetPassword = {
+      oldPassword: this.currentPassword,
+      newPassword: this.newPassword,
+      matchingNewPassword: this.newPasswordConfirm,
+    };
+    this.authService.changePassword(passwordReset).subscribe({
+      next: () => {
+        this.logger.info(`User ${this.email} changed password.`);
+        this.form.reset();
+        this.snackbarService.success(
+          "Tu contraseña ha sido actualizada satisfactoriamente."
+        );
+      },
+      error: (err) =>
+        this.snackbarService.error(
+          err?.error?.message
+            ? err?.error?.message
+            : "Hubo un error al tratar de cambiar su contraseña"
+        ),
+    });
+  }
 
-    this.authService.changePassword(this.email, this.currentPassword, this.newPassword)
-      .subscribe(
-        data => {
-          this.logger.info(`User ${this.email} changed password.`);
-          this.form.reset();
-          this.notificationService.openSnackBar('Your password has been changed.');
-        },
-        error => {
-          this.notificationService.openSnackBar(error.error);
-        }
-      );
+  private setCurrentFormValues(): void {
+    this.form.get("currentPassword")?.valueChanges.subscribe((val: string) => {
+      this.currentPassword = val;
+    });
+    this.form.get("newPassword")?.valueChanges.subscribe((val: string) => {
+      this.newPassword = val;
+    });
+    this.form
+      .get("newPasswordConfirm")
+      ?.valueChanges.subscribe((val: string) => {
+        this.newPasswordConfirm = val;
+      });
   }
 
   private setCurrentUser(): void {

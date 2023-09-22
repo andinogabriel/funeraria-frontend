@@ -9,6 +9,7 @@
           [isFilterable]="true"
           [isPageable]="true"
           [emptyIcon]="'list_alt'"
+          [dataFetched]="dataFetched"
           [emptyMessage]="'Todavia no hay artículos registrados.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"

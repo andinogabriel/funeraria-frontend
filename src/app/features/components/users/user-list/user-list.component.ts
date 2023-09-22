@@ -74,6 +74,7 @@ UserService
       }
     );
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if(result) {
         this.dataSource = this.dataSource.map(user => (user.email === elem.email) ? result.data : user);
       }
@@ -81,7 +82,6 @@ UserService
   }
 
   showMoreInfoUser(elem: User): void {
-    console.log(elem);
     this.dialog.open(UserInfoComponent, { data: elem });
   }
 }

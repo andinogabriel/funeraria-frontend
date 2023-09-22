@@ -10,6 +10,7 @@ import { LoginUser } from "src/app/shared/models/loginUser";
 import { Jwt } from "src/app/shared/models/jwt";
 import { CurrentUser } from "src/app/shared/models/currentUser";
 import { withCache } from "@ngneat/cashew";
+import { ResetPassword } from "src/app/shared/models/resetPassword";
 
 @Injectable({
   providedIn: "root",
@@ -52,9 +53,9 @@ export class AuthenticationService {
   passwordResetRequest(email: string) {
     return of(true).pipe(delay(1000));
   }
-
-  changePassword(email: string, currentPwd: string, newPwd: string) {
-    return of(true).pipe(delay(1000));
+  //ResetPassword
+  changePassword(resetPassword: ResetPassword): Observable<{message: string}> {
+    return this.http.post<{message: string}>(`${this.baseUrl}/reset-password`, resetPassword, {headers: this.headers});
   }
 
   passwordReset(

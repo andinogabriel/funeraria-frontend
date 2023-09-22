@@ -1,0 +1,8 @@
+.search-content {
+  max-height: 40em;
+  overflow-y: auto;
+}
+
+.mat-dialog-content {
+  height: 30em;
+}

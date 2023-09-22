@@ -7,7 +7,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FuneralFormComponent } from './funeral-form/funeral-form.component';
 import { FuneralMoreInfoComponent } from './funeral-more-info/funeral-more-info.component';
 import { DeceasedModule } from '../deceased/deceased.module';
-import { DeceasedFormComponent } from '../deceased/deceased-form/deceased-form.component';
+import { SearchAffiliateComponent } from './search-affiliate/search-affiliate.component';
+import { AffiliatesSearchTableComponent } from './search-affiliate/affiliates-search-table/affiliates-search-table.component';
 
 
 @NgModule({
@@ -15,6 +16,8 @@ import { DeceasedFormComponent } from '../deceased/deceased-form/deceased-form.c
     ListFuneralComponent,
     FuneralFormComponent,
     FuneralMoreInfoComponent,
+    SearchAffiliateComponent,
+    AffiliatesSearchTableComponent,
   ],
   imports: [
     CommonModule,

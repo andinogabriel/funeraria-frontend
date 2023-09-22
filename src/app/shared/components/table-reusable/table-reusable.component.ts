@@ -33,8 +33,8 @@ export class TableReusableComponent implements OnInit, AfterViewInit {
   @Input() emptyMessage!: string;
   @Input() tableColumns!: ReusableTableColumn[];
   @Input() rowActionIcon!: string;
-  @Input() paginationSizes: number[] = [5, 10, 20];
-  @Input() defaultPageSize = this.paginationSizes[0];
+  @Input() defaultPageSize = 10;
+  @Input() dataFetched: boolean;
 
   selectedRow: any;
 

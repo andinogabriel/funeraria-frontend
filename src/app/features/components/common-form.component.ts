@@ -47,6 +47,7 @@ export abstract class CommonFormComponent<
 
   onSubmit(): void {
     this.entity = this.entityForm.getRawValue();
+    console.log(this.entity);
     this.data ? this.update(this.entity) : this.create(this.entity);
   }
 

@@ -9,6 +9,7 @@
           [isFilterable]="true"
           [isPageable]="true"
           [hasMoreInfo]="true"
+          [dataFetched]="dataFetched"
           [emptyIcon]="'supervised_user_circle'"
           [emptyMessage]="'Todavia no hay afiliados registrados.'"
           (deleteAction)="removeRow($any($event))"

@@ -10,6 +10,7 @@
           [isPageable]="true"
           [hasMoreInfo]="true"
           [emptyIcon]="'category'"
+          [dataFetched]="dataFetched"
           [emptyMessage]="'Todavia no hay ingresos registrados.'"
           (deleteAction)="removeRow($any($event))"
           (createAction)="createElement()"

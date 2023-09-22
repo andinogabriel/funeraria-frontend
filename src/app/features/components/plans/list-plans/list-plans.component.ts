@@ -74,7 +74,8 @@ PlanService
     .subscribe({
       next: (modeltList) => {
         this.dataSource = modeltList.map(plan => ({...plan, 'numberOfItems': this.getItemsQuantity(plan?.itemsPlan), 'price': '$'+plan?.price}));
-        this.logger.log(`${this.modelName} cargados.`)
+        this.logger.log(`${this.modelName} cargados.`);
+        this.dataFetched = true;
       },
       error: () => this.dialogService.open(this.errorGetModelList),
     });

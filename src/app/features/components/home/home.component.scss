@@ -157,7 +157,8 @@ img {
 
 .features {
   padding-top: 60px;
-
+  background: rgb(255,255,255);
+background: linear-gradient(0deg, rgba(255,255,255,1) 89%, rgba(166,167,168,1) 100%);
   .row {
     width: 100%;
     display: flex;
@@ -292,12 +293,15 @@ mat-sidenav {
 }
 
 .contactus {
-  background-image: url('https://unsplash.com/photos/VivsxaizzVE/download?force=true');
+  background-image: url('https://i.ibb.co/jzWy6Rg/joe-yates-w-NOymf-y-TUA-unsplash.jpg" alt="joe-yates-w-NOymf-y-TUA-unsplash');
   background-position: center;
   background-size: cover;
-  height: 200px;
-  padding-top: 60px;
+  height: 150px;
+  padding-top: 70px;
   padding-bottom: 40px;
+  font-style: oblique;
+  
+  
 
   .mat-form-field-appearance-fill .mat-form-field-flex {
     background-color: rgba(222, 222, 222, 0.5);
@@ -400,6 +404,15 @@ mat-sidenav {
   }
 }
 
+@media only screen and (min-width:320px) and (max-width:768px){
+  .btn-wsp{
+      width:63px;
+      height:63px;
+      line-height: 66px;
+}
+
+
+}
 @media(max-width:542px) {
   .contactus {
     height: auto;
@@ -408,6 +421,24 @@ mat-sidenav {
       width: 70%;
     }
   }
+}
+.floatWapp{
+  position:fixed;
+  width:60px;
+  height:60px;
+  bottom:20px;
+  right:20px;
+  background-color:#25d366;
+  color:#1a1a1a;
+  border-radius:50px;
+  text-align:center;
+  font-size:30px;
+  box-shadow: 2px 2px 3px #999;
+  z-index:100;
+}
+
+.my-floatWapp{
+  margin-top:16px;
 }
 
 

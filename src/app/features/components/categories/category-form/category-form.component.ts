@@ -51,7 +51,7 @@ export class CategoryFormComponent extends CommonFormComponent<
       dialogService,
       fb
     );
-    this.createdSuccessMessage = 'Categoria creada satisfactoriamente.';
+    this.createdSuccessMessage = 'Categoría creada satisfactoriamente.';
     this.entityForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required])

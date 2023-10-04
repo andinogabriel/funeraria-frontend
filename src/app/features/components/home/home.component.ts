@@ -21,11 +21,10 @@ export class HomeComponent implements OnInit {
   isLogged: boolean;
   screenHeight: number;
   slides = [
-    {path: 'https://efuneraria.com/wp-content/uploads/2022/02/que-es-una-funeraria.jpg'}, 
-    {path: 'https://www.ecured.cu/images/b/bf/Funeraria_1.jpg'},
-    {path: 'https://capillasdelafe.com/funerarias/static_files/xeik-admin/upload/upload/1521660542_MG_0113.jpg'}, 
-    {path: 'https://imagenes.20minutos.es/files/og_thumbnail/uploads/imagenes/2020/03/24/una-funeraria-de-madrid.jpeg'}
-  ];
+    {path: 'https://i.ibb.co/KLLK7jj/2.png" alt="2'}, 
+    {path: 'https://i.ibb.co/BZCYHcH/4.png" alt="4'},
+    {path: 'https://i.ibb.co/gP1Gdwq/5.png" alt="5'}, 
+    ];
   listNavItems = [
     {scrollTo: 'form', label: 'Link 1'}
   ]

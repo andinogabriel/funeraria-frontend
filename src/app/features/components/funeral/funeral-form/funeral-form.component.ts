@@ -4,8 +4,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
-import { Observable, interval} from 'rxjs';
-import { first, map, startWith } from 'rxjs/operators';
+import { interval, merge} from 'rxjs';
+import { first } from 'rxjs/operators';
 import { FuneralService } from 'src/app/features/services/funeral.service';
 import { PlanService } from 'src/app/features/services/plan.service';
 import { Funeral, FuneralRequest, getFuneralFormControl } from 'src/app/shared/models/funeral';
@@ -18,6 +18,7 @@ import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CommonFormComponent } from '../../common-form.component';
 import { SearchAffiliateComponent } from '../search-affiliate/search-affiliate.component';
 import { Affiliate } from 'src/app/features/models/affiliate';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-funeral-form',
@@ -37,6 +38,10 @@ FuneralService
   serializedDate = new FormControl(new Date().toISOString());
   funeralSelectInputs: SelectInput[] = [];
   parentFormGroup!: FormGroup;
+  isAdmin: boolean;
+  price: number = 0;
+  subPrice: number = 0;
+  tax: number;
 
   funeralFormInputs = [
     {
@@ -74,6 +79,7 @@ FuneralService
     private planService: PlanService,
     private receiptTypeService: ReceiptTypeService,
     private dialog: MatDialog,
+    private tokenService: TokenService
   ) {
     super(
       funeralService,
@@ -103,10 +109,13 @@ FuneralService
 
   override ngOnInit(): void {
     setTimeout(() => {
+      this.isAdmin = this.tokenService.isAdmin();
       this.getPlans();
       this.getreceiptTypes();
+      this.disabledUserRoleInputs();
     });
     this.data ? this.initUpdateFormControl() : this.initFormControl();
+    this.priceCalculator();
     interval(1000).pipe(untilDestroyed(this)).subscribe();
   }
 
@@ -190,6 +199,31 @@ FuneralService
 
   private initCreatePlanForm(): void {
     this.entityInitFormControl = getFuneralFormControl();
+  }
+
+  private disabledUserRoleInputs(): void {
+    if (!!!this.isAdmin) {
+      this.entityForm.controls['receiptNumber'].disable();
+      this.entityForm.controls['receiptSeries'].disable();
+      this.entityForm.controls['tax'].disable();
+      this.entityForm.controls['receiptType'].disable();
+    }
+  }
+
+  private priceCalculator(): void {
+    const DEFAULT_TAX = 21;
+    merge(
+      this.entityForm.get('tax')?.valueChanges,
+      this.entityForm.get('plan')?.valueChanges
+    ).subscribe(data => {
+      if (typeof data === 'string') {
+        this.tax = parseInt(data)
+      } else {
+        this.subPrice = +data['price'];
+      }
+      const taxToPrice = this.tax ? this.tax : DEFAULT_TAX;
+      this.price = +this.subPrice + ((+this.subPrice * taxToPrice) / 100);
+    });
   }
 
 }

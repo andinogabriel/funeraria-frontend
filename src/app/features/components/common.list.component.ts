@@ -17,8 +17,8 @@ export abstract class CommonListComponent<
   E,
   M,
   S extends CommonServiceService<E, M>
-> implements OnInit {
-
+> implements OnInit
+{
   protected entityId: any;
   dataSource: M[] = [];
   modelName!: string;
@@ -35,7 +35,7 @@ export abstract class CommonListComponent<
     protected snackBarService: SnackbarService,
     protected dialog: MatDialog,
     private titleService: Title,
-    protected logger: NGXLogger,
+    protected logger: NGXLogger
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +54,8 @@ export abstract class CommonListComponent<
           this.logger.log(`${this.modelName} cargados.`);
           this.dataFetched = true;
         },
-        error: (error) => {
-          console.log(error);
-          this.dialogService.open(this.errorGetModelList)
+        error: () => {
+          this.dialogService.open(this.errorGetModelList);
         },
       });
   }
@@ -64,7 +63,6 @@ export abstract class CommonListComponent<
   removeRow(rowElement: M) {
     this.dialogService.open(this.deleteMessageOptions);
     this.dialogService.confirmed().subscribe((confirmed) => {
-      console.log(rowElement[this.entityId]);
       if (confirmed) {
         this.service
           .deleteById(rowElement[this.entityId])
@@ -77,22 +75,20 @@ export abstract class CommonListComponent<
               this.snackBarService.success(this.deleteSuccessMessage);
             },
             error: (err) => {
-              console.log(err);
-              this.dialogService.open(this.deleteErrorMessage)
+              this.dialogService.open(
+                err
+                  ? { ...this.deleteErrorMessage, message: err?.error?.message }
+                  : this.deleteErrorMessage
+              );
             },
           });
       }
     });
   }
 
-  protected createElement(): void {
-    
-  }
+  protected createElement(): void {}
 
-  protected updateElement(elem: M): void {
-  }
+  protected updateElement(elem: M): void {}
 
-  protected showMoreInfo(elem: E): void {
-  }
-
+  protected showMoreInfo(elem: E): void {}
 }

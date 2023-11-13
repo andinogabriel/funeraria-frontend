@@ -58,6 +58,7 @@ export abstract class CommonFormComponent<
         this.snackbarService.success(this.createdSuccessMessage);
       },
       error: (err) => {
+        console.log(err);
         this.dialogService.open(err ? {...this.createdOrUpdateErrorMessage, 'message': err?.error?.message} : this.createdOrUpdateErrorMessage)
       },
     });

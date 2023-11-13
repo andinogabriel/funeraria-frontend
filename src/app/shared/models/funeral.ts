@@ -60,7 +60,7 @@ export function getFuneralFormControl() : FuneralForm {
     }),
     receiptNumber: new FormControl<string | null>('', {
       validators: Validators.required,
-      updateOn: 'submit'
+      updateOn: 'submit',
     }),
     receiptSeries: new FormControl<string | null>('', {
       validators: Validators.required,
@@ -68,7 +68,7 @@ export function getFuneralFormControl() : FuneralForm {
     }),
     tax: new FormControl<number | null>(null, {
       validators: [Validators.required, RxwebValidators.digit(), Validators.pattern(onlyTwoDecimalRgx), Validators.min(1)],
-      updateOn: 'submit'
+      updateOn: 'change'
     }),
     receiptType:  new FormControl<ReceiptType | null>(null, {
       validators: Validators.required,
@@ -76,7 +76,7 @@ export function getFuneralFormControl() : FuneralForm {
     }),
     plan: new FormControl<Plan | null>(null, {
       validators: Validators.required,
-      updateOn: 'submit'
+      updateOn: 'change'
     }),
     //deceased: new FormControl<Deceased | null>(null),
   };

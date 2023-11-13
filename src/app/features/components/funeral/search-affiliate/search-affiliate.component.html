@@ -5,28 +5,51 @@
     cdkDragRootElement=".cdk-overlay-pane"
     cdkDragHandle
     style="cursor: move"
-    fxLayoutAlign = "center"
+    fxLayoutAlign="center"
   >
     Buscar afiliado
   </h3>
   <mat-divider></mat-divider>
-  <br>
+  <br />
   <div mat-dialog-content>
     <div fxLayoutAlign="space-between center">
-      <mat-form-field [style.width.%]="40">
-        <mat-label>Afiliado</mat-label>
-        <input matInput type="text" [(ngModel)]="value">
-        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-      <button mat-raised-button type="button" (click)="searchAffiliate()">Buscar</button>
-      <button [disabled]="!selectedAffiliate" mat-raised-button type="button" (click)="sendSelectedAffiliate()">Seleccionar</button>
+      <div *ngIf="!!isAdmin">
+        <mat-form-field [style.width.%]="40">
+          <mat-label>Afiliado</mat-label>
+          <input matInput type="text" [(ngModel)]="value" />
+          <button
+            *ngIf="value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="value = ''"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <button
+        *ngIf="!!isAdmin"
+        mat-raised-button
+        type="button"
+        (click)="searchAffiliate()"
+      >
+        Buscar
+      </button>
+      <button
+        [disabled]="!selectedAffiliate"
+        mat-raised-button
+        type="button"
+        (click)="sendSelectedAffiliate()"
+      >
+        Seleccionar
+      </button>
     </div>
-    <app-affiliates-search-table 
+    <br *ngIf="!!!isAdmin" />
+    <app-affiliates-search-table
       [tableData]="dataSource"
       (selectAffiliate)="selectAffiliate($event)"
     ></app-affiliates-search-table>
   </div>
-  
 </div>

@@ -24,6 +24,10 @@ mat-form-field {
   background: lightblue;
 }
 
+.deceasedAffiliate {
+  background: grey;
+}
+
 .mat-row:hover {
   cursor: pointer;
 }

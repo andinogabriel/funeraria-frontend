@@ -5,6 +5,7 @@ export interface SelectInput {
   lgWidth: string;
   items: any[];
   errors: Error[];
+  adminShow?: boolean;
 }
 
 interface Error {

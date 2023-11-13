@@ -9,6 +9,7 @@ export interface Affiliate {
   dni: number;
   birthDate: string;
   startDate: string;
+  deceased?: boolean | string;
   gender: Gender;
   user: User;
   relationship: Relationship
@@ -21,6 +22,7 @@ export interface AffiliateList {
   dni: number;
   birthDate: string;
   startDate: string;
+  deceased: boolean;
   relationshipName: string;
   gender: Gender;
   user: User;

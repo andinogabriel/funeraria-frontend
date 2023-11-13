@@ -27,7 +27,9 @@ ItemService
   brands: Brand[] = [];
   categories: Category[] = [];
   categorySelected: Category;
-  coffinValues = ['ataúd', 'ataud', 'ataudes'];
+  coffinValues = ['ataúd', 'ataud', 'ataúdes', 'ataudes'];
+  status: "initial" | "uploading" | "success" | "fail" = "initial"; // Variable to store file status
+  file: File | null = null; // Variable to store file
 
   formInputText = [
     {
@@ -122,6 +124,23 @@ ItemService
     this.categorySelected = categoryChanged;
   }
 
+  onChange(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.status = "initial";
+      this.file = file;
+    }
+  }
+
+  onUpload() {
+    if (this.file) {
+      const formData = new FormData();
+      formData.append('file', this.file, this.file.name);
+      console.log(formData);
+    }
+  }
+
+
   private getBrands(): void {
     this.brandService.findAll()
       .pipe(first())
@@ -141,6 +160,7 @@ ItemService
   }
 
   private initUpdatePlanForm(): void {
+    console.log(this.data);
     this.entityId = this.data?.code;
     this.categorySelected = this.data?.category ?? null;
     this.entityInitUpdateFormControl = {
@@ -168,5 +188,7 @@ ItemService
       });
     });
   }
+
+  
 
 }

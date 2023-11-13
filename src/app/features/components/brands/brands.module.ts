@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrandsRoutingModule } from './brands-routing.module';
 import { ListBrandsComponent } from './list-brands/list-brands.component';
 import { BrandFormComponent } from './brand-form/brand-form.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { BrandFormComponent } from './brand-form/brand-form.component';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     BrandsRoutingModule
   ]
 })

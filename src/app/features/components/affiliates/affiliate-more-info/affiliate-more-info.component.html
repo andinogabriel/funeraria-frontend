@@ -6,10 +6,11 @@
     cdkDragHandle
     style="cursor: move"
     fxLayoutAlign="center"
+    [ngClass]="{'deceasedAffiliate': affiliate?.deceased === true}"
   >
     {{ affiliate.lastName }} {{ affiliate.firstName }}
   </h3>
-  <br>
+  <br />
   <div mat-dialog-content>
     <mat-divider></mat-divider>
     <mat-list *ngFor="let income of dataToShow">

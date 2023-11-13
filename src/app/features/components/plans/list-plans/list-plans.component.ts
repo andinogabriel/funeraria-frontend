@@ -77,7 +77,10 @@ PlanService
         this.logger.log(`${this.modelName} cargados.`);
         this.dataFetched = true;
       },
-      error: () => this.dialogService.open(this.errorGetModelList),
+      error: (err) => { 
+        console.log(err);
+        this.dialogService.open(this.errorGetModelList)
+      },
     });
   }
 

@@ -10,7 +10,7 @@
     {{ data ? "Editar" : "Registrar" }} artículo
   </h3>
   <mat-divider></mat-divider>
-  <br>
+  <br />
   <form
     [formGroup]="entityForm"
     (ngSubmit)="entityForm.valid && onSubmit()"
@@ -23,8 +23,7 @@
         fxLayoutGap="15px"
         fxLayoutAlign="flex-start"
       >
-
-      <mat-form-field
+        <mat-form-field
           appearance="outline"
           fxFlex="0 1 calc(50% - 15px)"
           fxFlex.lt-md="0 1 calc(50% - 15px)"
@@ -43,7 +42,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      
+
         <mat-form-field
           appearance="outline"
           fxFlex="0 1 calc(50% - 15px)"
@@ -63,18 +62,24 @@
         </mat-form-field>
 
         <mat-form-field
-            *ngFor="let item of formInputText"
-            [fxFlex]="item.smWidth"
-            [fxFlex.lt-md]="item.smWidth"
-            [fxFlex.lt-sm]="item.lgWidth"
-            appearance="outline"
-          >
-            <input matInput [placeholder]="item.label" [formControlName]="item.name" [type]="item.type">
-            <mat-error *ngFor="let error of item.errors">
-              <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{error.message}}</span>
-            </mat-error>
-          </mat-form-field>
-        
+          *ngFor="let item of formInputText"
+          [fxFlex]="item.smWidth"
+          [fxFlex.lt-md]="item.smWidth"
+          [fxFlex.lt-sm]="item.lgWidth"
+          appearance="outline"
+        >
+          <input
+            matInput
+            [placeholder]="item.label"
+            [formControlName]="item.name"
+            [type]="item.type"
+          />
+          <mat-error *ngFor="let error of item.errors">
+            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{
+              error.message
+            }}</span>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div
         *ngIf="coffinValues.includes(categorySelected?.name?.toLowerCase())"
@@ -98,7 +103,12 @@
               [formControlName]="ataudObject.name"
             />
             <mat-error *ngFor="let error of ataudObject.errors">
-              <span *ngIf="entityForm.controls[ataudObject.name].hasError(error.name)">{{error.message}}</span>
+              <span
+                *ngIf="
+                  entityForm.controls[ataudObject.name].hasError(error.name)
+                "
+                >{{ error.message }}</span
+              >
             </mat-error>
           </mat-form-field>
         </ng-container>

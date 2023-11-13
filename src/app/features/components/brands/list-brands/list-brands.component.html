@@ -1,1 +1,22 @@
-<p>list-brands works!</p>
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+  <div fxFlex="95%">
+    <mat-card>
+      <mat-card-content>
+        <h1 fxLayoutAlign="center">{{ modelName }}</h1>
+        <app-table-reusable
+          [tableData]="dataSource"
+          [tableColumns]="displayedColumns"
+          [isFilterable]="true"
+          [isPageable]="true"
+          [emptyIcon]="'branding_watermark'"
+          [dataFetched]="dataFetched"
+          [emptyMessage]="'Todavia no hay marcas registradas.'"
+          (deleteAction)="removeRow($any($event))"
+          (createAction)="createElement()"
+          (updateAction)="updateElement($any($event))"
+        >
+        </app-table-reusable>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

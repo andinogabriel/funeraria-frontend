@@ -25,6 +25,14 @@ export class AffiliateService extends CommonServiceService<Affiliate, Affiliate>
     });
   }
 
+  getAllAffiliates(): Observable<Affiliate[]> {
+    return this.http.get<Affiliate[]>(`${this.baseUrl}/deceased`, {
+      context: withCache({
+        bucket: this.bucket
+      })
+    });
+  }
+
   findAffiliatesByFirstNameOrLastNameOrDniContaining(value: string): Observable<Affiliate[]> {
     return this.http.get<Affiliate[]>(`${this.baseUrl}/search`, {
       params: new HttpParams().append("value", value),

@@ -1,1 +1,54 @@
-<p>brand-form works!</p>
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign="center"
+  >
+    {{ data ? "Editar" : "Registrar" }} marca
+  </h3>
+  <mat-divider></mat-divider>
+  <br />
+  <form
+    [formGroup]="entityForm"
+    (ngSubmit)="entityForm.valid && onSubmit()"
+    novalidate
+  >
+    <div mat-dialog-content>
+      <div
+        fxLayout="row wrap"
+        fxLayout.lt-sm="column"
+        fxLayoutGap="15px"
+        fxLayoutAlign="flex-start"
+      >
+        <mat-form-field
+          *ngFor="let item of brandFormInputs"
+          [fxFlex]="item.smWidth"
+          [fxFlex.lt-md]="item.smWidth"
+          [fxFlex.lt-sm]="item.lgWidth"
+          appearance="outline"
+        >
+          <input
+            matInput
+            [placeholder]="item.label"
+            [formControlName]="item.name"
+            [type]="item.type"
+          />
+          <mat-error *ngFor="let error of item.errors">
+            <span *ngIf="entityForm.controls[item.name].hasError(error.name)">{{
+              error.message
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{ data ? "Editar" : "Registrar" }}
+      </button>
+    </div>
+  </form>
+</div>

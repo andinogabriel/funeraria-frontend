@@ -18,7 +18,7 @@ export class CategoryFormComponent extends CommonFormComponent<
   CategoryService
 > {
 
-  CategoryFormInputs = [
+  categoryFormInputs = [
     {
       name: 'name', label: 'Nombre', type: 'text',
       lgWidth: '0 1 calc(100% - 15px)', smWidth: '100%',
@@ -33,7 +33,7 @@ export class CategoryFormComponent extends CommonFormComponent<
         {name: 'required', message: 'El nombre de la categoría es requerido'}
       ]
     },
-  ]
+  ];
 
   constructor(
     categoryService: CategoryService,

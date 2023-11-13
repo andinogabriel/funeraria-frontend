@@ -1,1 +1,24 @@
-<p>funeral-more-info works!</p>
+<div class="md-dialog-container">
+  <h3
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    style="cursor: move"
+    fxLayoutAlign="center"
+  >
+    Difunto: {{ funeral?.deceased }}
+  </h3>
+  <div mat-dialog-content>
+    <mat-list>
+      <mat-divider></mat-divider>
+      <ng-container *ngFor="let income of dataToShow">
+        <mat-list-item
+          ><u>{{ income.label }}</u
+          >:&nbsp;{{ income.value }}</mat-list-item
+        >
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </div>
+</div>

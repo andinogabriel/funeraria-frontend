@@ -6,7 +6,8 @@ import { NgxLoggerLevel } from 'ngx-logger';
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
+  production: true,
+  baseUrl: 'http://ec2-18-216-47-132.us-east-2.compute.amazonaws.com:8081/api/v1',
   logLevel: NgxLoggerLevel.TRACE,
   serverLogLevel: NgxLoggerLevel.OFF
 };

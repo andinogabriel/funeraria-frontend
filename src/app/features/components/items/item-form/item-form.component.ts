@@ -168,7 +168,7 @@ ItemService
       description: this.data?.description ?? null,
       brand: this.data?.brand ?? null,
       code: this.data?.code ?? null,
-      price: this.data?.price ?? null,
+      price: (this.data?.price && parseInt(this.data?.price?.toString().slice(1))) ?? null,
       itemLength: this.data?.itemLength ?? null,
       itemHeight: this.data?.itemHeight ?? null,
       itemWidth: this.data?.itemWidth ?? null,

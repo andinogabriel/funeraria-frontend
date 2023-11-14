@@ -29,7 +29,6 @@ h1 {
 
 }
 
-
 .desktop-hide {
   display: none !important;
 }
@@ -45,9 +44,6 @@ h1 {
 .mat-drawer {
   width: 100%;
   background-color: $primary;
-
-
-
   .close {
     font-size: 28px;
     color: #fff;
@@ -61,7 +57,6 @@ h1 {
   h1 {
     color: #fff;
   }
-
   .mat-list-base {
     display: block !important;
     margin: 0 auto;
@@ -81,9 +76,7 @@ h1 {
 
 .mat-toolbar {
   background-color: $primary !important;
-
 }
-
 
 .nav {
   position: fixed;
@@ -110,7 +103,6 @@ img {
 }
 
 .mat-icon {
-
   height: auto !important;
   width: auto !important;
 }
@@ -120,26 +112,19 @@ img {
   background-size: cover;
   background-position: center;
   opacity: .9;
-
   .silder-content {
     display: flex;
     justify-self: center;
     align-items: center;
     height: 100%;
     width: 100%;
-
   }
-
-
-
   .mat-icon {
     font-size: 40px;
     color: #fff;
     float: right;
     cursor: pointer;
-
   }
-
   h1 {
     color: #fff;
     margin: auto;
@@ -164,21 +149,16 @@ background: linear-gradient(0deg, rgba(255,255,255,1) 89%, rgba(166,167,168,1) 1
     display: flex;
     justify-content: center;
     align-items: center;
-
     .column {
       width: 33%;
       float: left;
       text-align: center;
       padding-top: 10px;
       padding-bottom: 10px;
-
-
-
       &:hover {
         background-color: #dfe4ea;
         cursor: pointer;
       }
-
       p {
         padding: 0 10px;
 
@@ -193,43 +173,31 @@ background: linear-gradient(0deg, rgba(255,255,255,1) 89%, rgba(166,167,168,1) 1
 
   .mat-icon {
     font-size: 66px;
-
-
-
   }
 }
 
 .contents {
-
   padding-top: 20px;
-
   h2 {
     padding-bottom: 30px;
   }
-
   .row {
-
     width: 100%;
     display: flex;
-
-
     .column {
       width: 50%;
       float: left;
       text-align: center;
     }
-
     h3 {
       font-size: 26px;
       margin-bottom: 10px;
     }
-
     p {
       padding: 0 20px;
       font-size: 20px;
     }
   }
-
 }
 
 .menu-spacer {
@@ -267,29 +235,21 @@ background: linear-gradient(0deg, rgba(255,255,255,1) 89%, rgba(166,167,168,1) 1
 
 .navbar-is-mobile .navbar {
   position: fixed;
-  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
 }
 
 .navbar-sidenav-container {
-  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
-           causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   flex: 1;
 }
 
 .navbar-is-mobile .navbar-sidenav-container {
-  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
-           `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
-
-/*Set sidenav width*/
 
 mat-sidenav {
   min-width: 180px !important;
   border-right: 1px solid #eee;
   box-shadow: 6px 0 6px rgba(0, 0, 0, .1);
-  /* background-color:rgb(63, 81, 181); */
 }
 
 .contactus {
@@ -301,14 +261,11 @@ mat-sidenav {
   padding-bottom: 40px;
   font-style: oblique;
   
-  
-
   .mat-form-field-appearance-fill .mat-form-field-flex {
     background-color: rgba(222, 222, 222, 0.5);
   }
 
   .mat-form-field.mat-focused .mat-form-field-label {
-
     color: $primary;
   }
 
@@ -349,9 +306,7 @@ mat-sidenav {
   h3 {
     font-size: 22px !important;
   }
-
   p {
-
     font-size: 16px !important;
   }
 }

@@ -1,11 +1,8 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { delay, map } from "rxjs/operators";
-import * as moment from "moment";
-
+import { delay } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
-import { of, EMPTY, Observable } from "rxjs";
-import { BASE_ENDPOINT } from "src/app/config/app";
+import { of, Observable } from "rxjs";
 import { LoginUser } from "src/app/shared/models/loginUser";
 import { Jwt } from "src/app/shared/models/jwt";
 import { CurrentUser } from "src/app/shared/models/currentUser";
@@ -16,7 +13,7 @@ import { ResetPassword } from "src/app/shared/models/resetPassword";
   providedIn: "root",
 })
 export class AuthenticationService {
-  private baseUrl = `${BASE_ENDPOINT}/users`;
+  private baseUrl = `${environment.baseUrl}/users`;
   private headers = new HttpHeaders().set("Content-Type", "application/json");
 
   constructor(

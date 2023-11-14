@@ -56,6 +56,11 @@ ItemService
         isSortable: true,
       },
       {
+        name: 'Categoría',
+        dataKey: 'categoryName',
+        isSortable: true,
+      },
+      {
         name: 'Precio',
         dataKey: 'price',
         isSortable: true,
@@ -63,11 +68,6 @@ ItemService
       {
         name: 'Stock',
         dataKey: 'stock',
-        isSortable: true,
-      },
-      {
-        name: 'Categoría',
-        dataKey: 'categoryName',
         isSortable: true,
       },
       {

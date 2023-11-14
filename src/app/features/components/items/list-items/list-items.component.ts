@@ -116,8 +116,7 @@ ItemService
           result.data['itemHeight'] = null;
         }
         const itemToUpdate = {...result?.data, 'categoryName': result?.data?.category?.name, 'brandName': result?.data?.brand?.name};
-        console.log(itemToUpdate);
-        this.dataSource = this.dataSource.map(cat => (cat.id === elem.id) ? itemToUpdate : cat);
+        this.dataSource = this.dataSource.map(cat => (cat.code === elem.code) ? itemToUpdate : cat);
       }
     });
   }
